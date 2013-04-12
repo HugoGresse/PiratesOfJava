@@ -3,7 +3,7 @@ package fr.imac.javawars.disacher;
 public class Engine {
 
 	public Engine() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
