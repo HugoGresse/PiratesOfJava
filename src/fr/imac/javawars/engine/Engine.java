@@ -1,4 +1,4 @@
-package fr.imac.javawars.disacher;
+package fr.imac.javawars.engine;
 
 public class Engine {
 
