@@ -3,6 +3,20 @@ package fr.imac.javawars.engine;
 public class Engine {
 
 	public Engine() {
+		/**
+		 * Variables
+		 * - Map
+		 * - Distances de dplacement
+		 * - Liste des tours
+		 * - Liste des bases
+		 * - Liste des joueurs
+		 * 
+		 * Class dans "Engine"
+		 * - Tours/Bases/Agents
+		 * - Information du joueur
+		 * 
+		 */
+		
 		
 	}
 
