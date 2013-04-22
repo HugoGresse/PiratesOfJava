@@ -1,8 +1,8 @@
-package fr.imac.javawars.player;
+package fr.imac.javawars.ihm;
 
-public class Player {
+public class Ihm {
 
-	public Player() {
+	public Ihm() {
 		// TODO Auto-generated constructor stub
 	}
 
