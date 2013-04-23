@@ -1,17 +1,15 @@
 package fr.imac.javawars.ihm;
 
 public class Ihm {
-
+	
+	Fenetre fen;
+	
 	public Ihm() {
-		// TODO Auto-generated constructor stub
+		fen = new Fenetre("JavaWars");
 	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
+	public void update(int life){
+		
 	}
-
+	
 }
