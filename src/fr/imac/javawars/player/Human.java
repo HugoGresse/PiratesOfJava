@@ -9,5 +9,7 @@ public class Human extends Player{
 		ihm = new Ihm("JavaWars");
 	}
 
-	
+	public String getPlayerType(){
+		return "human";
+	}
 }

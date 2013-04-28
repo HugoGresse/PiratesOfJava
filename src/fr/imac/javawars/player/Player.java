@@ -3,8 +3,9 @@ package fr.imac.javawars.player;
 import fr.imac.javawars.engine.PlayerInfos;
 
 public abstract class Player {
-
-	private PlayerInfos pInfos;
+	
+	
+	protected PlayerInfos pInfos;
 	
 	public Player(String name) {
 		pInfos = new PlayerInfos(name);
@@ -18,6 +19,8 @@ public abstract class Player {
 	public void setpInfos(PlayerInfos pInfos) {
 		this.pInfos = pInfos;
 	}
-
+	
+	public abstract String getPlayerType();
+	
 	
 }

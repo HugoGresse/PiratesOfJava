@@ -1,6 +1,6 @@
 package fr.imac.javawars;
 
-import fr.imac.javawars.dispacher.Dispacher;
+import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
@@ -20,7 +20,7 @@ public class Main {
 		
 		
 		//une fois les joueurs crées, on créer le dispatcher en lui donnant les joueurs 
-		Dispacher dispacher = new Dispacher(joueur1, joueur2, joueur3, joueur4);
+		Dispatcher dispacher = new Dispatcher(joueur1, joueur2, joueur3, joueur4);
 		
 	}
 	
