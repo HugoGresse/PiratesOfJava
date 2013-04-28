@@ -15,7 +15,7 @@ public class PlayerInfos {
 	public String getName() {
 		return name;
 	}
-
+	
 	public double getMoney() {
 		return money;
 	}

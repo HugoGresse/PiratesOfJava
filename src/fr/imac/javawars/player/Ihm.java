@@ -1,11 +1,13 @@
-package fr.imac.javawars.ihm;
+package fr.imac.javawars.player;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,10 +15,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-  
-public class Fenetre extends JFrame {
+
+public class Ihm  extends JFrame {
 	
 	private JPanel conteneur = new JPanel();
+	//private ArrayList<PanelInterface> listPanel = new ArrayList<PanelInterface>();
+	
+	private TestPanel bandeau;
 	
 	private Dimension size;
 	
@@ -24,17 +29,16 @@ public class Fenetre extends JFrame {
 	private JMenu life = null;
 	private JMenuItem lifePlus = null;
 	private JMenuItem LifeMoins = null;
-	  
-	  
+	
 	private static final long serialVersionUID = 1L;
-
-	public Fenetre(String name){            
+	
+	public Ihm(String name) {
 		this.setTitle(name);
 	    this.setSize(900, 600);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setResizable(false);           
-
+	    
 	    menu = new JMenuBar();
 	    life = new JMenu("Life");
 	    life.setMnemonic('l');
@@ -43,12 +47,6 @@ public class Fenetre extends JFrame {
 	    lifePlus.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				System.out.println("Life ++");
-				/*conteneur.removeAll();
-				GamePanel gp = new GamePanel(size, model);
-				model.addObserver(gp);
-				conteneur.add(gp.getPanel(), BorderLayout.CENTER);
-				conteneur.revalidate();
-				initModel();*/
 			}	    	
 	    });
 	    LifeMoins = new JMenuItem("Enlever une vie");
@@ -56,32 +54,37 @@ public class Fenetre extends JFrame {
 	    LifeMoins.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				System.out.println("Life --");
-				/*conteneur.removeAll();
-				GamePanel gp = new GamePanel(size, model);
-				model.addObserver(gp);
-				conteneur.add(gp.getPanel(), BorderLayout.CENTER);
-				conteneur.revalidate();
-				initModel();*/
 			}	    	
 	    });
 	    
 	    life.add(lifePlus);
 	    life.add(LifeMoins);
 	    menu.add(life);
-
 	    this.setJMenuBar(menu);
-	    
 	    
 	    this.size = new Dimension(this.getWidth(), this.getHeight());
 	    
 	    this.conteneur.setPreferredSize(this.size);
 	    this.conteneur.setBackground(Color.white);
-	    this.conteneur.add(new TestPanel(this.size).getPanel());
+	    
+	    CreatePanel();
+	    
 	    this.setContentPane(this.conteneur);
-	    
-	    
 	    this.setVisible(true);
-	    
-	    
+		
 	}
+	
+	private void CreatePanel(){
+		// Creation bandeau/
+	    bandeau = new TestPanel(this.size);
+	    //this.conteneur.add(lifePanel.getPanel());
+	    
+		this.conteneur.add(BorderLayout.EAST, bandeau.getPanel());
+	}
+	
+	public void updateLife(int nLife){
+		bandeau.update(String.valueOf(nLife));
+	}
+
+	
 }

@@ -1,4 +1,4 @@
-package fr.imac.javawars.ihm;
+package fr.imac.javawars.player;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,10 +20,6 @@ public abstract class ZContainer{
 		this.panel.setPreferredSize(dim);
 		this.panel.setBackground(Color.white);
 		
-	}
-	
-	protected JPanel getPanel(){
-		return this.panel;
 	}
 	
 	protected abstract void initPanel();	
