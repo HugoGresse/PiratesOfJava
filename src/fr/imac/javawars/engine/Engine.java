@@ -61,7 +61,7 @@ public class Engine  implements Runnable{
 				
 				
 				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
-				dispatcher.updateIHM();
+				dispatcher.updatePlayers();
 				
 				
 				Thread.sleep(29);

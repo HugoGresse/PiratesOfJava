@@ -74,8 +74,12 @@ public class Dispatcher {
 	}
 	
 	
-	public void updateIHM(){
-		
+	public void updatePlayers(){
+		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
+		while (it.hasNext()) {
+			  Map.Entry<Integer, Player> entry = it.next();
+			  entry.getValue().update();
+		}
 	}
 	
 	

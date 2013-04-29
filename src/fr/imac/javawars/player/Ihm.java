@@ -86,7 +86,7 @@ public class Ihm  extends JFrame {
 	}
 	
 	
-	public void updateTestLabel(int money){
+	public void updateTestLabel(double money){
 		bandeau.update(String.valueOf(money));
 	}
 

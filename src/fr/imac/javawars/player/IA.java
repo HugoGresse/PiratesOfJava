@@ -31,5 +31,9 @@ public class IA extends Player implements Runnable{
 		}
 		
 	}
+	
+	public void update(){
+		
+	}
 
 }

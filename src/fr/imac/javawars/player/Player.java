@@ -32,5 +32,7 @@ public abstract class Player {
 	
 	public abstract String getPlayerType();
 	
+	public abstract void update();
+	
 	
 }
