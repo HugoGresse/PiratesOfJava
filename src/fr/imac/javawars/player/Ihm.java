@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -16,7 +15,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import fr.imac.javawars.JavaWars;
+
 public class Ihm  extends JFrame {
+	
+	private Player p;
+	
 	
 	private JPanel conteneur = new JPanel();
 	//private ArrayList<PanelInterface> listPanel = new ArrayList<PanelInterface>();
@@ -29,9 +33,12 @@ public class Ihm  extends JFrame {
 	private JMenu towerTest = null;
 	private JMenuItem createTower = null;
 	
+	//swing needed
 	private static final long serialVersionUID = 1L;
 	
-	public Ihm(String name) {
+	public Ihm(String name, Player pp) {
+		this.p = pp;
+		
 		this.setTitle(name);
 	    this.setSize(900, 600);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,8 +54,8 @@ public class Ihm  extends JFrame {
 	    createTower.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 	    createTower.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				System.out.println("- build tower");
-			}	    	
+				JavaWars.getDispatcher().removeSomeMoney(p, 1);
+			}    	
 	    });
 	    
 	    towerTest.add(createTower);
@@ -67,6 +74,9 @@ public class Ihm  extends JFrame {
 		
 	}
 	
+	/**
+	 * Create panels, juliette's code should go here
+	 */
 	private void CreatePanel(){
 		// Creation bandeau/
 	    bandeau = new TestPanel(this.size);
@@ -75,8 +85,9 @@ public class Ihm  extends JFrame {
 		this.conteneur.add(BorderLayout.EAST, bandeau.getPanel());
 	}
 	
-	public void updateLife(int nLife){
-		bandeau.update(String.valueOf(nLife));
+	
+	public void updateTestLabel(int money){
+		bandeau.update(String.valueOf(money));
 	}
 
 	

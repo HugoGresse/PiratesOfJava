@@ -4,8 +4,8 @@ public class IA extends Player implements Runnable{
 	
 	protected volatile boolean running = true;
 	
-	public IA(String name) {
-		super(name);
+	public IA(int pNum, String name) {
+		super(pNum, name);
 		
 	}
 	
@@ -22,7 +22,7 @@ public class IA extends Player implements Runnable{
 	public void run() {
 		while(running){
 			try {
-				System.out.println(this.pInfos);
+				//System.out.println(this.pInfos);
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

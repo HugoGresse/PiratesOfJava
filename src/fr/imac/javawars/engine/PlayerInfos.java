@@ -8,7 +8,7 @@ public class PlayerInfos {
 	public PlayerInfos(String name) {
 		super();
 		this.name = name;
-		this.money = 0.0;
+		this.money = 20;
 	}
 	
 	//getters/setters
@@ -22,6 +22,10 @@ public class PlayerInfos {
 
 	public void setMoney(double money) {
 		this.money = money;
+	}
+	
+	public void reduceMoney(double money) {
+		this.money = this.money - money;
 	}
 
 	@Override
