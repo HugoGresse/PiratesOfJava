@@ -2,15 +2,19 @@ package fr.imac.javawars.engine;
 
 import java.util.LinkedList;
 
-
+/**
+ * <b> Base represent a military base </b>
+ * 
+ *
+ */
 public class Base extends AbstractTowerBase {
 	private int capacity;
 	private int speedRegeneration;
 	private LinkedList<Tower> towers;
 	private Power power;
-	// table containing distances of the base
-	// imagine a map of boxes but here stocked in a tab 1d
-	// every element represents the distance of the box to the base
+	/* table containing distances of the base
+ 	imagine a map of boxes but here stocked in a tab 1d
+ 	every element represents the distance of the box to the base */
 	private int[] distanceMap;
 	
 	public enum Power{
@@ -18,11 +22,6 @@ public class Base extends AbstractTowerBase {
 		SPEED_UP,
 		LIFE_UP,
 		RESISTANCE;
-	}
-	
-	public void main(String[] args) {
-		this.computeDistanceMap(4,4);
-
 	}
 	
 	// CONSTRUCTOR
@@ -39,21 +38,29 @@ public class Base extends AbstractTowerBase {
 		this.initialiseDistanceMap(height, width);
 	}
 	
+	public Base(){
+		this(0, null, null, null, 0, 0, 0);
+	}
+	
 	// METHODS
 	/**
 	 * Initialise the map distance of the base
+	 * 
 	 * @param height
 	 * 		height of the map of the game
 	 * @param width
 	 * 		width of the map of the game
+	 * 
+	 * @see Base#distanceMap
 	 */
 	public void initialiseDistanceMap(int height, int width){
 		// CHANGE WITH REAL VALUES
-		//initialisation should be done with a file (-2 for walls, -1 when not decided)
+		//initialization should be done with a file (-2 for walls, -1 when not decided)
 		this.distanceMap = new int[height*width];
 		for(int i=0; i < height * width; i++ ){
 			this.distanceMap[i] = -1;
 		}
+		//TEST VALUES
 		this.distanceMap[0] = -2;
 		this.distanceMap[1] = -2;
 		this.distanceMap[2] = -2;
@@ -74,7 +81,16 @@ public class Base extends AbstractTowerBase {
 		this.distanceMap[1+2*width] = 0;
 	}
 	
-	
+	/**
+	 * Compute the distance map to the base
+	 * 
+	 * @param height
+	 * 		height of the map of the game
+	 * @param width
+	 * 		width of the map of the game
+	 * 
+	 * @see Base#distanceMap
+	 */
 	public void computeDistanceMap(int height, int width){
 		//creation of a queue of the boxes , for the moment a LinkedList
 		LinkedList<Integer> boxesQueue = new LinkedList<Integer>();
@@ -141,6 +157,7 @@ public class Base extends AbstractTowerBase {
 		}
 	}
 	
+	//test d'affichage
 	public void displayDistanceMap(){
 		for(int i=0; i<this.distanceMap.length; i++){
 			System.out.println(this.distanceMap[i]);
