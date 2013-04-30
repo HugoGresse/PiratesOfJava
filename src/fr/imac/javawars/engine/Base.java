@@ -2,6 +2,8 @@ package fr.imac.javawars.engine;
 
 import java.util.LinkedList;
 
+import fr.imac.javawars.player.Player;
+
 public class Base extends AbstractTowerBase {
 	private int capacity;
 	private int speedRegeneration;
@@ -16,7 +18,7 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	// CONSTRUCTOR
-	public Base(int life, Point position, String texture, PlayerInfos player,double actionField, int capacity, int speedRegeneration) {
+	public Base(int life, Point position, String texture, Player player,double actionField, int capacity, int speedRegeneration) {
 		super(life, position, texture, player, actionField);
 		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;

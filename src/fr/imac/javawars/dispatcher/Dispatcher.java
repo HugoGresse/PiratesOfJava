@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import fr.imac.javawars.engine.PlayerInfos;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 /**

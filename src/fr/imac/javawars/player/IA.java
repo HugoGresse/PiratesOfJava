@@ -5,7 +5,7 @@ public class IA extends Player implements Runnable{
 	protected volatile boolean running = true;
 	
 	public IA(int pNum, String name) {
-		super(pNum, name);
+		super(pNum, name, "ia");
 		
 	}
 	

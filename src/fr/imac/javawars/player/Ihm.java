@@ -36,6 +36,13 @@ public class Ihm  extends JFrame {
 	//swing needed
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Create an human interface to communicate with the machine
+	 * @param name
+	 * 				the name of the window
+	 * @param pp
+	 * 				the player attach to the ihm
+	 */
 	public Ihm(String name, Player pp) {
 		this.p = pp;
 		
@@ -54,7 +61,7 @@ public class Ihm  extends JFrame {
 	    createTower.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 	    createTower.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				JavaWars.getDispatcher().removeSomeMoney(p, 1);
+				JavaWars.getDispatcher().removeSomeMoney(p, -1);
 			}    	
 	    });
 	    

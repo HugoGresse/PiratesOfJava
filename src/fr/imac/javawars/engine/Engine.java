@@ -1,25 +1,32 @@
 package fr.imac.javawars.engine;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Dispatcher;
-import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 
 public class Engine  implements Runnable{
 	
 	protected volatile boolean running = true;
 	protected Thread engineThread;
+	
 	protected Dispatcher dispatcher;
+	protected static PlayerEngine playerEngine;
+	
+	Iterator<Map.Entry<Integer, Player>> it;
+	Map.Entry<Integer, Player> entry;
 	
 	public Engine() {
 		dispatcher = JavaWars.getDispatcher();
+		playerEngine = new PlayerEngine();
 		engineThread = new Thread(this);
 		engineThread.start();
+		
+		//on met à jour les Players
+		dispatcher.updatePlayers();
 	}
 	
 	public void stopThread(){
@@ -32,15 +39,18 @@ public class Engine  implements Runnable{
 			try {
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
+				//check if the something change
+				boolean dataChange = false;
 				
 				// iterate on players
-				Iterator<Map.Entry<Integer, Player>> it = dispatcher.getPlayers().entrySet().iterator();
+				// 
+				it = dispatcher.getPlayers().entrySet().iterator();
 				while (it.hasNext()) {
-					Map.Entry<Integer, Player> entry = it.next();
+					entry = it.next();
 					//pour chaque player : 
 					switch (entry.getValue().getPlayerNumber()) {
 						case 1:
-							processAction(entry.getValue(), dispatcher.getActionP1());
+							dataChange = processAction(entry.getValue(), dispatcher.getActionP1());
 							break;
 						case 2:
 							
@@ -54,14 +64,17 @@ public class Engine  implements Runnable{
 						default:
 							break;
 						}
+
+					entry = null;
 				}
 				
-				
-				//System.out.println(" - Eng - ");
-				
+				it = null;
+				entry = null;
 				
 				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
-				dispatcher.updatePlayers();
+				// seulement si les données on changé
+				if(dataChange)
+					dispatcher.updatePlayers();
 				
 				
 				Thread.sleep(29);
@@ -78,18 +91,22 @@ public class Engine  implements Runnable{
 	 * 			the player to proccess action on
 	 * @param actions
 	 */
-	private void processAction(Player p, ConcurrentLinkedQueue<Integer> actions){
-
+	private boolean processAction(Player p, ConcurrentLinkedQueue<Integer> actions){
 		
+		boolean change = false; 
 		Iterator<Integer> itr = actions.iterator();
 		while(itr.hasNext()){
 			
-			p.getpInfos().reduceMoney(itr.next());
+			playerEngine.changePlayerMoney(p, itr.next());
 			actions.poll();
 			
-			System.out.println(p.getpInfos().getMoney());
+			System.out.println(p.getMoney());
 			
+			change = true;
 		}
+		
+		itr = null;
+		return change;
 	}
 	
 

@@ -11,7 +11,7 @@ public class Human extends Player{
 	 * @param name
 	 */
 	public Human(int pNum, String name) {
-		super(pNum, name);
+		super(pNum, name, "human");
 		ihm = new Ihm("JavaWars", this);
 	}
 	
@@ -25,6 +25,6 @@ public class Human extends Player{
 	}
 	
 	public void update(){
-		ihm.updateTestLabel(this.getpInfos().getMoney());
+		ihm.updateTestLabel(this.getMoney());
 	}
 }
