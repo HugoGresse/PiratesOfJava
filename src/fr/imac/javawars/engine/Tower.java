@@ -1,11 +1,13 @@
 package fr.imac.javawars.engine;
 
+import fr.imac.javawars.player.Player;
+
 public class Tower extends AbstractTowerBase {
 	private double price;
 	private int strength;
 	
 	//constructor
-	public Tower(int life, Point position, String texture, PlayerInfos player,double actionField,double price, int strength ) {
+	public Tower(int life, Point position, String texture, Player player, double actionField,double price, int strength ) {
 		super(life, position, texture, player, actionField);
 		this.price = price;
 		this.strength = strength;

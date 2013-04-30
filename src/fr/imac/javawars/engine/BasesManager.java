@@ -61,7 +61,7 @@ public class BasesManager {
 		// we initialize the box which corresponds to a base position with the number of the player possessing the base
 		for(Base b: bases){
 			int basePosition = (int) (this.bases.get(0).getPosition().getX() + this.bases.get(0).getPosition().getY());
-			this.influenceAreaMap[basePosition] = b.getPlayer().getIdentifier();
+			this.influenceAreaMap[basePosition] = b.getPlayer().getPlayerNumber();
 		}
 	}
 	
