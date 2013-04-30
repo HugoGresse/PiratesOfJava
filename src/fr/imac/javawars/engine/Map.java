@@ -412,7 +412,7 @@ public class Map {
 	 /**
 		 * @param args
 		 */
-		public static void main(String[] args) {
+		/*public static void main(String[] args) {
 			
 			// Test Ramdon Map
 				Map myMap = new Map();
@@ -421,7 +421,7 @@ public class Map {
 			
 				myMap.printMap();
 			
-		}
+		}*/
 		
 
 }
