@@ -1,7 +1,7 @@
 package fr.imac.javawars.engine;
 
 import java.awt.Color;
-import java.awt.Point;
+//import java.awt.Point;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
@@ -15,64 +15,65 @@ import java.util.Random;
  * * * * Image map
  * Wall : Black
  * Path : White
- * Neutral Basis : Grey
- * Players' Basis : 4 distincts colors (with R, G & B differents)
+ * Neutral Bases : Grey
+ * Players' Bases : 4 distincts colors (with R, G & B differents)
  * 
  * 
  * * * * Legends XML
  * Wall --> 1
  * Path --> 0
- * Neutral Basis --> 2
- * Players' Basis --> >= 3
+ * Neutral Bases --> 2
+ * Players' Bases --> >= 3
  * 
  */
 
 // TODO make a real map with swing
 
-public class Map {
+public class Ground {
 
 	
 	private int bitMap[][];
 	
-	private ArrayList<Point> centerBasis = new ArrayList<Point>();
+	private ArrayList<Point> centerBases = new ArrayList<Point>();
 	
     public static final int WHITE=255;
     public static final int BLACK=0;
     public static final int WIN_HEIGHT=100;
     public static final int WIN_WITDH=150;
 	public static final int RADIUS=5;
+	
+	//test arthur
+	//nbPlayers calculated from the number of bases for players at the beginning.
+	private int numberOfPlayers;
 
 	/** Constructor to generate Random Map
 	 * 
 	 */
-    public Map(){
+    public Ground(){
     	// Map Random
     	bitMap = new int[WIN_HEIGHT][WIN_WITDH];
     	
-    	initMapPath(bitMap);
-    	geneBasisPlayer(4, bitMap);
-    	geneBasisNeutral(10,bitMap);
+    	initGroundPath(bitMap);
+    	generateBasesPlayer(4, bitMap);
+    	generateBasesNeutral(10,bitMap);
+    	generateWall(bitMap);
+    	extendPathBases(bitMap);
     	
-    	geneWall(bitMap);
-    	
-    	extendPathBasis(bitMap);
     	saveAsXML(bitMap, "map/randomMap_1");
-    	
-    	
     }
     
     /** Constructor to generate Map by file (Text or Image)
      * 
      * @param file
      */
-	public Map(String file) {
+	public Ground(String file) {
 		
 		// Search extension of file
 		String[] ext = file.split("\\.");
 		
 		// IF it is an image (gif or png)
 		if (ext[1].toString().equals("gif") || ext[1].toString().equals("png") ){
-			geneMapbyImg(file);
+			generateGroundByImg(file);
 			saveAsXML(bitMap, ext[0].toString());
 			// Generation Map with XML
 		} 
@@ -80,7 +81,7 @@ public class Map {
 		// IF it is a text file (xml)
 		else if (ext[1].toString().equals("xml")){
 			System.out.println("XML");
-			geneMapbyXML(file);
+			generateGroundByXML(file);
 		} 
 		
 		// IF it is a text file (xml)
@@ -91,7 +92,7 @@ public class Map {
 		
 	}
 	
-	private void printMap(){
+	private void printGround(){
 		int i=0;
 		int j=0;
 			
@@ -111,12 +112,12 @@ public class Map {
 			}
 	}
 	
-	private int getMapPosition(int x, int y){
+	private int getGroundPosition(int x, int y){
 		return bitMap[x][y];
 	}
 
 	
-	public void geneMapbyXML(String file){
+	public void generateGroundByXML(String file){
 		
 	}
 	
@@ -124,7 +125,7 @@ public class Map {
 	 * 
 	 * @param file
 	 */
-	public void geneMapbyImg(String file){
+	public void generateGroundByImg(String file){
 		
 		LinkedList<Color> playerColor = new LinkedList<Color>();
 		
@@ -161,7 +162,7 @@ public class Map {
 	 * @param bitMap
 	 * @param File
 	 */
-	public void saveAsXML(int bitMap[][], String File){
+	public static void saveAsXML(int bitMap[][], String File){
 	    String nameFile = File+".xml";
 	    try{
 	      PrintWriter out  = new PrintWriter(new FileWriter(nameFile));
@@ -179,7 +180,7 @@ public class Map {
 	    }
 	  }
 	
-	/** Convert Color in "Wall", "Path", "Player's Basis" or "Neutral Basis"
+	/** Convert Color in "Wall", "Path", "Player's Bases" or "Neutral Bases"
 	 * 
 	 * @param c
 	 * 			Color in the image
@@ -215,6 +216,9 @@ public class Map {
 				 }
 				 // If color doesn't exist, add value at end of LinkedList
 				 playerColor.add(c);
+				 //test arthur
+				 this.numberOfPlayers = playerColor.size();
+				 
 				 return i;
 			 }
 			 
@@ -225,7 +229,7 @@ public class Map {
 	  * 
 	  * @param bitMap
 	  */
-	 public void initMapPath(int bitMap[][]){
+	 public void initGroundPath(int bitMap[][]){
 		int i=0;
 		int j=0;
 			
@@ -245,15 +249,15 @@ public class Map {
 	 }
 	 
 	 
-	 /** Generate Player's Basis
+	 /** Generate Player's Bases
 	  * 
-	  * @param nbBasis
+	  * @param nbBases
 	  * @param bitMap
 	  */
-	 public void geneBasisPlayer(int nbBasis, int bitMap[][]){	    	
+	 public void generateBasesPlayer(int nbBases, int bitMap[][]){	    	
 	    	Random rnd = new Random();
 	    	int oX, oY;
-		 for (int i=1; i<= nbBasis; ++i){
+		 for (int i=1; i<= nbBases; ++i){
 			 do {
 				switch(i){
 					case 1:
@@ -277,36 +281,36 @@ public class Map {
 					 	oY = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;	
 					break;
 				}		 
-			 } while(bitMap[oY][oX]!=0 || !checkSpaceBasis(oX, oY, RADIUS, bitMap) );
+			 } while(bitMap[oY][oX]!=0 || !checkSpaceBases(oX, oY, RADIUS, bitMap) );
 
-			 geneCircleInPixel(RADIUS, oX, oY, bitMap, i+2);
-			// TODO Create class basis 
+			 generateCircleInPixel(RADIUS, oX, oY, bitMap, i+2);
+			// TODO Create class Bases 
 			 Point p = new Point(oX, oY);
-			 centerBasis.add(p);
+			 centerBases.add(p);
 		 }
 	 }
 	 
-	 /** Generate neutral basis
+	 /** Generate neutral Bases
 	  * 
-	  * @param nbBasis
+	  * @param nbBases
 	  * @param bitMap
 	  */
 	 
-	 public void geneBasisNeutral(int nbBasis, int bitMap[][]){	    	
+	 public void generateBasesNeutral(int nbBases, int bitMap[][]){	    	
 	    	Random rnd = new Random();
 	    	int oX, oY, rayon;
 	    	
-		 for (int i=1; i<= nbBasis; ++i){
+		 for (int i=1; i<= nbBases; ++i){
 			 rayon = rnd.nextInt(RADIUS-1)+1;
 			 do {
 				
 				oX = rnd.nextInt(WIN_WITDH-2*rayon)+rayon;
 			 	oY = rnd.nextInt(WIN_HEIGHT-2*rayon)+rayon;		 
-			 } while(bitMap[oY][oX]!=0 || !checkSpaceBasis(oX, oY, rayon, bitMap) );
+			 } while(bitMap[oY][oX]!=0 || !checkSpaceBases(oX, oY, rayon, bitMap) );
 
-			 geneCircleInPixel(rayon, oX, oY, bitMap, 2);
+			 generateCircleInPixel(rayon, oX, oY, bitMap, 2);
 			 Point p = new Point(oX, oY);
-			 centerBasis.add(p);
+			 centerBases.add(p);
 		 }
 	 }
 	 
@@ -315,7 +319,7 @@ public class Map {
 	  * @param bitMap
 	  */
 	 
-	 public void geneWall(int bitMap[][]){
+	 public void generateWall(int bitMap[][]){
 		 Random rnd = new Random();
 		 int disposition;
 		 int rayon;
@@ -329,16 +333,16 @@ public class Map {
 	    		rayon = rnd.nextInt(RADIUS)+5;
 	    		
 	    		if (disposition>4 && bitMap[0][j]==0){
-	    			geneCircleInPixel(rayon, 0, j, bitMap, 1);
+	    			generateCircleInPixel(rayon, 0, j, bitMap, 1);
 	   		 	}	
 	    		if (disposition>4 && bitMap[WIN_HEIGHT-1][j]==0){
-	    			geneCircleInPixel(rayon, WIN_HEIGHT-1, j, bitMap, 1);
+	    			generateCircleInPixel(rayon, WIN_HEIGHT-1, j, bitMap, 1);
 	   		 	}
 	    		if (disposition>4 && bitMap[0][j]==0){
-	    			geneCircleInPixel(rayon, j, 0, bitMap, 1);
+	    			generateCircleInPixel(rayon, j, 0, bitMap, 1);
 	   		 	}
 	    		if (disposition>3 && bitMap[WIN_HEIGHT-1][j]==0){
-	    			geneCircleInPixel(rayon, j, WIN_HEIGHT-1, bitMap, 1);
+	    			generateCircleInPixel(rayon, j, WIN_HEIGHT-1, bitMap, 1);
 	   		 	}
 	    		j++;	   
 	    	}
@@ -353,20 +357,20 @@ public class Map {
 		 		for (int l =0; l<5; ++l) {
 		 			rndX = rnd.nextInt(rayon);
 		 			rndY = rnd.nextInt(rayon);
-		 			geneCircleInPixel(rayon, oX+rndX, oY+rndY, bitMap, 1);
+		 			generateCircleInPixel(rayon, oX+rndX, oY+rndY, bitMap, 1);
 		 		}
 	    	}
 
 	 }
 	 
 
-	 /** Create an extend circle around Basis
+	 /** Create an extend circle around Bases
 	  * 
 	  * @param bitMap
 	  */
-	 public void extendPathBasis(int bitMap[][]){
-		 for (int i =0; i<centerBasis.size(); ++i){
-			 geneCircleInPixel(RADIUS+7, (int)centerBasis.get(i).getX(), (int)centerBasis.get(i).getY(), bitMap, 0);
+	 public void extendPathBases(int bitMap[][]){
+		 for (int i =0; i<centerBases.size(); ++i){
+			 generateCircleInPixel(RADIUS+7, (int)centerBases.get(i).getX(), (int)centerBases.get(i).getY(), bitMap, 0);
 		 }
 	 }
 	 
@@ -379,7 +383,7 @@ public class Map {
 	  * @param value
 	  */
 	 
-	 public void geneCircleInPixel(int rayon, int oX, int oY, int bitMap[][], int value){	
+	 public void generateCircleInPixel(int rayon, int oX, int oY, int bitMap[][], int value){	
 	    	int x, y;
 	    	for (x=oX-(rayon); x<=oX+(rayon); x++){
 	    		for (y=oY-(rayon); y<=oY+(rayon); y++) {
@@ -398,7 +402,7 @@ public class Map {
 	  * @param bitMap
 	  * @return if enough space or not
 	  */
-	 public boolean checkSpaceBasis(int oX, int oY, int rayon, int bitMap[][]){
+	 public boolean checkSpaceBases(int oX, int oY, int rayon, int bitMap[][]){
 		 int x, y;
 	    	for (x=oX-(rayon); x<=oX+(rayon); x++){
 	    		for (y=oY-(rayon); y<=oY+(rayon); y++) {
@@ -407,7 +411,30 @@ public class Map {
 	    	} 
 	    return true;
 	 }
-	 
+
+	public int[][] getBitMap() {
+		return bitMap;
+	}
+
+	public void setBitMap(int[][] bitMap) {
+		this.bitMap = bitMap;
+	}
+
+	public ArrayList<Point> getCenterBases() {
+		return centerBases;
+	}
+
+	public void setCenterBases(ArrayList<Point> centerBases) {
+		this.centerBases = centerBases;
+	}
+
+	//test arthur
+	public int getNumberOfPlayers() {
+		return this.numberOfPlayers;
+	}
+	
+	
+	
 	 
 	 /**
 		 * @param args
@@ -422,6 +449,8 @@ public class Map {
 				myMap.printMap();
 			
 		}*/
+	 
+	 
 		
 
 }

@@ -11,8 +11,8 @@ import fr.imac.javawars.player.Player;
 
 public class Base extends AbstractTowerBase {
 	private int capacity;
-	private int speedRegeneration;
-	private LinkedList<Tower> towers;
+	private int speedRegeneration; //if = 1 means 1 agent produce by second ?
+	//private LinkedList<Tower> towers;
 	private Power power;
 	/* table containing distances of the base
  	imagine a map of boxes but here stocked in a tab 1d
@@ -26,19 +26,23 @@ public class Base extends AbstractTowerBase {
 		RESISTANCE;
 	}
 	
-	// CONSTRUCTOR
-	public Base(int life, Point position, String texture, Player player,double actionField, int capacity, int speedRegeneration) {
-
+	// CONSTRUCTORS
+	public Base(int life, Point position, String texture, Player player, double actionField, int capacity, int speedRegeneration) {
 		super(life, position, texture, player, actionField);
 		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;
-		this.towers = new LinkedList<Tower>();
+		//this.towers = new LinkedList<Tower>();
 		this.power = Power.NORMAL;
-		// for the moment values of H and W are not initialise with the map, should be
-		int height = 4;
-		int width = 4;
-		// initialization of the map of the distances of the base
-		this.initialiseDistanceMap(height, width);
+	}
+	
+	//this constructor is used to generate Bases from the map
+	public Base(Point position, Player player){
+		// by default capacity of 50 agents ?
+		this(0, position, null, player, 0.0, 50, 1);
+	}
+	
+	public Base(Point point){
+		this(0, point, null, null, 0.0, 50, 1);
 	}
 	
 	public Base(){
@@ -56,32 +60,51 @@ public class Base extends AbstractTowerBase {
 	 * 
 	 * @see Base#distanceMap
 	 */
-	public void initialiseDistanceMap(int height, int width){
-		// CHANGE WITH REAL VALUES
+	public void initializeDistanceMap(int[][] bitMap){
 		//initialization should be done with a file (-2 for walls, -1 when not decided)
-		this.distanceMap = new int[height*width];
-		for(int i=0; i < height * width; i++ ){
-			this.distanceMap[i] = -1;
+		if(bitMap.length <= 0){
+			return;
 		}
-		//TEST VALUES
-		this.distanceMap[0] = -2;
-		this.distanceMap[1] = -2;
-		this.distanceMap[2] = -2;
-		this.distanceMap[3] = -2;
-		this.distanceMap[4] = -2;
-		this.distanceMap[7] = -2;
-		this.distanceMap[8] = -2;
-		this.distanceMap[11] = -2;
-		this.distanceMap[12] = -2;
-		this.distanceMap[13] = -2;
-		this.distanceMap[14] = -2;
-		this.distanceMap[15] = -2;
+		int height = bitMap.length;
+		int width = bitMap[0].length;
+		this.distanceMap= new int[height * width];
+		//we initialize all boxes
+		for(int i = 0; i < height; ++i){
+			for(int j = 0; j < width; ++j){
+				if(bitMap[i][j] == 1){
+					// we initialize unaccessible zone for agents to a distance of -2, for the moment a wall is representing by a 1 in the map
+					distanceMap[i + j * width] = - 2;
+				}
+				else{
+					// we initialize other to a distance of -1 meaning the distance as not been calculated yet
+					distanceMap[i + j * width] = -1;
+				}
+			}
+		}
+		// we initialize also the outline of the map with -2 
+		// it's a trick to avoid an unwanted access later
+		//the line at the top of the map
+		for(int i = 0; i < width ; ++i){
+			this.distanceMap[i] = -2;
+		}
+		//the line at the left of the map
+		for(int i = 1; i < height; ++i){
+			this.distanceMap[i*width] = -2;
+		}
+		//the line at the right of the map
+		for(int i = 1; i <= height; ++i){
+			this.distanceMap[i*width - 1] = -2;
+		}
+		//the line at the bottom of the map
+		for(int i = (height * width) - width; i < (height * width) - 1 ; ++i){
+			this.distanceMap[i] = -2;
+		}
+
+		//the box corresponding to the position of the base is at 0 of distance
+		this.distanceMap[(int) (this.position.getX() + this.position.getY() * width)] = 0;
 		
-		// problem with the unite of position, need to think to it
-		//this.distanceMap[(int) (this.position.getX() + this.position.getY() * width)] = 0;
-		// test with the base in (1,2) (map corner is in 0,0)
-		// CHANGE WITH REAL VALUES
-		this.distanceMap[1+2*width] = 0;
+		//debug
+		//writeInXMLInfluenceMap(bitMap, distanceMap, "map/initializeDistanceBaseTest");
 	}
 	
 	/**
@@ -94,21 +117,22 @@ public class Base extends AbstractTowerBase {
 	 * 
 	 * @see Base#distanceMap
 	 */
-	public void computeDistanceMap(int height, int width){
+	public void computeDistanceMap(int[][] bitMap){
+		if(bitMap.length <= 0){
+			System.out.println("problem with the bitmap in computeDistanceMap");
+			return;
+		}
+		int width = bitMap.length;
 		//creation of a queue of the boxes , for the moment a LinkedList
 		LinkedList<Integer> boxesQueue = new LinkedList<Integer>();
 		// use addLast to add the element at the end of the list
 		// currentTestedPosition corresponding to the box whose neighbors boxes are tested
 		// starting point is the box corresponding to the position of the base
-		// CHANGE WITH REAL VALUES
-		int currentTestedPosition = 1+2*width;
+		int currentTestedPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
 		// currentDistance represents the current distance to the base
-		int currentDistance = 0;
 		boxesQueue.addLast(currentTestedPosition);
 		// while the queue isn't empty
-		while (boxesQueue.size()>0){
-			// every loop the distance to the base increases
-			currentDistance ++;
+		while (!boxesQueue.isEmpty()){
 			//test every neighbor boxes of the tested box, here we are testing diagonals too
 			// if the value of the distance is -1, so we change it, if it's an other number, it means agents are not authorize to go there and so we don't change
 			// the value to keep it negative, which will help us when we will move agents
@@ -116,56 +140,49 @@ public class Base extends AbstractTowerBase {
 			// deleting the first box of the queue for testing his neighbors
 			currentTestedPosition = boxesQueue.removeFirst();
 			// test left box
-			if(distanceMap[currentTestedPosition - 1] == -1) {
+			if(this.distanceMap[currentTestedPosition - 1] == -1) {
 				//giving the distance value to the base for the box
-				this.distanceMap[currentTestedPosition - 1] = currentDistance;
+				this.distanceMap[currentTestedPosition - 1] = this.distanceMap[currentTestedPosition] + 1;
 				// adding the box to the queue to test his neighbors after
 				boxesQueue.addLast(currentTestedPosition - 1);
 			}
 			// test right box
-			if(distanceMap[currentTestedPosition + 1] == -1) {
-				this.distanceMap[currentTestedPosition + 1] = currentDistance;
+			if(this.distanceMap[currentTestedPosition + 1] == -1) {
+				this.distanceMap[currentTestedPosition + 1] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition + 1);
 			}
 			// test above box
-			if(distanceMap[currentTestedPosition - width] == -1) {
-				this.distanceMap[currentTestedPosition - width] = currentDistance;
+			if(this.distanceMap[currentTestedPosition - width] == -1) {
+				this.distanceMap[currentTestedPosition - width] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition - width);
 			}
 			// test below box
-			if(distanceMap[currentTestedPosition + width] == -1) {
-				this.distanceMap[currentTestedPosition + width] = currentDistance;
+			if(this.distanceMap[currentTestedPosition + width] == -1) {
+				this.distanceMap[currentTestedPosition + width] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition + width);
 			}
 			// test above left box
-			if(distanceMap[currentTestedPosition - width -1] == -1) {
-				this.distanceMap[currentTestedPosition - width -1] = currentDistance;
+			if(this.distanceMap[currentTestedPosition - width -1] == -1) {
+				this.distanceMap[currentTestedPosition - width -1] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition - width -1);
 			}
 			// test above right box
-			if(distanceMap[currentTestedPosition - width + 1] == -1) {
-				this.distanceMap[currentTestedPosition - width + 1] = currentDistance;
+			if(this.distanceMap[currentTestedPosition - width + 1] == -1) {
+				this.distanceMap[currentTestedPosition - width + 1] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition - width + 1);
 			}
 			// test below left box
-			if(distanceMap[currentTestedPosition + width - 1] == -1) {
-				this.distanceMap[currentTestedPosition + width - 1] = currentDistance;
+			if(this.distanceMap[currentTestedPosition + width - 1] == -1) {
+				this.distanceMap[currentTestedPosition + width - 1] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition + width - 1);
 			}
 			// test below right box
-			if(distanceMap[currentTestedPosition + width + 1] == -1) {
-				this.distanceMap[currentTestedPosition + width + 1] = currentDistance;
+			if(this.distanceMap[currentTestedPosition + width + 1] == -1) {
+				this.distanceMap[currentTestedPosition + width + 1] = this.distanceMap[currentTestedPosition] + 1;
 				boxesQueue.addLast(currentTestedPosition + width + 1);
 			}
 		}
-	}
-	
-	//test d'affichage
-	public void displayDistanceMap(){
-		for(int i=0; i<this.distanceMap.length; i++){
-			System.out.println(this.distanceMap[i]);
-		}
-
+		//writeInXMLInfluenceMap(bitMap, distanceMap, "map/distanceBaseTest");
 	}
 	
 	public void regeneration(){
@@ -184,13 +201,13 @@ public class Base extends AbstractTowerBase {
 		// A REMPLIR
 	}
 	
-	public void addTower(Tower t){
+	/*public void addTower(Tower t){
 		towers.add(t);
 	}
 	
 	public void deleteTower(Tower t){
 		// A REMPLIR
-	}
+	}*/
 	
 	//GETTERS-SETTERS
 	public int getCapacity() {
@@ -209,13 +226,13 @@ public class Base extends AbstractTowerBase {
 		this.speedRegeneration = speedRegeneration;
 	}
 
-	public LinkedList<Tower> getTowers() {
+	/*public LinkedList<Tower> getTowers() {
 		return towers;
 	}
 
 	public void setTowers(LinkedList<Tower> towers) {
 		this.towers = towers;
-	}
+	}*/
 
 	public Power getPower() {
 		return power;
@@ -223,5 +240,26 @@ public class Base extends AbstractTowerBase {
 
 	public void setPower(Power power) {
 		this.power = power;
+	}
+	
+	/**
+	 * Write in a file under the form of a tab2D of numbers the map of distances  
+	 * 
+	 * @param bitMap
+	 * 		the map which generates our ground
+	 * @param distanceMap
+	 * 		the map representing the distance to the base
+	 * @param nameFile
+	 * 		the name we want to give to our file
+	 */
+	//used for debug
+	private void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
+		int[][] bitMapInfluenceArea = bitMap;
+		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
+			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
+				bitMapInfluenceArea[i][j] = distanceMap[i + j * bitMapInfluenceArea[0].length];
+			}
+		}
+		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
 	}
 }
