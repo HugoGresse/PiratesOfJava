@@ -1,11 +1,17 @@
 package fr.imac.javawars.engine;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-	/*
+import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Dispatcher;
+import fr.imac.javawars.player.Human;
+import fr.imac.javawars.player.IA;
+import fr.imac.javawars.player.Player;
+/*
 	 * Variables
 	 * - Map
 	 * - Distances de déplacement
@@ -19,12 +25,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 	 * 
 	 */
 
-import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.Dispatcher;
-import fr.imac.javawars.player.Human;
-import fr.imac.javawars.player.IA;
-import fr.imac.javawars.player.Player;
-
 public class Engine  implements Runnable{
 	
 	protected volatile boolean running = true;
@@ -33,8 +33,12 @@ public class Engine  implements Runnable{
 	protected Dispatcher dispatcher;
 	protected static PlayerEngine playerEngine;
 	
+	//Game data, replace by a class 
+	private Map<Integer, Player> playersData;
+	private ArrayList<Thread> threadsPlayers = new ArrayList<Thread>();
 	Iterator<Map.Entry<Integer, Player>> it;
 	Map.Entry<Integer, Player> entry;
+	
 	
 	//test arthur
 	private BasesManager basesManager;
@@ -42,16 +46,20 @@ public class Engine  implements Runnable{
 	private ArrayList<Player> players;
 	private Ground ground;
 	
-	public Engine() {
+	public Engine(Player p1, Player p2, Player p3, Player p4) {
+		
+		initializationOfPlayers(p1, p2, p3, p4);
+		
+		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
 		dispatcher = JavaWars.getDispatcher();
+		
+		
 		playerEngine = new PlayerEngine();
 		engineThread = new Thread(this);
 		engineThread.start();
 
-		//on met ‡ jour les Players
-		dispatcher.updatePlayers();
 		
-		testArthur();
+		//testArthur();
 	}
 	
 	public void stopThread(){
@@ -69,7 +77,7 @@ public class Engine  implements Runnable{
 				
 				// iterate on players
 				// 
-				it = dispatcher.getPlayers().entrySet().iterator();
+				it = playersData.entrySet().iterator();
 				while (it.hasNext()) {
 					entry = it.next();
 					//pour chaque player : 
@@ -111,6 +119,7 @@ public class Engine  implements Runnable{
 	}
 	
 	
+	
 	/**
 	 *	Initialize the game
 	 */
@@ -118,6 +127,32 @@ public class Engine  implements Runnable{
 
 	}
 	
+	
+	private void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
+		
+		playersData = new Hashtable<Integer, Player>();
+		
+		// add the players in a map 
+		// TODO replace map by an arraylist
+		playersData.put(p1.getPlayerNumber(), p1);
+		playersData.put(p2.getPlayerNumber(), p2);
+		playersData.put(p3.getPlayerNumber(), p3);
+		playersData.put(p4.getPlayerNumber(), p4);
+		
+
+		//start treads for IA and save it
+		Iterator<Map.Entry<Integer, Player>> itTemp = playersData.entrySet().iterator();
+		while (itTemp.hasNext()) {
+			  Map.Entry<Integer, Player> entry = itTemp.next();
+			  if (entry.getValue() instanceof IA ) 
+				  threadsPlayers.add(new Thread(  (IA)entry.getValue() ));
+		}
+		
+		//Start threads
+		for(Thread t : threadsPlayers)
+			t.start();
+		
+	}
 	
 	/**
 	 * process given Queue for the given player
@@ -181,4 +216,16 @@ public class Engine  implements Runnable{
 		// test influence Area of bases
 		this.basesManager = new BasesManager(this.bases, ground.getBitMap());
 	}
+	
+	
+	
+
+	/**
+	 * Get the list of players
+	 * @return a map/hashtable with the playerNumber and the Player
+	 */
+	public Map<Integer, Player> getPlayers(){
+		return playersData;
+	}
+	
 }

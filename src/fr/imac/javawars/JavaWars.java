@@ -10,6 +10,7 @@ import fr.imac.javawars.player.Player;
 public class JavaWars {
 	
 	private static Dispatcher dispatcher; 
+	private static Engine engine; 
 	
 	public static void main(String[] args){
 		//Opening JavaWars
@@ -20,20 +21,25 @@ public class JavaWars {
 		Player joueur3 = new IA(3, "AI 2");
 		Player joueur4 = new IA(4, "AI 3");
 		
+
 		//une fois les joueurs crées, on créer le dispatcher en lui donnant les joueurs 
-		dispatcher = new Dispatcher(joueur1, joueur2, joueur3, joueur4);
+		dispatcher = new Dispatcher();
+
+		engine = new Engine(joueur1, joueur2, joueur3, joueur4);
 		
 
-		Engine engine = new Engine();
-		
+		//on met à jour les Players
+		dispatcher.updatePlayers();
 		
 	}
 	
-
-	//je suis pas sur qu'il faille mettre sa la...
-	// enfin je crois que si :D
+	
 	public static Dispatcher getDispatcher(){
 		return dispatcher;
+	}
+	
+	public static Engine getEngine(){
+		return engine;
 	}
 	
 	

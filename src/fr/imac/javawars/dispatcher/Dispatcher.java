@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 /**
@@ -16,43 +17,12 @@ import fr.imac.javawars.player.Player;
 public class Dispatcher {
 	
 
-	private Map<Integer, Player> players;
-	private ArrayList<Thread> threads = new ArrayList<Thread>();
 	private ConcurrentLinkedQueue<Integer> actionp1 = new ConcurrentLinkedQueue<Integer>();
 	
-	public Dispatcher(Player p1, Player p2, Player p3, Player p4) {
-		players = new Hashtable<Integer, Player>();
-		
-		// add the players in a map 
-		// TODO replace map by an arraylist
-		players.put(p1.getPlayerNumber(), p1);
-		players.put(p2.getPlayerNumber(), p2);
-		players.put(p3.getPlayerNumber(), p3);
-		players.put(p4.getPlayerNumber(), p4);
-		
-		
-		//start treads for IA and save it
-		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
-		while (it.hasNext()) {
-			  Map.Entry<Integer, Player> entry = it.next();
-			  if (entry.getValue() instanceof IA ) 
-				  threads.add(new Thread(  (IA)entry.getValue() ));
-		}
-		
-		//Start threads
-		for(Thread t : threads)
-			t.start();
+	public Dispatcher() {
 		
 	}
-	
-	
-	/**
-	 * Get the list of players
-	 * @return a map/hashtable with the playerNumber and the Player
-	 */
-	public Map<Integer, Player> getPlayers(){
-		return players;
-	}
+		
 	
 	/**
 	 * Remove money from given Player
@@ -74,7 +44,8 @@ public class Dispatcher {
 	
 	
 	public void updatePlayers(){
-		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
+		Iterator<Map.Entry<Integer, Player>> it = JavaWars.getEngine().getPlayers().entrySet().iterator();
+		
 		while (it.hasNext()) {
 			  Map.Entry<Integer, Player> entry = it.next();
 			  entry.getValue().update();
