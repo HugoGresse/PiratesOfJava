@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Ground;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 /**
@@ -52,5 +53,10 @@ public class Dispatcher {
 		}
 	}
 	
+	public int[][] getGround(){
+		int[][] map = JavaWars.getEngine().getGround().getBitMap();
 	
+		return map;
+	}
+
 }

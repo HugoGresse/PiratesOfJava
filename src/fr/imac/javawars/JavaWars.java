@@ -16,17 +16,16 @@ public class JavaWars {
 		//Opening JavaWars
 		System.out.println("Opening JavaWars");
 		
+		//creation of engine et dispatcher
+		engine = new Engine();
+		dispatcher = new Dispatcher();
+		
+		//creation of players and initialization in the engine
 		Player joueur1 = new Human(1, "Hugo");
 		Player joueur2 = new IA(2, "IA 1");
 		Player joueur3 = new IA(3, "AI 2");
 		Player joueur4 = new IA(4, "AI 3");
-		
-
-		//une fois les joueurs crées, on créer le dispatcher en lui donnant les joueurs 
-		dispatcher = new Dispatcher();
-
-		engine = new Engine(joueur1, joueur2, joueur3, joueur4);
-		
+		engine.initializationOfPlayers(joueur1, joueur2, joueur3, joueur4);
 
 		//on met à jour les Players
 		dispatcher.updatePlayers();

@@ -27,7 +27,7 @@ import fr.imac.javawars.player.Player;
 
 public class Engine  implements Runnable{
 	
-	protected volatile boolean running = true;
+	protected volatile boolean running = false;
 	protected Thread engineThread;
 	
 	protected Dispatcher dispatcher;
@@ -46,10 +46,9 @@ public class Engine  implements Runnable{
 	private ArrayList<Player> players;
 	private Ground ground;
 	
-	public Engine(Player p1, Player p2, Player p3, Player p4) {
-		
-		initializationOfPlayers(p1, p2, p3, p4);
-		
+	
+	/* CONSTRUCTOR */
+	public Engine() {
 		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
 		dispatcher = JavaWars.getDispatcher();
 		
@@ -59,7 +58,36 @@ public class Engine  implements Runnable{
 		engineThread.start();
 
 		
-		//testArthur();
+		testArthur();
+	}
+	
+	/* GETTERS // SETTERS */
+	public BasesManager getBasesManager() {
+		return basesManager;
+	}
+
+	public void setBasesManager(BasesManager basesManager) {
+		this.basesManager = basesManager;
+	}
+
+	public ArrayList<Base> getBases() {
+		return bases;
+	}
+
+	public void setBases(ArrayList<Base> bases) {
+		this.bases = bases;
+	}
+
+	public Ground getGround() {
+		return ground;
+	}
+
+	public void setGround(Ground ground) {
+		this.ground = ground;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 	
 	public void stopThread(){
@@ -128,8 +156,8 @@ public class Engine  implements Runnable{
 	}
 	
 	
-	private void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
-		
+	public void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
+		running = true;
 		playersData = new Hashtable<Integer, Player>();
 		
 		// add the players in a map 
