@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -7,6 +8,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Action;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
@@ -83,7 +86,7 @@ public class Engine  implements Runnable{
 					//pour chaque player : 
 					switch (entry.getValue().getPlayerNumber()) {
 						case 1:
-							dataChange = processAction(entry.getValue(), dispatcher.getActionP1());
+							dataChange = processAction(entry.getValue(), dispatcher.getAction());
 							break;
 						case 2:
 							
@@ -139,7 +142,7 @@ public class Engine  implements Runnable{
 		playersData.put(p3.getPlayerNumber(), p3);
 		playersData.put(p4.getPlayerNumber(), p4);
 		
-
+		
 		//start treads for IA and save it
 		Iterator<Map.Entry<Integer, Player>> itTemp = playersData.entrySet().iterator();
 		while (itTemp.hasNext()) {
@@ -160,13 +163,16 @@ public class Engine  implements Runnable{
 	 * 			the player to proccess action on
 	 * @param actions
 	 */
-	private boolean processAction(Player p, ConcurrentLinkedQueue<Integer> actions){
+	private boolean processAction(Player p, ConcurrentLinkedQueue<Action> actions){
 		
 		boolean change = false; 
-		Iterator<Integer> itr = actions.iterator();
+		Iterator<Action> itr = actions.iterator();
 		while(itr.hasNext()){
 			
-			playerEngine.changePlayerMoney(p, itr.next());
+			if(itr.next() instanceof ActionTowerCreate){
+				playerEngine.createTower(itr.next());
+			}
+			
 			actions.poll();
 			
 			System.out.println(p.getMoney());

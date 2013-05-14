@@ -3,6 +3,7 @@ package fr.imac.javawars.player;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.engine.Tower;
 
 public class Ihm  extends JFrame {
 	
@@ -61,7 +64,7 @@ public class Ihm  extends JFrame {
 	    createTower.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 	    createTower.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				JavaWars.getDispatcher().removeSomeMoney(p, -1);
+				JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", p, 20, 20, 5)));
 			}    	
 	    });
 	    

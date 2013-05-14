@@ -1,5 +1,7 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
+
 import fr.imac.javawars.player.Player;
 
 public class Agent extends AbstractUnite {

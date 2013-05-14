@@ -1,13 +1,18 @@
 package fr.imac.javawars.engine;
 
 import java.awt.Color;
-//import java.awt.Point;
-import java.awt.image.*;
-import javax.imageio.*;
-import java.io.*;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+//import java.awt.Point;
 
 /**
  * Class Map : create map with : image (gif or png), xml file or random
