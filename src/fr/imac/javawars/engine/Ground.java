@@ -4,9 +4,16 @@ import java.awt.Color;
 //import java.awt.Point;
 import java.awt.image.*;
 import javax.imageio.*;
+
+import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.player.IA;
+import fr.imac.javawars.player.Player;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -20,10 +27,10 @@ import java.util.Random;
  * 
  * 
  * * * * Legends XML
- * Wall --> 1
- * Path --> 0
- * Neutral Bases --> 2
- * Players' Bases --> >= 3
+ * Wall --> -2
+ * Path --> -1
+ * Neutral Bases --> 0
+ * Players' Bases --> >= 1
  * 
  */
 
@@ -34,13 +41,14 @@ public class Ground {
 	
 	private int bitMap[][];
 	
+	
 	private ArrayList<Point> centerBases = new ArrayList<Point>();
 	
     public static final int WHITE=255;
     public static final int BLACK=0;
-    public static final int WIN_HEIGHT=100;
-    public static final int WIN_WITDH=150;
-	public static final int RADIUS=5;
+    public static final int WIN_HEIGHT=500;
+    public static final int WIN_WITDH=700;
+	public static final int RADIUS=25;
 	
 	//test arthur
 	//nbPlayers calculated from the number of bases for players at the beginning.
@@ -52,12 +60,14 @@ public class Ground {
     public Ground(){
     	// Map Random
     	bitMap = new int[WIN_HEIGHT][WIN_WITDH];
+    	numberOfPlayers = 4;
     	
-    	initGroundPath(bitMap);
-    	generateBasesPlayer(4, bitMap);
-    	generateBasesNeutral(10,bitMap);
-    	generateWall(bitMap);
-    	extendPathBases(bitMap);
+    	initGroundPath();
+    	generateBasesPlayer();
+    	generateBasesNeutral(10);
+    	generateWall();
+    	extendPathBases();
+    	onePixelPerBase();
     	
     	saveAsXML(bitMap, "map/randomMap_1");
     }
@@ -92,7 +102,7 @@ public class Ground {
 		
 	}
 	
-	private void printGround(){
+	public void printGround(){
 		int i=0;
 		int j=0;
 			
@@ -194,14 +204,14 @@ public class Ground {
  		
 		 if(r==g && g==b){
 			 if (r == BLACK)
-				 return 1;
+				 return -2;
 			 else if (r == WHITE )
-				 return 0;
+				 return -1;
 			 else 
-				 return 2;
+				 return 0;
 		 }
 		 else {
-			 int i = 3;
+			 int i = 1;
 			 // LinkedList Empty, add first value
 			 if (playerColor.isEmpty()){
 				 playerColor.add(c);
@@ -229,7 +239,7 @@ public class Ground {
 	  * 
 	  * @param bitMap
 	  */
-	 public void initGroundPath(int bitMap[][]){
+	 public void initGroundPath(){
 		int i=0;
 		int j=0;
 			
@@ -240,7 +250,7 @@ public class Ground {
 			    	while(j<bitMap[0].length){
 			    		// row to row
 			    		
-			    		bitMap[i][j]=0;
+			    		bitMap[i][j]=-1;
 			    		
 			    		j++;	   
 			    	}
@@ -254,10 +264,17 @@ public class Ground {
 	  * @param nbBases
 	  * @param bitMap
 	  */
-	 public void generateBasesPlayer(int nbBases, int bitMap[][]){	    	
+	 public void generateBasesPlayer(){	
+		 ArrayList<Base> bases = new ArrayList<Base>();
+		 
+		 
+		 
+		 
+		 
 	    	Random rnd = new Random();
 	    	int oX, oY;
-		 for (int i=1; i<= nbBases; ++i){
+		 for (int i=1; i<= numberOfPlayers; ++i){
+			 
 			 do {
 				switch(i){
 					case 1:
@@ -281,13 +298,18 @@ public class Ground {
 					 	oY = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;	
 					break;
 				}		 
-			 } while(bitMap[oY][oX]!=0 || !checkSpaceBases(oX, oY, RADIUS, bitMap) );
+			 } while(bitMap[oY][oX]!= -1 || !checkSpaceBases(oX, oY, RADIUS, bitMap) );
 
-			 generateCircleInPixel(RADIUS, oX, oY, bitMap, i+2);
-			// TODO Create class Bases 
+			 generateCircleInPixel(RADIUS, oX, oY, bitMap, i);
+			// TODO Create class Bases
+			 
 			 Point p = new Point(oX, oY);
+			 Base b = new Base(p, RADIUS);
+			 bases.add(b);
 			 centerBases.add(p);
 		 }
+		 
+		 //JavaWars.getEngine().setBases(bases);
 	 }
 	 
 	 /** Generate neutral Bases
@@ -296,7 +318,7 @@ public class Ground {
 	  * @param bitMap
 	  */
 	 
-	 public void generateBasesNeutral(int nbBases, int bitMap[][]){	    	
+	 public void generateBasesNeutral(int nbBases){	    	
 	    	Random rnd = new Random();
 	    	int oX, oY, rayon;
 	    	
@@ -306,9 +328,9 @@ public class Ground {
 				
 				oX = rnd.nextInt(WIN_WITDH-2*rayon)+rayon;
 			 	oY = rnd.nextInt(WIN_HEIGHT-2*rayon)+rayon;		 
-			 } while(bitMap[oY][oX]!=0 || !checkSpaceBases(oX, oY, rayon, bitMap) );
+			 } while(bitMap[oY][oX]!=-1 || !checkSpaceBases(oX, oY, rayon, bitMap) );
 
-			 generateCircleInPixel(rayon, oX, oY, bitMap, 2);
+			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
 			 centerBases.add(p);
 		 }
@@ -319,7 +341,7 @@ public class Ground {
 	  * @param bitMap
 	  */
 	 
-	 public void generateWall(int bitMap[][]){
+	 public void generateWall(){
 		 Random rnd = new Random();
 		 int disposition;
 		 int rayon;
@@ -330,34 +352,45 @@ public class Ground {
 	    	while(j<bitMap[0].length){
 	    		
 	    		disposition = rnd.nextInt(10);
-	    		rayon = rnd.nextInt(RADIUS)+5;
+	    		rayon = rnd.nextInt(RADIUS)+20;
 	    		
-	    		if (disposition>4 && bitMap[0][j]==0){
-	    			generateCircleInPixel(rayon, 0, j, bitMap, 1);
-	   		 	}	
-	    		if (disposition>4 && bitMap[WIN_HEIGHT-1][j]==0){
-	    			generateCircleInPixel(rayon, WIN_HEIGHT-1, j, bitMap, 1);
+	    		//Left wall
+	    		if (disposition>2 && bitMap[0][j]==-1){
+	    			generateCircleInPixel(rayon, 0, j, bitMap, -2);
 	   		 	}
-	    		if (disposition>4 && bitMap[0][j]==0){
-	    			generateCircleInPixel(rayon, j, 0, bitMap, 1);
+	    		
+	    		// Top wall
+	    		if (disposition>2 && bitMap[0][j]==-1){
+	    			generateCircleInPixel(rayon, j, 0, bitMap, -2);
 	   		 	}
-	    		if (disposition>3 && bitMap[WIN_HEIGHT-1][j]==0){
-	    			generateCircleInPixel(rayon, j, WIN_HEIGHT-1, bitMap, 1);
+	    		// Bottom wall
+	    		if (disposition>2 && bitMap[WIN_HEIGHT-1][j]==-1){
+	    			generateCircleInPixel(rayon, j, WIN_HEIGHT-1, bitMap, -2);
 	   		 	}
 	    		j++;	   
+	    	}
+	    	j=0;
+	    	while(j<bitMap.length){
+	    		disposition = rnd.nextInt(10);
+	    		rayon = rnd.nextInt(RADIUS)+5;
+		    	if (disposition>2 && bitMap[j][WIN_HEIGHT-1]==-1){
+		    		
+	    			generateCircleInPixel(rayon,WIN_WITDH-1, j, bitMap, -2);
+	   		 	}
+		    	j++;
 	    	}
 	    	
 	    	// Create wall in the windows
 	    	for (int i = 0; i<5; ++i) {
 	    		rayon = rnd.nextInt(RADIUS)+5;
 	    		
-	    		oX = rnd.nextInt(WIN_WITDH-2*RADIUS)+RADIUS;
-		 		oY = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;	
+	    		oX = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;
+		 		oY = rnd.nextInt(WIN_WITDH-2*RADIUS)+RADIUS;	
 		 		
 		 		for (int l =0; l<5; ++l) {
 		 			rndX = rnd.nextInt(rayon);
 		 			rndY = rnd.nextInt(rayon);
-		 			generateCircleInPixel(rayon, oX+rndX, oY+rndY, bitMap, 1);
+		 			generateCircleInPixel(rayon, oX+rndX, oY+rndY, bitMap, -2);
 		 		}
 	    	}
 
@@ -368,11 +401,19 @@ public class Ground {
 	  * 
 	  * @param bitMap
 	  */
-	 public void extendPathBases(int bitMap[][]){
+	 public void extendPathBases(){
 		 for (int i =0; i<centerBases.size(); ++i){
-			 generateCircleInPixel(RADIUS+7, (int)centerBases.get(i).getX(), (int)centerBases.get(i).getY(), bitMap, 0);
+			 generateCircleInPixel(RADIUS+20, (int)centerBases.get(i).getX(), (int)centerBases.get(i).getY(), bitMap, -1);
 		 }
 	 }
+	 
+	 
+	 public void onePixelPerBase(){
+		 for (int i =0; i<centerBases.size(); ++i){
+			 
+		 }
+	 }
+	 
 	 
 	 /** Create a circle in BitMap with origin, radius
 	  * 
@@ -387,7 +428,7 @@ public class Ground {
 	    	int x, y;
 	    	for (x=oX-(rayon); x<=oX+(rayon); x++){
 	    		for (y=oY-(rayon); y<=oY+(rayon); y++) {
-		    		if( ( (x-oX)*(x-oX) + (y-oY)*(y-oY) ) <= rayon*rayon && x>=0 && y>=0 && x<WIN_WITDH && y<WIN_HEIGHT && bitMap[y][x]<2){
+		    		if( ( (x-oX)*(x-oX) + (y-oY)*(y-oY) ) <= rayon*rayon && x>=0 && y>=0 && x<WIN_WITDH && y<WIN_HEIGHT && bitMap[y][x]<0){
 		        		bitMap[y][x]=value;
 		        	}
 	    		}
@@ -406,7 +447,7 @@ public class Ground {
 		 int x, y;
 	    	for (x=oX-(rayon); x<=oX+(rayon); x++){
 	    		for (y=oY-(rayon); y<=oY+(rayon); y++) {
-		    		if (bitMap[y][x]!=0) return false;
+		    		if (bitMap[y][x]!=-1) return false;
 	    		}
 	    	} 
 	    return true;

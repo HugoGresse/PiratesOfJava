@@ -6,8 +6,8 @@ public abstract class AbstractTowerBase extends AbstractUnite {
 	private double actionField;
 	
 	//constructor
-	public AbstractTowerBase(int life, Point position, String texture,Player player, double actionField) {
-		super(life, position, texture, player);
+	public AbstractTowerBase(int life, Point position, Player player, double actionField) {
+		super(life, position, player);
 		this.actionField = actionField;
 	}
 	

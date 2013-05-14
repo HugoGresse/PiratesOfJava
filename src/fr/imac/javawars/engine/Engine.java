@@ -210,39 +210,41 @@ public class Engine  implements Runnable{
 	/*TEST ARTHUR*/
 	private void testArthur(){
 		/*initialisation of the ground*/
-		this.ground = new Ground("map/mapTest_3.gif");
-		/*creation of the players*/
-		int nbPlayers = ground.getNumberOfPlayers();
-		System.out.println("number of players : " + nbPlayers);
-		//creation of a list of players
-		this.players = new ArrayList<Player>();
-		//we have a human player
-		Player player1 = new Human(1, "Player1");
-		//adding the human player to our arraylist
-		this.players.add(player1);
-		//others are IA
-		for(int i = 0; i < nbPlayers - 1 ; ++i){
-			String nameIA = "IA" + i;
-			//adding IAs to our arrayList
-			this.players.add(new IA(i + 2, nameIA ));
-		}
-		System.out.println("size of array of players : " + players.size());
-		/*creation of bases belonging to the players */
-		this.bases = new ArrayList<Base>();
-		Base base1 = new Base(new Point(50, 40), players.get(0));
-		this.bases.add(base1);
-		Base base2 = new Base(new Point(80, 50), players.get(1));
-		this.bases.add(base2);
-		Base base3 = new Base(new Point(60, 5), players.get(2));
-		this.bases.add(base3);
-		System.out.println("size of array of bases : " + bases.size());
-		// test distanceMap
-		this.bases.get(1).initializeDistanceMap(ground.getBitMap());
-		this.bases.get(1).computeDistanceMap(ground.getBitMap());
+		this.ground = new Ground();
+		ground.printGround();
 		
-		//initialisation of BasesManager with the list of the bases,
-		// test influence Area of bases
-		this.basesManager = new BasesManager(this.bases, ground.getBitMap());
+		/*creation of the players*/
+        //int nbPlayers = ground.getNumberOfPlayers();
+        //System.out.println("number of players : " + nbPlayers);
+        //creation of a list of players
+        //this.players = new ArrayList<Player>();
+        //we have a human player
+        //Player player1 = new Human(1, "Player1");
+        //adding the human player to our arraylist
+        //this.players.add(player1);
+        //others are IA
+       // for(int i = 0; i < nbPlayers - 1 ; ++i){
+                //String nameIA = "IA" + i;
+                //adding IAs to our arrayList
+                //this.players.add(new IA(i + 2, nameIA ));
+        //}
+        //System.out.println("size of array of players : " + players.size());
+        /*creation of bases belonging to the players */
+        //this.bases = new ArrayList<Base>();
+        //Base base1 = new Base(new Point(50, 40), players.get(0));
+        //this.bases.add(base1);
+        //Base base2 = new Base(new Point(80, 50), players.get(1));
+        //this.bases.add(base2);
+        //Base base3 = new Base(new Point(60, 5), players.get(2));
+       // this.bases.add(base3);
+        //System.out.println("size of array of bases : " + bases.size());
+        // test distanceMap
+        //this.bases.get(1).initializeDistanceMap(ground.getBitMap());
+        //this.bases.get(1).computeDistanceMap(ground.getBitMap());
+        
+        //initialisation of BasesManager with the list of the bases,
+        // test influence Area of bases
+        //this.basesManager = new BasesManager(this.bases, ground.getBitMap());
 	}
 	
 	
@@ -255,5 +257,4 @@ public class Engine  implements Runnable{
 	public Map<Integer, Player> getPlayers(){
 		return playersData;
 	}
-	
 }

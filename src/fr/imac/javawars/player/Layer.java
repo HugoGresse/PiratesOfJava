@@ -25,16 +25,16 @@ public class Layer extends JPanel{
 			for(int j=0; j<map[0].length;j++){
 				for(int i=0; i<map.length; i++){
 					
-					int lar = 700/map[0].length;
-					int haut = 500/map.length;
+					//int lar = 700/map[0].length;
+					//int haut = 500/map.length;
 					
-					if(map[i][j] == 0){
+					if(map[i][j] == -1){
 						g.setColor(Color.GRAY); 
-						g.fillRect(j*lar,i*haut,lar,haut);
+						g.fillRect(j,i,1,1);
 					}
-					else if(map[i][j] == 1){
+					else if(map[i][j] == -2){
 						g.setColor(Color.GREEN); 
-						g.fillRect(j*lar,i*haut,lar,haut);
+						g.fillRect(j,i,1,1);
 					}
 				}
 			}

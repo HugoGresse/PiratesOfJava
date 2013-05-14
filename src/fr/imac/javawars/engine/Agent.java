@@ -6,8 +6,8 @@ public class Agent extends AbstractUnite {
 	private int speed;
 
 	//constructor
-	public Agent(int life, Point position, String texture, Player player, int speed) {
-		super(life, position, texture, player);
+	public Agent(int life, Point position, Player player, int speed) {
+		super(life, position, player);
 		this.speed = speed;
 	}
 	
