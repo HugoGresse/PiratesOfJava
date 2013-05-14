@@ -303,7 +303,7 @@ public class Ground {
 			 generateCircleInPixel(RADIUS, oX, oY, bitMap, i);
 			// TODO Create class Bases
 			 
-			 Point p = new Point(oX, oY);
+			 //Point p = new Point(oX, oY);
 			 //Base b = new Base(p, RADIUS);
 			 //bases.add(b);
 			 //centerBases.add(p);
