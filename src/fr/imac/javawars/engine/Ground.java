@@ -304,9 +304,9 @@ public class Ground {
 			// TODO Create class Bases
 			 
 			 Point p = new Point(oX, oY);
-			 Base b = new Base(p, RADIUS);
-			 bases.add(b);
-			 centerBases.add(p);
+			 //Base b = new Base(p, RADIUS);
+			 //bases.add(b);
+			 //centerBases.add(p);
 		 }
 		 
 		 //JavaWars.getEngine().setBases(bases);
