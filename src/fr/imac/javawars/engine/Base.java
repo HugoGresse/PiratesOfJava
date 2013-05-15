@@ -249,6 +249,15 @@ public class Base extends AbstractTowerBase {
 		return this.radius;
 	}
 	
+
+	public int[] getDistanceMap() {
+		return distanceMap;
+	}
+
+	public void setDistanceMap(int[] distanceMap) {
+		this.distanceMap = distanceMap;
+	}
+
 	/**
 	 * Write in a file under the form of a tab2D of numbers the map of distances  
 	 * 
@@ -260,7 +269,7 @@ public class Base extends AbstractTowerBase {
 	 * 		the name we want to give to our file
 	 */
 	//used for debug
-	private void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
+	/*private void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
 		int[][] bitMapInfluenceArea = bitMap;
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
@@ -268,5 +277,5 @@ public class Base extends AbstractTowerBase {
 			}
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
-	}
+	}*/
 }
