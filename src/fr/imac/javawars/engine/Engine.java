@@ -211,7 +211,6 @@ public class Engine  implements Runnable{
 	private void testArthur(){
 		/*initialisation of the ground*/
 		this.ground = new Ground();
-		ground.printGround();
 		
 		/*creation of the players*/
         //int nbPlayers = ground.getNumberOfPlayers();
