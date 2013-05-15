@@ -2,6 +2,7 @@ package fr.imac.javawars.player;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -34,6 +35,22 @@ public class Ihm  extends JFrame {
 	    // http://stackoverflow.com/questions/6084039/create-custom-operation-for-setdefaultcloseoperation
 	    this.setLocationRelativeTo(null);
 	    this.setResizable(false);           
+	    
+//	    menu = new JMenuBar();
+//	    towerTest = new JMenu("TowerTest");
+//	    towerTest.setMnemonic('l');
+//	    createTower = new JMenuItem("Buid tower (virtual)");
+//	    createTower.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+//	    createTower.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent arg0){
+//				JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", p, 20, 20, 5)));
+//			}    	
+//	    });
+//	    
+//	    towerTest.add(createTower);
+//	    menu.add(towerTest);
+//	    this.setJMenuBar(menu);
+	    
 	    
 	    CreatePanel();
 	    

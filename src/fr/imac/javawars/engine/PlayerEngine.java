@@ -1,6 +1,6 @@
 package fr.imac.javawars.engine;
 
-import fr.imac.javawars.player.Player;
+import fr.imac.javawars.dispatcher.Action;
 
 public class PlayerEngine {
 
@@ -8,8 +8,9 @@ public class PlayerEngine {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void changePlayerMoney(Player p, int money){
-		p.setMoney(p.getMoney() + money);
+	public void createTower(Action action){
+		//create tower here
+		System.out.println("create tower here");
 		
 	}
 	

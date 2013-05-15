@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -7,6 +8,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Action;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
@@ -57,8 +60,6 @@ public class Engine  implements Runnable{
 		engineThread = new Thread(this);
 		engineThread.start();
 
-		
-		testArthur();
 	}
 	
 	/* GETTERS // SETTERS */
@@ -111,7 +112,7 @@ public class Engine  implements Runnable{
 					//pour chaque player : 
 					switch (entry.getValue().getPlayerNumber()) {
 						case 1:
-							dataChange = processAction(entry.getValue(), dispatcher.getActionP1());
+							dataChange = processAction(entry.getValue(), dispatcher.getAction());
 							break;
 						case 2:
 							
@@ -149,13 +150,32 @@ public class Engine  implements Runnable{
 	
 	
 	/**
-	 *	Initialize the game
+	 *	Initialize the game, the ground
 	 */
-	public void initializationOfTheGame(){
-
+	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
+		
+		initializationOfPlayers(p1,p2,p3,p4);
+		
+		
+		//creation of players and initialization in the engine
+		Player joueur1 = new Human(1, "Hugo");
+		Player joueur2 = new IA(2, "IA 1");
+		Player joueur3 = new IA(3, "AI 2");
+		Player joueur4 = new IA(4, "AI 3");
+		
+		
+		/*initialisation of the ground*/
+		this.ground = new Ground();
 	}
 	
-	
+	/**
+	 * Initialize the player to save it and to start thread
+	 * Should be call in JavaWars after the dispatcher init
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 */
 	public void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
 		running = true;
 		playersData = new Hashtable<Integer, Player>();
@@ -167,7 +187,7 @@ public class Engine  implements Runnable{
 		playersData.put(p3.getPlayerNumber(), p3);
 		playersData.put(p4.getPlayerNumber(), p4);
 		
-
+		
 		//start treads for IA and save it
 		Iterator<Map.Entry<Integer, Player>> itTemp = playersData.entrySet().iterator();
 		while (itTemp.hasNext()) {
@@ -188,13 +208,16 @@ public class Engine  implements Runnable{
 	 * 			the player to proccess action on
 	 * @param actions
 	 */
-	private boolean processAction(Player p, ConcurrentLinkedQueue<Integer> actions){
+	private boolean processAction(Player p, ConcurrentLinkedQueue<Action> actions){
 		
 		boolean change = false; 
-		Iterator<Integer> itr = actions.iterator();
+		Iterator<Action> itr = actions.iterator();
 		while(itr.hasNext()){
 			
-			playerEngine.changePlayerMoney(p, itr.next());
+			if(itr.next() instanceof ActionTowerCreate){
+				playerEngine.createTower(itr.next());
+			}
+			
 			actions.poll();
 			
 			System.out.println(p.getMoney());
@@ -209,8 +232,6 @@ public class Engine  implements Runnable{
 	
 	/*TEST ARTHUR*/
 	private void testArthur(){
-		/*initialisation of the ground*/
-		this.ground = new Ground();
 		
 		/*creation of the players*/
         //int nbPlayers = ground.getNumberOfPlayers();

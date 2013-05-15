@@ -1,14 +1,10 @@
 package fr.imac.javawars.dispatcher;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.engine.Ground;
-import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 /**
  * 
@@ -18,7 +14,7 @@ import fr.imac.javawars.player.Player;
 public class Dispatcher {
 	
 
-	private ConcurrentLinkedQueue<Integer> actionp1 = new ConcurrentLinkedQueue<Integer>();
+	private ConcurrentLinkedQueue<Action> actions = new ConcurrentLinkedQueue<Action>();
 	
 	public Dispatcher() {
 		
@@ -26,21 +22,20 @@ public class Dispatcher {
 		
 	
 	/**
-	 * Remove money from given Player
-	 * @param playerInfos
-	 * 			The player you want to remove money
-	 * @param money
-	 * 			The amount of money
+	 * Add action 
+	 * @param action
+	 * 				The action to add
 	 */
-	public void removeSomeMoney(Player p, int money){
-		actionp1.add(money);
+	public void addAction(Action action){
+		
+		actions.add(action);
 	}
 	/**
-	 * Get the actions list (to perform, should be called on Engine)
-	 * @return An integer list with action 
+	 * Get the actions queue (to perform, should be called on Engine)
+	 * @return An action linked queue with action 
 	 */
-	public ConcurrentLinkedQueue<Integer> getActionP1(){
-		return actionp1;
+	public ConcurrentLinkedQueue<Action> getAction(){
+		return actions;
 	}
 	
 	
