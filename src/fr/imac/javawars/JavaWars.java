@@ -26,10 +26,14 @@ public class JavaWars {
 		Player joueur3 = new IA(3, "AI 2");
 		Player joueur4 = new IA(4, "AI 3");
 		//send the players to engine
-		engine.initializationOfPlayers(joueur1, joueur2, joueur3, joueur4);
+		engine.initializationOfTheGame(joueur1, joueur2, joueur3, joueur4);
+		
+		//create ihm
+		((Human)joueur1).initIhm("JavaWars");
 		
 		//on met à jour les Players
 		dispatcher.updatePlayers();
+		
 		
 	}
 	

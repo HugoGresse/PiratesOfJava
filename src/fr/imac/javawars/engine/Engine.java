@@ -60,8 +60,6 @@ public class Engine  implements Runnable{
 		engineThread = new Thread(this);
 		engineThread.start();
 
-		
-		initializationOfTheGame();
 	}
 	
 	/* GETTERS // SETTERS */
@@ -154,14 +152,30 @@ public class Engine  implements Runnable{
 	/**
 	 *	Initialize the game, the ground
 	 */
-	public void initializationOfTheGame(){
-
+	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
+		
+		initializationOfPlayers(p1,p2,p3,p4);
+		
+		
+		//creation of players and initialization in the engine
+		Player joueur1 = new Human(1, "Hugo");
+		Player joueur2 = new IA(2, "IA 1");
+		Player joueur3 = new IA(3, "AI 2");
+		Player joueur4 = new IA(4, "AI 3");
+		
+		
 		/*initialisation of the ground*/
 		this.ground = new Ground();
-		ground.printGround();
 	}
 	
-	
+	/**
+	 * Initialize the player to save it and to start thread
+	 * Should be call in JavaWars after the dispatcher init
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 */
 	public void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
 		running = true;
 		playersData = new Hashtable<Integer, Player>();

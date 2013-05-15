@@ -8,10 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+
+import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.player.Player;
 //import java.awt.Point;
 //import java.awt.Point;
 
@@ -264,18 +269,17 @@ public class Ground {
 	  * @param bitMap
 	  */
 	 public void generateBasesPlayer(){	
-		 ArrayList<Base> bases = new ArrayList<Base>();
-		 
-		 
-		 
-		 
-		 
-	    	Random rnd = new Random();
-	    	int oX, oY;
-		 for (int i=1; i<= numberOfPlayers; ++i){
-			 
-			 do {
-				switch(i){
+		ArrayList<Base> bases = new ArrayList<Base>();
+		
+    	Random rnd = new Random();
+    	int oX, oY;
+    	
+    	//loop on all players to create base
+		Iterator<Map.Entry<Integer, Player>> itTemp = JavaWars.getEngine().getPlayers().entrySet().iterator();
+		while (itTemp.hasNext()) {
+			Map.Entry<Integer, Player> entry = itTemp.next();
+			do {
+				switch(entry.getKey()){
 					case 1:
 						oX = rnd.nextInt(WIN_WITDH-(2*(RADIUS+1)+WIN_WITDH/2))+(RADIUS+1);
 					 	oY = rnd.nextInt(WIN_HEIGHT-(2*(RADIUS+1)+WIN_HEIGHT/2))+(RADIUS+1);	
@@ -297,18 +301,22 @@ public class Ground {
 					 	oY = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;	
 					break;
 				}		 
-			 } while(bitMap[oY][oX]!= -1 || !checkSpaceBases(oX, oY, RADIUS, bitMap) );
-
-			 generateCircleInPixel(RADIUS, oX, oY, bitMap, i);
+				
+			} while(bitMap[oY][oX]!= -1 || !checkSpaceBases(oX, oY, RADIUS, bitMap) );
+			//end Do WHILE
+			
+			
+			generateCircleInPixel(RADIUS, oX, oY, bitMap, entry.getKey());
 			// TODO Create class Bases
-			 
-			 Point p = new Point(oX, oY);
-			 //Base b = new Base(p, RADIUS);
-			 //bases.add(b);
-			 //centerBases.add(p);
-		 }
-		 
-		 //JavaWars.getEngine().setBases(bases);
+			
+			Point p = new Point(oX, oY);
+			Base b = new Base(p, entry.getValue(), RADIUS);
+			//bases.add(b);
+			//centerBases.add(p);
+				
+		} // end WHILE
+	    	
+		JavaWars.getEngine().setBases(bases);
 	 }
 	 
 	 /** Generate neutral Bases
