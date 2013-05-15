@@ -27,28 +27,28 @@ public class Agent extends AbstractUnite {
 			// if the box next to the agent is closer of the base, he moves on it
 			// we test every neigbor box
 			if(distanceMap[currentAgentPosition - 1] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition - 1, currentYagentPosition);
+				this.position.setLocation(currentXagentPosition - 1, currentYagentPosition);
 			}
 			if(distanceMap[currentAgentPosition + 1] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition + 1, currentYagentPosition);
+				this.position.setLocation(currentXagentPosition + 1, currentYagentPosition);
 			}
 			if(distanceMap[currentAgentPosition - width] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition, currentYagentPosition - 1);
+				this.position.setLocation(currentXagentPosition, currentYagentPosition - 1);
 			}
 			if(distanceMap[currentAgentPosition + width] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition, currentYagentPosition + 1);
+				this.position.setLocation(currentXagentPosition, currentYagentPosition + 1);
 			}
 			if(distanceMap[currentAgentPosition - width - 1] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition - 1, currentYagentPosition - 1);
+				this.position.setLocation(currentXagentPosition - 1, currentYagentPosition - 1);
 			}
 			if(distanceMap[currentAgentPosition - width + 1] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition + 1, currentYagentPosition - 1);
+				this.position.setLocation(currentXagentPosition + 1, currentYagentPosition - 1);
 			}
 			if(distanceMap[currentAgentPosition + width - 1] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition - 1, currentYagentPosition + 1);
+				this.position.setLocation(currentXagentPosition - 1, currentYagentPosition + 1);
 			}
 			if(distanceMap[currentAgentPosition + width + 1] < distanceMap[currentAgentPosition]) {
-				this.setPosition(currentXagentPosition + 1, currentYagentPosition + 1);
+				this.position.setLocation(currentXagentPosition + 1, currentYagentPosition + 1);
 			}
 			// update currentAgentPosition
 			currentAgentPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
