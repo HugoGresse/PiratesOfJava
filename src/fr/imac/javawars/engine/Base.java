@@ -13,7 +13,7 @@ import fr.imac.javawars.player.Player;
 public class Base extends AbstractTowerBase {
 	private int capacity;
 	private int speedRegeneration; //if = 1 means 1 agent produce by second ?
-	//private LinkedList<Tower> towers;
+	private LinkedList<Tower> towers;
 	private Power power;
 	/* table containing distances of the base
  	imagine a map of boxes but here stocked in a tab 1d
@@ -39,9 +39,9 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	//this constructor is used to generate Bases from the map
-	public Base(Point position, Player player, int radius){
+	public Base(Point position, int radius){
 		// by default capacity of 50 agents ?
-		this(0, position, player, 0.0, 50, 1, radius);
+		this(0, position, null, 0.0, 50, 1, radius);
 	}
 	
 	public Base(Point point, int radius, Player player){
@@ -104,7 +104,7 @@ public class Base extends AbstractTowerBase {
 		}
 
 		//the box corresponding to the position of the base is at 0 of distance
-		this.distanceMap[(int) (this.position.getX() + this.position.getY() * width)] = 0;
+		this.distanceMap[(int) (this.getPosition().getX() + this.getPosition().getY() * width)] = 0;
 		
 		//debug
 		//writeInXMLInfluenceMap(bitMap, distanceMap, "map/initializeDistanceBaseTest");
@@ -243,6 +243,10 @@ public class Base extends AbstractTowerBase {
 
 	public void setPower(Power power) {
 		this.power = power;
+	}
+	
+	public int getRadius(){
+		return this.radius;
 	}
 	
 	/**

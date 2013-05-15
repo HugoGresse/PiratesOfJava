@@ -43,7 +43,7 @@ public class Ihm  extends JFrame {
 //	    createTower.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 //	    createTower.addActionListener(new ActionListener(){
 //			public void actionPerformed(ActionEvent arg0){
-//				JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", p, 20, 20, 5)));
+//			JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", p, 20, 20, 5)));
 //			}    	
 //	    });
 //	    

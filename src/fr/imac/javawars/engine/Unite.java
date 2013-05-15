@@ -17,6 +17,4 @@ public interface Unite {
 	public Point getPosition();
 	public Player getPlayer();
 	public void setPlayer(Player p);
-	public void setTexture(String texture);
-	public String getTexture();
 }

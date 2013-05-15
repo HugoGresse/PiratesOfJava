@@ -309,9 +309,9 @@ public class Ground {
 			generateCircleInPixel(RADIUS, oX, oY, bitMap, entry.getKey());
 			
 			Point p = new Point(oX, oY);
-			Base b = new Base(p, entry.getValue(), RADIUS);
-			//bases.add(b);
-			//centerBases.add(p);
+			Base b = new Base(p,RADIUS, entry.getValue());
+			bases.add(b);
+			centerBases.add(p);
 				
 		} // end WHILE
 	    	
@@ -328,6 +328,7 @@ public class Ground {
 	 public void generateBasesNeutral(int nbBases){	    	
 	    	Random rnd = new Random();
 	    	int oX, oY, rayon;
+	    	ArrayList<Base> bases = JavaWars.getEngine().getBases();
 	    	
 		 for (int i=1; i<= nbBases; ++i){
 			 rayon = rnd.nextInt(RADIUS-1)+1;
@@ -339,8 +340,11 @@ public class Ground {
 
 			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
-			 centerBases.add(p);
+			 Base b = new Base(p,rayon);
+			 bases.add(b);
+			 centerBases.add(p); 	
 		 }
+		 JavaWars.getEngine().setBases(bases);
 	 }
 	 
 	 /** Create wall in the bitMap

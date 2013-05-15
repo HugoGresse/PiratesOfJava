@@ -1,10 +1,12 @@
 package fr.imac.javawars.dispatcher;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.player.Player;
 /**
  * 
@@ -49,9 +51,11 @@ public class Dispatcher {
 	}
 	
 	public int[][] getGround(){
-		int[][] map = JavaWars.getEngine().getGround().getBitMap();
+		return JavaWars.getEngine().getGround().getBitMap();
+	}
 	
-		return map;
+	public ArrayList<Base> getBases(){
+		return JavaWars.getEngine().getBases();
 	}
 
 }

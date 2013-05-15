@@ -1,11 +1,14 @@
 package fr.imac.javawars.player;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Base;
 
-public class Layer extends JPanel{
+public class Layer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private String type;
 	
@@ -24,10 +27,6 @@ public class Layer extends JPanel{
 			int[][] map = JavaWars.getDispatcher().getGround();
 			for(int j=0; j<map[0].length;j++){
 				for(int i=0; i<map.length; i++){
-					
-					//int lar = 700/map[0].length;
-					//int haut = 500/map.length;
-					
 					if(map[i][j] == -1){
 						g.setColor(Color.GRAY); 
 						g.fillRect(j,i,1,1);
@@ -42,20 +41,39 @@ public class Layer extends JPanel{
 		
 		if(this.type == "bases"){
 			g.setColor(Color.black);
-			g.fillOval(650, 350, 25, 25);
-			// TODO : Parcourir la map, mettre couleur quand chiffre autre que 0/1
+			
+			
+			ArrayList<Base> bases = JavaWars.getDispatcher().getBases();
+			for(Base b:bases){
+				if(b.getPlayer()== null){
+					g.setColor(Color.white);
+				}
+				else{
+					switch(b.getPlayer().getPlayerNumber()){
+						case 1:
+							g.setColor(Color.cyan);
+							break;
+						case 2:
+							g.setColor(Color.orange);
+							break;
+						case 3:
+							g.setColor(Color.red);
+							break;
+						case 4:
+							g.setColor(Color.blue);
+							break;
+					}
+				}
+				g.fillOval((int)b.getPosition().getX()- b.getRadius(), (int)b.getPosition().getY()-b.getRadius(), b.getRadius()*2, b.getRadius()*2);
+			}
 		}
 		
 		if(this.type == "towers"){
-			g.setColor(Color.white);
-			g.fillOval(650, 340, 20, 20);
-			// TODO : Parcourir liste des tours construites pour chaque base et les afficher
+			
 		}
 		
 		if(this.type == "agents"){
-			g.setColor(Color.yellow);
-			g.fillOval(550, 340, 20, 20);
-			// TODO : Parcourir liste des agents et les afficher
+			
 		}	
 	}
 

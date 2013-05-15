@@ -46,14 +46,6 @@ public abstract class AbstractUnite implements Unite {
 		this.position = position;
 	}
 
-	public String getTexture() {
-		return texture;
-	}
-
-	public void setTexture(String texture) {
-		this.texture = texture;
-	}
-
 	public Player getPlayer() {
 		return player;
 	}
