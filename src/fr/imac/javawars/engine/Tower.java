@@ -9,8 +9,8 @@ public class Tower extends AbstractTowerBase {
 	private int strength;
 	
 	//constructor
-	public Tower(int life, Point position, String texture, Player player, double actionField,double price, int strength ) {
-		super(life, position, texture, player, actionField);
+	public Tower(int life, Point position, Player player, double actionField,double price, int strength ) {
+		super(life, position, player, actionField);
 		this.price = price;
 		this.strength = strength;
 	}

@@ -48,5 +48,10 @@ public class Dispatcher {
 		}
 	}
 	
+	public int[][] getGround(){
+		int[][] map = JavaWars.getEngine().getGround().getBitMap();
 	
+		return map;
+	}
+
 }
