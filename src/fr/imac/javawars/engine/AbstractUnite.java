@@ -1,5 +1,7 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
+
 import fr.imac.javawars.player.Player;
 
 public abstract class AbstractUnite implements Unite {
@@ -9,11 +11,10 @@ public abstract class AbstractUnite implements Unite {
 	Player player;
 	
 	//constructor
-	public AbstractUnite(int life, Point position, String texture, Player player){
+	public AbstractUnite(int life, Point position, Player player){
 		super();
 		this.life = life;
 		this.position = position;
-		this.texture = texture;
 		this.player = player;	
 	}
 	

@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -7,6 +8,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Action;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
@@ -27,7 +30,7 @@ import fr.imac.javawars.player.Player;
 
 public class Engine  implements Runnable{
 	
-	protected volatile boolean running = true;
+	protected volatile boolean running = false;
 	protected Thread engineThread;
 	
 	protected Dispatcher dispatcher;
@@ -46,10 +49,9 @@ public class Engine  implements Runnable{
 	private ArrayList<Player> players;
 	private Ground ground;
 	
-	public Engine(Player p1, Player p2, Player p3, Player p4) {
-		
-		initializationOfPlayers(p1, p2, p3, p4);
-		
+	
+	/* CONSTRUCTOR */
+	public Engine() {
 		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
 		dispatcher = JavaWars.getDispatcher();
 		
@@ -58,8 +60,35 @@ public class Engine  implements Runnable{
 		engineThread = new Thread(this);
 		engineThread.start();
 
-		
-		//testArthur();
+	}
+	
+	/* GETTERS // SETTERS */
+	public BasesManager getBasesManager() {
+		return basesManager;
+	}
+
+	public void setBasesManager(BasesManager basesManager) {
+		this.basesManager = basesManager;
+	}
+
+	public ArrayList<Base> getBases() {
+		return bases;
+	}
+
+	public void setBases(ArrayList<Base> bases) {
+		this.bases = bases;
+	}
+
+	public Ground getGround() {
+		return ground;
+	}
+
+	public void setGround(Ground ground) {
+		this.ground = ground;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 	
 	public void stopThread(){
@@ -83,7 +112,7 @@ public class Engine  implements Runnable{
 					//pour chaque player : 
 					switch (entry.getValue().getPlayerNumber()) {
 						case 1:
-							dataChange = processAction(entry.getValue(), dispatcher.getActionP1());
+							dataChange = processAction(entry.getValue(), dispatcher.getAction());
 							break;
 						case 2:
 							
@@ -121,15 +150,34 @@ public class Engine  implements Runnable{
 	
 	
 	/**
-	 *	Initialize the game
+	 *	Initialize the game, the ground
 	 */
-	public void initializationOfTheGame(){
-
+	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
+		
+		initializationOfPlayers(p1,p2,p3,p4);
+		
+		
+		//creation of players and initialization in the engine
+		Player joueur1 = new Human(1, "Hugo");
+		Player joueur2 = new IA(2, "IA 1");
+		Player joueur3 = new IA(3, "AI 2");
+		Player joueur4 = new IA(4, "AI 3");
+		
+		
+		/*initialisation of the ground*/
+		this.ground = new Ground();
 	}
 	
-	
-	private void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
-		
+	/**
+	 * Initialize the player to save it and to start thread
+	 * Should be call in JavaWars after the dispatcher init
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 */
+	public void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
+		running = true;
 		playersData = new Hashtable<Integer, Player>();
 		
 		// add the players in a map 
@@ -139,7 +187,7 @@ public class Engine  implements Runnable{
 		playersData.put(p3.getPlayerNumber(), p3);
 		playersData.put(p4.getPlayerNumber(), p4);
 		
-
+		
 		//start treads for IA and save it
 		Iterator<Map.Entry<Integer, Player>> itTemp = playersData.entrySet().iterator();
 		while (itTemp.hasNext()) {
@@ -160,13 +208,16 @@ public class Engine  implements Runnable{
 	 * 			the player to proccess action on
 	 * @param actions
 	 */
-	private boolean processAction(Player p, ConcurrentLinkedQueue<Integer> actions){
+	private boolean processAction(Player p, ConcurrentLinkedQueue<Action> actions){
 		
 		boolean change = false; 
-		Iterator<Integer> itr = actions.iterator();
+		Iterator<Action> itr = actions.iterator();
 		while(itr.hasNext()){
 			
-			playerEngine.changePlayerMoney(p, itr.next());
+			if(itr.next() instanceof ActionTowerCreate){
+				playerEngine.createTower(itr.next());
+			}
+			
 			actions.poll();
 			
 			System.out.println(p.getMoney());
@@ -181,40 +232,39 @@ public class Engine  implements Runnable{
 	
 	/*TEST ARTHUR*/
 	private void testArthur(){
-		/*initialisation of the ground*/
-		this.ground = new Ground("map/mapTest_3.gif");
-		/*creation of the players*/
-		int nbPlayers = ground.getNumberOfPlayers();
-		System.out.println("number of players : " + nbPlayers);
-		//creation of a list of players
-		this.players = new ArrayList<Player>();
-		//we have a human player
-		Player player1 = new Human(1, "Player1");
-		//adding the human player to our arraylist
-		this.players.add(player1);
-		//others are IA
-		for(int i = 0; i < nbPlayers - 1 ; ++i){
-			String nameIA = "IA" + i;
-			//adding IAs to our arrayList
-			this.players.add(new IA(i + 2, nameIA ));
-		}
-		System.out.println("size of array of players : " + players.size());
-		/*creation of bases belonging to the players */
-		this.bases = new ArrayList<Base>();
-		Base base1 = new Base(new Point(50, 40), players.get(0));
-		this.bases.add(base1);
-		Base base2 = new Base(new Point(80, 50), players.get(1));
-		this.bases.add(base2);
-		Base base3 = new Base(new Point(60, 5), players.get(2));
-		this.bases.add(base3);
-		System.out.println("size of array of bases : " + bases.size());
-		// test distanceMap
-		this.bases.get(1).initializeDistanceMap(ground.getBitMap());
-		this.bases.get(1).computeDistanceMap(ground.getBitMap());
 		
-		//initialisation of BasesManager with the list of the bases,
-		// test influence Area of bases
-		this.basesManager = new BasesManager(this.bases, ground.getBitMap());
+		/*creation of the players*/
+        //int nbPlayers = ground.getNumberOfPlayers();
+        //System.out.println("number of players : " + nbPlayers);
+        //creation of a list of players
+        //this.players = new ArrayList<Player>();
+        //we have a human player
+        //Player player1 = new Human(1, "Player1");
+        //adding the human player to our arraylist
+        //this.players.add(player1);
+        //others are IA
+       // for(int i = 0; i < nbPlayers - 1 ; ++i){
+                //String nameIA = "IA" + i;
+                //adding IAs to our arrayList
+                //this.players.add(new IA(i + 2, nameIA ));
+        //}
+        //System.out.println("size of array of players : " + players.size());
+        /*creation of bases belonging to the players */
+        //this.bases = new ArrayList<Base>();
+        //Base base1 = new Base(new Point(50, 40), players.get(0));
+        //this.bases.add(base1);
+        //Base base2 = new Base(new Point(80, 50), players.get(1));
+        //this.bases.add(base2);
+        //Base base3 = new Base(new Point(60, 5), players.get(2));
+       // this.bases.add(base3);
+        //System.out.println("size of array of bases : " + bases.size());
+        // test distanceMap
+        //this.bases.get(1).initializeDistanceMap(ground.getBitMap());
+        //this.bases.get(1).computeDistanceMap(ground.getBitMap());
+        
+        //initialisation of BasesManager with the list of the bases,
+        // test influence Area of bases
+        //this.basesManager = new BasesManager(this.bases, ground.getBitMap());
 	}
 	
 	
@@ -227,5 +277,4 @@ public class Engine  implements Runnable{
 	public Map<Integer, Player> getPlayers(){
 		return playersData;
 	}
-	
 }

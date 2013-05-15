@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.LinkedList;
 
 import fr.imac.javawars.player.Player;
@@ -18,6 +19,7 @@ public class Base extends AbstractTowerBase {
  	imagine a map of boxes but here stocked in a tab 1d
  	every element represents the distance of the box to the base */
 	private int[] distanceMap;
+	private int radius;
 	
 	public enum Power{
 		NORMAL,
@@ -27,26 +29,27 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	// CONSTRUCTORS
-	public Base(int life, Point position, String texture, Player player, double actionField, int capacity, int speedRegeneration) {
-		super(life, position, texture, player, actionField);
+	public Base(int life, Point position,Player player, double actionField, int capacity, int speedRegeneration, int radius) {
+		super(life, position, player, actionField);
 		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;
 		//this.towers = new LinkedList<Tower>();
 		this.power = Power.NORMAL;
+		this.radius = radius;
 	}
 	
 	//this constructor is used to generate Bases from the map
-	public Base(Point position, Player player){
+	public Base(Point position, Player player, int radius){
 		// by default capacity of 50 agents ?
-		this(0, position, null, player, 0.0, 50, 1);
+		this(0, position, player, 0.0, 50, 1, radius);
 	}
 	
-	public Base(Point point){
-		this(0, point, null, null, 0.0, 50, 1);
+	public Base(Point point, int radius, Player player){
+		this(50, point, player, 0.0, 50, 1, radius);
 	}
 	
 	public Base(){
-		this(0, null, null, null, 0, 0, 0);
+		this(0, null, null, 0, 0, 0, 0);
 	}
 	
 	// METHODS
