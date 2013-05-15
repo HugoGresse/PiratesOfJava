@@ -61,7 +61,7 @@ public class Engine  implements Runnable{
 		engineThread.start();
 
 		
-		testArthur();
+		initializationOfTheGame();
 	}
 	
 	/* GETTERS // SETTERS */
@@ -152,10 +152,13 @@ public class Engine  implements Runnable{
 	
 	
 	/**
-	 *	Initialize the game
+	 *	Initialize the game, the ground
 	 */
 	public void initializationOfTheGame(){
 
+		/*initialisation of the ground*/
+		this.ground = new Ground();
+		ground.printGround();
 	}
 	
 	
@@ -215,9 +218,6 @@ public class Engine  implements Runnable{
 	
 	/*TEST ARTHUR*/
 	private void testArthur(){
-		/*initialisation of the ground*/
-		this.ground = new Ground();
-		ground.printGround();
 		
 		/*creation of the players*/
         //int nbPlayers = ground.getNumberOfPlayers();
