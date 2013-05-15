@@ -242,6 +242,14 @@ public class Base extends AbstractTowerBase {
 		this.power = power;
 	}
 	
+	public int[] getDistanceMap() {
+		return distanceMap;
+	}
+
+	public void setDistanceMap(int[] distanceMap) {
+		this.distanceMap = distanceMap;
+	}
+
 	/**
 	 * Write in a file under the form of a tab2D of numbers the map of distances  
 	 * 
