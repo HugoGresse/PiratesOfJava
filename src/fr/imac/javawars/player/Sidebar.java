@@ -126,7 +126,7 @@ public class Sidebar extends JPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) {
             	if(mouseListenerActive){
             		//create tower
-            		towersLayer.createTower();
+            		towersLayer.createTower(e.getX(), e.getY());
             		//remove Listener
             		stopMouseListener();
             	}

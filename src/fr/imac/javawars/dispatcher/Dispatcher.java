@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
@@ -54,7 +55,7 @@ public class Dispatcher {
 		return JavaWars.getEngine().getGround().getBitMap();
 	}
 	
-	public ArrayList<Base> getBases(){
+	public CopyOnWriteArrayList<Base> getBases(){
 		return JavaWars.getEngine().getBases();
 	}
 

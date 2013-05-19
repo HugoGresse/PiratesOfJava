@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
@@ -42,24 +43,24 @@ public class Engine  implements Runnable{
 	Iterator<Map.Entry<Integer, Player>> it;
 	Map.Entry<Integer, Player> entry;
 	
+	// TOwer collections :
+	private CopyOnWriteArrayList<Base> bases;
+	private CopyOnWriteArrayList<Tower> towers;
 	
 	//test arthur
 	private BasesManager basesManager;
-	private ArrayList<Base> bases;
 	private ArrayList<Player> players;
 	private Ground ground;
 	
 	
 	/* CONSTRUCTOR */
 	public Engine() {
-		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
-		dispatcher = JavaWars.getDispatcher();
-		
-		
+	
 		playerEngine = new PlayerEngine();
+		
+		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
-		engineThread.start();
-
+		
 	}
 	
 	/* GETTERS // SETTERS */
@@ -71,12 +72,24 @@ public class Engine  implements Runnable{
 		this.basesManager = basesManager;
 	}
 
-	public ArrayList<Base> getBases() {
+	public CopyOnWriteArrayList<Base> getBases() {
 		return bases;
 	}
 
-	public void setBases(ArrayList<Base> bases) {
+	public void setBases(CopyOnWriteArrayList<Base> bases) {
 		this.bases = bases;
+	}
+	
+	public CopyOnWriteArrayList<Tower> getTowers() {
+		return towers;
+	}
+
+	public void setTowers(CopyOnWriteArrayList<Tower> towers) {
+		this.towers = towers;
+	}
+	
+	public void addTower(Tower t){
+		this.towers.add(t);
 	}
 
 	public Ground getGround() {
@@ -95,9 +108,9 @@ public class Engine  implements Runnable{
 		running = false;
 	}
 	
-	/**
-	 * Thread of ENgine, action processed every 29ms
-	 */
+	
+	
+	
 	@Override
 	public void run() {
 		while(running){
@@ -107,8 +120,11 @@ public class Engine  implements Runnable{
 				//check if the something change
 				boolean dataChange = false;
 				
-				// iterate on players
 				// 
+				dataChange = processAction(dispatcher.getAction());
+				
+				// iterate on players
+				/*
 				it = playersData.entrySet().iterator();
 				while (it.hasNext()) {
 					entry = it.next();
@@ -135,6 +151,8 @@ public class Engine  implements Runnable{
 				it = null;
 				entry = null;
 				
+				*/
+				
 				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
 				// seulement si les données on changé
 				if(dataChange)
@@ -153,7 +171,7 @@ public class Engine  implements Runnable{
 	
 	
 	/**
-	 *	Initialize the game, the ground
+	 *	Initialize the game, the ground, towers and bases
 	 */
 	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
 		
@@ -169,6 +187,18 @@ public class Engine  implements Runnable{
 		
 		/*initialisation of the ground*/
 		this.ground = new Ground();
+		
+		//initialisation of the bases and towers
+		towers = new CopyOnWriteArrayList<Tower>();
+		
+		
+
+		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
+		dispatcher = JavaWars.getDispatcher();
+		
+		//On démarre ENgine
+		running = true;
+		engineThread.start();
 	}
 	
 	/**
@@ -180,7 +210,6 @@ public class Engine  implements Runnable{
 	 * @param p4
 	 */
 	public void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
-		running = true;
 		playersData = new Hashtable<Integer, Player>();
 		
 		// add the players in a map 
@@ -206,29 +235,31 @@ public class Engine  implements Runnable{
 	}
 	
 	/**
-	 * process given Queue for the given player
-	 * @param p
-	 * 			the player to proccess action on
+	 * process given Queue
 	 * @param actions
+	 * 					the only one action queue
 	 */
-	private boolean processAction(Player p, ConcurrentLinkedQueue<Action> actions){
+	private boolean processAction(ConcurrentLinkedQueue<Action> actions){
+		// remove i before production
+		int i = 1;
 		
 		boolean change = false; 
 		Iterator<Action> itr = actions.iterator();
 		while(itr.hasNext()){
 			
 			if(itr.next() instanceof ActionTowerCreate){
-				playerEngine.createTower(itr.next());
+				playerEngine.tryToAddTower((ActionTowerCreate)itr.next());
+				actions.poll();
 			}
 			
-			actions.poll();
 			
-			System.out.println(p.getMoney());
+			System.out.println("processAction : "+i);
+			i++;
 			
 			change = true;
 		}
 		
-		itr = null;
+		
 		return change;
 	}
 	
