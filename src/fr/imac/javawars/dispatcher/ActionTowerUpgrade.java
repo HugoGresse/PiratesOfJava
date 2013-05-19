@@ -1,7 +1,6 @@
 package fr.imac.javawars.dispatcher;
 
 import fr.imac.javawars.engine.Tower;
-import fr.imac.javawars.engine.TowerUpgrade;
 import fr.imac.javawars.player.Player;
 
 
@@ -13,19 +12,25 @@ import fr.imac.javawars.player.Player;
  */
 public class ActionTowerUpgrade extends ActionTower{
 
-	private TowerUpgrade towerUpgrade;
+	private int towerUpgrade;
 	
 	
 	/**
 	 * Create an action for upgrading the given tower
 	 * @param player
 	 * 				THe player who own the tower and 
-	 * @param towerUpgrade
-	 * 				A given upgrade for a tower
+	 * @param tower
+	 * 				the tower you want to upgrade
+	 * @param up
+	 * 				the upgrade you want to do : 1 for range, 2 for damage
 	 */
-	public ActionTowerUpgrade(Player player, Tower tower, TowerUpgrade towerUpgrade) {
+	public ActionTowerUpgrade(Player player, Tower tower, int up) {
 		super(player, tower);
-		this.towerUpgrade = towerUpgrade;
+		this.towerUpgrade = up;
 	}
-
+	
+	public int getUpgrade(){
+		return towerUpgrade;
+	}
+	
 }

@@ -214,7 +214,7 @@ public class BasesManager {
 	 * 		the name we want to give to our file
 	 */
 	//used for debug
-	private void writeInXMLInfluenceMap(int[][] bitMap, int[] influenceAreaMap, String nameFile){
+	/*private void writeInXMLInfluenceMap(int[][] bitMap, int[] influenceAreaMap, String nameFile){
 		int[][] bitMapInfluenceArea = bitMap;
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
@@ -222,6 +222,6 @@ public class BasesManager {
 			}
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
-	}
+	}*/
 	
 }

@@ -2,6 +2,7 @@ package fr.imac.javawars.player;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +18,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.engine.Tower;
 
 /**
  * Class Sidebar: create sidebar of the interface
@@ -123,7 +126,7 @@ public class Sidebar extends JPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) {
             	if(mouseListenerActive){
             		//create tower
-            		towersLayer.createTower();
+            		towersLayer.createTower(e.getX(), e.getY());
             		//remove Listener
             		stopMouseListener();
             	}
@@ -133,6 +136,7 @@ public class Sidebar extends JPanel implements ActionListener {
 		//tests
 		if(e.getSource() == freezeTower){
 			money.setText("Freeze");
+			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
 		}
 	}
 	
