@@ -1,16 +1,12 @@
 package fr.imac.javawars.engine;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.Action;
-import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
@@ -35,7 +31,7 @@ public class Engine  implements Runnable{
 	protected Thread engineThread;
 	
 	protected Dispatcher dispatcher;
-	protected static PlayerEngine playerEngine;
+	protected static ActionProcessor actionProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -43,7 +39,7 @@ public class Engine  implements Runnable{
 	Iterator<Map.Entry<Integer, Player>> it;
 	Map.Entry<Integer, Player> entry;
 	
-	// TOwer collections :
+	// collections :
 	private CopyOnWriteArrayList<Base> bases;
 	private CopyOnWriteArrayList<Tower> towers;
 	
@@ -56,7 +52,7 @@ public class Engine  implements Runnable{
 	/* CONSTRUCTOR */
 	public Engine() {
 	
-		playerEngine = new PlayerEngine();
+		actionProcessor = new ActionProcessor();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
@@ -108,7 +104,13 @@ public class Engine  implements Runnable{
 		running = false;
 	}
 	
-	
+	/**
+	 * Get the list of players
+	 * @return a map/hashtable with the playerNumber and the Player
+	 */
+	public Map<Integer, Player> getPlayers(){
+		return playersData;
+	}
 	
 	
 	@Override
@@ -121,7 +123,7 @@ public class Engine  implements Runnable{
 				boolean dataChange = false;
 				
 				// 
-				dataChange = processAction(dispatcher.getAction());
+				dataChange =  actionProcessor.process(dispatcher.getAction());
 				
 				// iterate on players
 				/*
@@ -233,38 +235,7 @@ public class Engine  implements Runnable{
 			t.start();
 		
 	}
-	
-	/**
-	 * process given Queue
-	 * @param actions
-	 * 					the only one action queue
-	 */
-	private boolean processAction(ConcurrentLinkedQueue<Action> actions){
-		// remove i before production
-		int i = 1;
 		
-		boolean change = false; 
-		Iterator<Action> itr = actions.iterator();
-		while(itr.hasNext()){
-			Object e = itr.next();
-			
-			if(e instanceof ActionTowerCreate){
-				playerEngine.tryToAddTower((ActionTowerCreate)e);
-				actions.poll();
-			}
-			
-			
-			System.out.println("processAction : "+i);
-			i++;
-			
-			change = true;
-		}
-		
-		
-		return change;
-	}
-	
-	
 	/*TEST ARTHUR*/
 	private void testArthur(){
 		
@@ -303,14 +274,5 @@ public class Engine  implements Runnable{
 	}
 	
 	
-	
-
-	/**
-	 * Get the list of players
-	 * @return a map/hashtable with the playerNumber and the Player
-	 */
-	public Map<Integer, Player> getPlayers(){
-		return playersData;
-	}
 
 }
