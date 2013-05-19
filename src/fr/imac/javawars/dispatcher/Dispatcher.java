@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
+import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.player.Player;
 /**
  * 
@@ -57,6 +58,10 @@ public class Dispatcher {
 	
 	public CopyOnWriteArrayList<Base> getBases(){
 		return JavaWars.getEngine().getBases();
+	}
+	
+	public CopyOnWriteArrayList<Tower> getTowers(){
+		return JavaWars.getEngine().getTowers();
 	}
 
 }
