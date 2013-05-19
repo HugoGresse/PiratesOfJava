@@ -6,7 +6,12 @@ import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 
-
+/**
+ * Main class which create player, dispatcher and game. 
+ * The ordre is also important !
+ * @author Hugo
+ *
+ */
 public class JavaWars {
 	
 	private static Dispatcher dispatcher; 

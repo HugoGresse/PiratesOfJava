@@ -3,6 +3,9 @@ package fr.imac.javawars.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
@@ -24,8 +27,13 @@ public class BasesLayer extends JPanel {
 		super.paintComponent(g);  
 
 		//getting bases from engine
-		ArrayList<Base> bases = JavaWars.getDispatcher().getBases();
-		for(Base b:bases){
+		CopyOnWriteArrayList<Base> bases = JavaWars.getDispatcher().getBases();
+		Iterator<Base> it = bases.iterator();
+		
+		while(it.hasNext()){
+			
+			Base b = it.next();
+			
 			int radius = b.getRadius();
 			
 			//first circle : under (border)
@@ -52,7 +60,9 @@ public class BasesLayer extends JPanel {
 				g.setColor(new Color(23, 100, 145));
 			}
 			
-			g.fillOval((int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
+			g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), 
+						(int)(b.getPosition().getY()-radius*1.5/2), 
+						(int)(radius*1.5), (int)(radius*1.5));
 		}
 		
 	}

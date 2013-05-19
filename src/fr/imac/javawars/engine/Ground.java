@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -269,7 +270,7 @@ public class Ground {
 	  * @param bitMap
 	  */
 	 public void generateBasesPlayer(){	
-		ArrayList<Base> bases = new ArrayList<Base>();
+		CopyOnWriteArrayList<Base> bases = new CopyOnWriteArrayList<Base>();
 		
     	Random rnd = new Random();
     	int oX, oY;
@@ -328,7 +329,7 @@ public class Ground {
 	 public void generateBasesNeutral(int nbBases){	    	
 	    	Random rnd = new Random();
 	    	int oX, oY, rayon;
-	    	ArrayList<Base> bases = JavaWars.getEngine().getBases();
+	    	CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
 	    	
 		 for (int i=1; i<= nbBases; ++i){
 			 rayon = rnd.nextInt(RADIUS-1)+1;
