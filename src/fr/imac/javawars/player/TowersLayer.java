@@ -1,9 +1,13 @@
 package fr.imac.javawars.player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
@@ -25,7 +29,20 @@ public class TowersLayer extends JPanel {
 	//Painting layers
 	@Override
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);  
+		super.paintComponent(g);
+		
+		//getting bases from engine
+		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
+		Iterator<Tower> it = towers.iterator();
+		
+		g.setColor(new Color(0,0,0));
+		
+		while(it.hasNext()){
+			Tower t = it.next();
+			g.fillRect((int)t.getPosition().getX(), (int)t.getPosition().getY(),25, 25);
+			
+		}
+		
 		
 	}
 	
