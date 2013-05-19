@@ -49,7 +49,7 @@ public class TowersLayer extends JPanel {
 		
 		Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 		Point positionTower = new Point(x,y);
-		Tower newTower = new Tower(10, positionTower, player , 20, 20, 5);
+		Tower newTower = new Tower(10, positionTower, player , 20, 2, 5);
 		ActionTowerCreate myAction = new ActionTowerCreate( player, newTower);
 		JavaWars.getDispatcher().addAction(myAction);
 		

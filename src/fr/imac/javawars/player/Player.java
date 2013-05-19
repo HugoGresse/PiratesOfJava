@@ -39,6 +39,10 @@ public abstract class Player {
 		this.money = money;
 	}
 
+	public void changeMoney(double money) {
+		this.money += money;
+	}
+
 
 	public void setPlayerType(String playerType) {
 		this.playerType = playerType;

@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -44,17 +45,48 @@ public class ActionProcessor {
 
 	
 	private void tryToAddTower(ActionTowerCreate action){
+		Point newPoint = action.getTower().getPosition();
+		Point point;
+		
 		//check if anough money : 
-		if( action.getTower().getPrice() <  action.getPlayer().getMoney() ) {
+		if( action.getTower().getPrice() >  action.getPlayer().getMoney() ) {
 			System.out.println("Pas assez d'argent pour créer la tour");
+			// TODO check object null to destroy it
 			return;
 		}
 		
+		//CHeck if a tower is already on this place or too close
+		Iterator<Tower> itr = JavaWars.getEngine().getTowers().iterator();
+		while(itr.hasNext()){
+			point = itr.next().getPosition();
+			
+			if(point.getX() + 7.5 > newPoint.getX() - 7.5 && point.getX() - 7.5 < newPoint.getX() + 7.5){
+				if(point.getY() + 7.5 > newPoint.getY() - 7.5 && point.getY() - 7.5 < newPoint.getY() + 7.5){
+					System.out.println("Impossible de créer la tour ici.");
+					return;
+				}
+			}
+			
+		}
+		
+		itr = null;
+		
+		
+		
+		//If all OK : 
+		
 		JavaWars.getEngine().addTower(action.getTower());
+		action.getPlayer().changeMoney( - action.getTower().getPrice());
 		
 		
 		
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
