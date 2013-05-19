@@ -28,3 +28,7 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# Random map : 
+map/randomMap_1.xml
+
