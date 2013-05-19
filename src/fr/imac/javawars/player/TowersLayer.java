@@ -3,8 +3,6 @@ package fr.imac.javawars.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,21 +10,26 @@ import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
-import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
 
+/**
+ * Class TowersLayer: manage & display towers 
+ */
 public class TowersLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	//constructor
+	/**
+	 * Constructor
+	 */
 	TowersLayer(){
 		super();
 		this.setBounds(0,0,700,500);
-		this.setOpaque(false);
-
+		this.setOpaque(false);	
 	}
 
-	//Painting layers
+	/**
+	 * Painting layer (display towers)
+	 */
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -44,6 +47,9 @@ public class TowersLayer extends JPanel {
 		}
 	}
 	
+	/**
+	 * Create a tower/send info to dispatcher
+	 */
 	public void createTower(int x, int y){
 		System.out.println("Action with new tower created");
 		
@@ -53,7 +59,6 @@ public class TowersLayer extends JPanel {
 		ActionTowerCreate myAction = new ActionTowerCreate( player, newTower);
 		JavaWars.getDispatcher().addAction(myAction);
 		
-		// Je suis pas sur que ce soit utile de faire un repaint la, car la tour n'est pas encore enregistré par l'Engine 
 		repaint();
 	}
 

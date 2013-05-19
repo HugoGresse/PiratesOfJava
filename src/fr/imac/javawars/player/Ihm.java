@@ -83,6 +83,10 @@ public class Ihm  extends JFrame {
 	public CenterPanel getCenterPanel(){
 		return centerPanel;
 	}
+	
+	public BottomBar getBottomBar(){
+		return bottomBar;
+	}
 
 	
 }

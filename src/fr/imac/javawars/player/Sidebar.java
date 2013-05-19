@@ -2,7 +2,6 @@ package fr.imac.javawars.player;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,8 +17,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.ActionTowerCreate;
-import fr.imac.javawars.engine.Tower;
 
 /**
  * Class Sidebar: create sidebar of the interface
@@ -110,25 +107,29 @@ public class Sidebar extends JPanel implements ActionListener {
 		wrapperSlider.add(BorderLayout.NORTH,slider);
 		wrapperSlider.add(BorderLayout.SOUTH,labelSlider);
 	}
-
+	
+	
+	/**
+	 * Action when a "tower" button is clicked
+	 * 
+	 */
 	@Override
-	//When a "tower button" is clicked
 	public void actionPerformed(ActionEvent e) {
-		
-		//Listen to towers panel
+		//getting layers of IHM
 		mouseListenerActive = true;
 		Human human =(Human)JavaWars.getEngine().getPlayers().get(1);
 		Ihm ihm = human.getIhm();
 		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
+		final ListenersLayer listenersLayer = ihm.getCenterPanel().getListenersLayer();
 		
-		//adding a listener on towers panel
-		towersLayer.addMouseListener(new MouseAdapter() {
+		//adding a listener on listeners panel
+		listenersLayer.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
             	if(mouseListenerActive){
             		//create tower
             		towersLayer.createTower(e.getX(), e.getY());
             		//remove Listener
-            		stopMouseListener();
+            		mouseListenerActive = false;
             	}
             }
 		});
@@ -139,9 +140,4 @@ public class Sidebar extends JPanel implements ActionListener {
 			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
 		}
 	}
-	
-	public void stopMouseListener(){
-		mouseListenerActive = false;
-	}
-
 }
