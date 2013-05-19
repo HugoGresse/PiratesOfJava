@@ -8,8 +8,8 @@
 # Java class files
 *.class
 
-# Random map : 
-map/randomMap_1.xml
+# Random map
+randomMap_1.xml
 
 # generated files
 bin/
