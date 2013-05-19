@@ -95,6 +95,9 @@ public class Engine  implements Runnable{
 		running = false;
 	}
 	
+	/**
+	 * Thread of ENgine, action processed every 29ms
+	 */
 	@Override
 	public void run() {
 		while(running){

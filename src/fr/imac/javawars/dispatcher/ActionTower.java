@@ -27,7 +27,7 @@ public abstract class ActionTower extends Action {
 		this.tower = tower;
 		
 	}
-
+	
 	public Tower getTower() {
 		return tower;
 	}
