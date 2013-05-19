@@ -39,11 +39,9 @@ public class TowersLayer extends JPanel {
 		
 		while(it.hasNext()){
 			Tower t = it.next();
-			g.fillRect((int)t.getPosition().getX(), (int)t.getPosition().getY(),25, 25);
+			g.fillRect((int)(t.getPosition().getX()-7.5), (int)(t.getPosition().getY()-7.5),15,15);
 			
 		}
-		
-		
 	}
 	
 	public void createTower(int x, int y){
