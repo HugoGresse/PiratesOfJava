@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -27,6 +29,7 @@ import fr.imac.javawars.engine.Tower;
 public class Sidebar extends JPanel implements ActionListener {
 	// swing needed
 	private static final long serialVersionUID = 1L;
+	private boolean mouseListenerActive = false;
 	
 	//buttons
 	private JButton freezeTower = new JButton("Freeze");
@@ -111,10 +114,34 @@ public class Sidebar extends JPanel implements ActionListener {
 	@Override
 	//When a "tower button" is clicked
 	public void actionPerformed(ActionEvent e) {
+		
+		//Listen to towers panel
+		mouseListenerActive = true;
+		Human human =(Human)JavaWars.getEngine().getPlayers().get(1);
+		Ihm ihm = human.getIhm();
+		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
+		
+		//adding a listener on towers panel
+		towersLayer.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+            	if(mouseListenerActive){
+            		//create tower
+            		towersLayer.createTower();
+            		//remove Listener
+            		stopMouseListener();
+            	}
+            }
+		});
+		
+		//tests
 		if(e.getSource() == freezeTower){
 			money.setText("Freeze");
-			JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
+			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
 		}
+	}
+	
+	public void stopMouseListener(){
+		mouseListenerActive = false;
 	}
 
 }

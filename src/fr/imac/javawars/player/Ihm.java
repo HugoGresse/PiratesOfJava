@@ -79,6 +79,10 @@ public class Ihm  extends JFrame {
 	public void updateTestLabel(double money){
 		
 	}
+	
+	public CenterPanel getCenterPanel(){
+		return centerPanel;
+	}
 
 	
 }
