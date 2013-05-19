@@ -246,9 +246,10 @@ public class Engine  implements Runnable{
 		boolean change = false; 
 		Iterator<Action> itr = actions.iterator();
 		while(itr.hasNext()){
+			Object e = itr.next();
 			
-			if(itr.next() instanceof ActionTowerCreate){
-				playerEngine.tryToAddTower((ActionTowerCreate)itr.next());
+			if(e instanceof ActionTowerCreate){
+				playerEngine.tryToAddTower((ActionTowerCreate)e);
 				actions.poll();
 			}
 			
