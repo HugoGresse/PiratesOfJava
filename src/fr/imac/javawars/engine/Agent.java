@@ -14,7 +14,7 @@ public class Agent extends AbstractUnite {
 	}
 	
 	//methods
-	public void changePosition(Base base) {
+	private void changePosition(Base base) {
 		int[] distanceMap = base.getDistanceMap();
 		int width = distanceMap.length;
 		// point of start of the agent
@@ -57,6 +57,14 @@ public class Agent extends AbstractUnite {
 	
 	public void destroyAgent(){
 	}
+	
+	/*public void moveToAnotherBase(Base baseStart, Base baseTarget, int nbAgentsMoving){
+		baseStart.nbAgents -= 1;
+		changePosition();
+		if(agent.position == baseTarget.position){
+			baseTarget.nbAgents +=1
+		}
+	}*/
 	
 	//getters/setters
 	public int getSpeed() {

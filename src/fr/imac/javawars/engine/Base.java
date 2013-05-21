@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import fr.imac.javawars.player.Player;
 /**
- * <b> Base represent a military base </b>
+ * <b> Base represents a military base </b>
  * 
  *
  */

@@ -4,8 +4,8 @@ import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.player.Player;
 
 /**
- * An action is when a Player want to do anything in the game 
- * Here, action related to tower
+ * An action is when a player wants to do anything in the game 
+ * Here, action related to a tower
  * 
  * @author Hugo
  * @see Action
