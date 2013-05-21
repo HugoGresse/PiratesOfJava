@@ -2,9 +2,6 @@ package fr.imac.javawars.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -13,44 +10,26 @@ import javax.swing.JPanel;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
 
+/**
+ * Class BasesLayer: manage & display bases
+ *  
+ */
 public class BasesLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	//constructor
+	/**
+	 * Constructor
+	 */
 	BasesLayer(){
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
-		addListener();
-	}
-	
-	
-	//add listener on Bases (rem : call this method whenever the bases list changes)
-	void addListener(){
-		//getting bases from engine
-		final CopyOnWriteArrayList<Base> bases = JavaWars.getDispatcher().getBases();
-		
-		this.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-            	//initialize bases list
-        		CopyOnWriteArrayList<Base> tmpBases = bases;
-        		final Iterator<Base> it = tmpBases.iterator();
-        		//iterate on bases list
-            	while(it.hasNext()){
-            		Base b = it.next();
-            		int radius = b.getRadius();
-            		
-            		//create an oval and test if the click of the mouse is in it.
-            		Ellipse2D oval = new Ellipse2D.Double((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
-    				if ((e.getButton() == 1) && oval.contains(e.getX(), e.getY()) ) {
-    					System.out.println("base clicked!");
-    				}
-            	}
-            }
-		});
 	}
 
-	//Painting layers
+
+	/**
+	 * Painting layer (display bases)
+	 */
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  

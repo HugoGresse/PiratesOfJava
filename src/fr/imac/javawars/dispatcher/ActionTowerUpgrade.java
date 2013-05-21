@@ -13,7 +13,7 @@ import fr.imac.javawars.player.Player;
 public class ActionTowerUpgrade extends ActionTower{
 
 	private int towerUpgrade;
-	
+	private int price;
 	
 	/**
 	 * Create an action for upgrading the given tower
@@ -22,15 +22,32 @@ public class ActionTowerUpgrade extends ActionTower{
 	 * @param tower
 	 * 				the tower you want to upgrade
 	 * @param up
-	 * 				the upgrade you want to do : 1 for range, 2 for damage
+	 * 				the upgrade you want to do : 1 for range, 2 for strengh/damage
 	 */
 	public ActionTowerUpgrade(Player player, Tower tower, int up) {
 		super(player, tower);
 		this.towerUpgrade = up;
+		if(up == 1)
+			price = 1;
+		else if(up ==2)
+			price = 2;
 	}
-	
-	public int getUpgrade(){
+	public int getTowerUpgrade() {
 		return towerUpgrade;
 	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setTowerUpgrade(int towerUpgrade) {
+		this.towerUpgrade = towerUpgrade;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	
+	
 	
 }

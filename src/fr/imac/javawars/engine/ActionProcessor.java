@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
 public class ActionProcessor {
 
@@ -27,7 +28,11 @@ public class ActionProcessor {
 		while(itr.hasNext()){
 			Object e = itr.next();
 			
-			if(e instanceof ActionTowerCreate){
+			if(e instanceof ActionTowerUpgrade){
+				this.tryToUpgradeTower((ActionTowerUpgrade)e);
+				actions.poll();
+			} 
+			else if(e instanceof ActionTowerCreate){
 				this.tryToAddTower((ActionTowerCreate)e);
 				actions.poll();
 			}
@@ -68,22 +73,31 @@ public class ActionProcessor {
 			}
 			
 		}
-		
 		itr = null;
-		
-		
-		
 		//If all OK : 
-		
 		JavaWars.getEngine().addTower(action.getTower());
 		action.getPlayer().changeMoney( - action.getTower().getPrice());
-		
-		
 		
 	}
 	
 	
-	
+	private void tryToUpgradeTower(ActionTowerUpgrade action){
+		
+		//check if anough money : 
+		if( action.getPrice() >  action.getPlayer().getMoney() ) {
+			System.out.println("Pas assez d'argent pour améliorer la tour");
+			// TODO check object null to destroy it
+			return;
+		}
+		
+		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(2);
+		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(2);
+		
+		action.getPlayer().changeMoney( - action.getPrice());
+		
+		
+		
+	}
 	
 	
 	
