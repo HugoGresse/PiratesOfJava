@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
+import fr.imac.javawars.engine.Tower;
+
 /**
  * Class BottomBar: create bottom bar of the interface
  *  
@@ -30,6 +34,7 @@ public class BottomBar extends JPanel{
 	private JLabel towerActionField = new JLabel();
 	private JButton upStrength = new JButton("+");
 	private JButton upActionField = new JButton("+");
+	
 	
 	/** constructor */
 	public BottomBar(){
@@ -92,6 +97,30 @@ public class BottomBar extends JPanel{
 		towerInfos.add(upActionField);
 		//hidding the panel at first
 		towerInfos.setVisible(false);
+		
+		//add listeners on buttons (improve strength & actionField)
+		final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+		
+		upStrength.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	System.out.println("+strength");
+	        	
+	        	Tower t = player.getIhm().getCenterPanel().getListenersLayer().getCurrentTower(); 
+	    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
+	    		JavaWars.getDispatcher().addAction(myAction);
+	        }
+	    });
+		
+		upActionField.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	System.out.println("+actionField");
+	        	
+	        	Tower t = player.getIhm().getCenterPanel().getListenersLayer().getCurrentTower();
+	    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
+	    		JavaWars.getDispatcher().addAction(myAction);
+	        }
+	    });
+		
 	}
 	
 	/**
@@ -116,6 +145,11 @@ public class BottomBar extends JPanel{
 	public JButton getUpActionField() {
 		return upActionField;
 	}
+
+	
+	
+	
+	
 	
 	
 	

@@ -69,6 +69,14 @@ public class BasesLayer extends JPanel {
 			}
 			
 			g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
+		
+			//gray rectangle
+			g.setColor(Color.gray);
+			g.fillRect((int)(b.getPosition().getX()- 10), (int)(b.getPosition().getY()-8), 20, 16);
+			
+			//number of alien
+			g.setColor(Color.white);
+			g.drawString(String.valueOf(b.getLife()), (int)(b.getPosition().getX()-6), (int)(b.getPosition().getY()+4));
 		}
 		
 	}
