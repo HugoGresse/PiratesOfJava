@@ -22,7 +22,11 @@ public abstract class AbstractTowerBase extends AbstractUnite {
 	public double getActionField() {
 		return actionField;
 	}
-
+	
+	public void changeActionField(double num) {
+		this.actionField += num;
+	}
+	
 	public void setActionField(double actionField) {
 		this.actionField = actionField;
 	}

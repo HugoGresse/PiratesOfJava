@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
 public class ActionProcessor {
 
@@ -83,7 +84,23 @@ public class ActionProcessor {
 	}
 	
 	
-	
+	private void tryToUpgradeTower(ActionTowerUpgrade action){
+		
+		//check if anough money : 
+		if( action.getPrice() >  action.getPlayer().getMoney() ) {
+			System.out.println("Pas assez d'argent pour améliorer la tour");
+			// TODO check object null to destroy it
+			return;
+		}
+		
+		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(2);
+		else action.getTower().changeStrength(2);
+		
+		action.getPlayer().changeMoney( - action.getPrice());
+		
+		
+		
+	}
 	
 	
 	
