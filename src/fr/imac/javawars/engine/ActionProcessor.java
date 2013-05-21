@@ -28,7 +28,11 @@ public class ActionProcessor {
 		while(itr.hasNext()){
 			Object e = itr.next();
 			
-			if(e instanceof ActionTowerCreate){
+			if(e instanceof ActionTowerUpgrade){
+				this.tryToUpgradeTower((ActionTowerUpgrade)e);
+				actions.poll();
+			} 
+			else if(e instanceof ActionTowerCreate){
 				this.tryToAddTower((ActionTowerCreate)e);
 				actions.poll();
 			}
@@ -69,17 +73,10 @@ public class ActionProcessor {
 			}
 			
 		}
-		
 		itr = null;
-		
-		
-		
 		//If all OK : 
-		
 		JavaWars.getEngine().addTower(action.getTower());
 		action.getPlayer().changeMoney( - action.getTower().getPrice());
-		
-		
 		
 	}
 	
@@ -94,7 +91,7 @@ public class ActionProcessor {
 		}
 		
 		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(2);
-		else action.getTower().changeStrength(2);
+		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(2);
 		
 		action.getPlayer().changeMoney( - action.getPrice());
 		

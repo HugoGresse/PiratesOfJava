@@ -22,7 +22,7 @@ public class ActionTowerUpgrade extends ActionTower{
 	 * @param tower
 	 * 				the tower you want to upgrade
 	 * @param up
-	 * 				the upgrade you want to do : 1 for range, 2 for damage
+	 * 				the upgrade you want to do : 1 for range, 2 for strengh/damage
 	 */
 	public ActionTowerUpgrade(Player player, Tower tower, int up) {
 		super(player, tower);

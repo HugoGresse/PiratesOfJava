@@ -1,5 +1,6 @@
 package fr.imac.javawars.player;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,6 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
 
@@ -100,7 +103,7 @@ public class ListenersLayer extends JPanel{
 		
 		//iterate on towers list
     	while(it2.hasNext()){
-    		Tower t = it2.next();
+    		final Tower t = it2.next();
     		
     		//create a rect and test if the click of the mouse is in it.
     		Rectangle2D rect = new Rectangle2D.Double((int)(t.getPosition().getX()-7.5), (int)(t.getPosition().getY()-7.5),15,15);
@@ -116,8 +119,10 @@ public class ListenersLayer extends JPanel{
 				//adding listeners on buttons (strength & actionField)
 				bottom.getUpStrength().addActionListener(new ActionListener() {
 			        public void actionPerformed(ActionEvent e){
-			        	// TODO : improve tower strength, send to dispatcher
 			        	System.out.println("+strength");
+			        	Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+			    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
+			    		JavaWars.getDispatcher().addAction(myAction);
 			        }
 			    });
 				
@@ -125,6 +130,10 @@ public class ListenersLayer extends JPanel{
 			        public void actionPerformed(ActionEvent e){
 			        	// TODO : improve tower actionField, send to dispatcher
 			        	System.out.println("+actionField");
+
+			        	Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+			    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
+			    		JavaWars.getDispatcher().addAction(myAction);
 			        }
 			    });
 			}
