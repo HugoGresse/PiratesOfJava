@@ -55,7 +55,7 @@ public class ActionProcessor {
 		
 		//check if anough money : 
 		if( action.getTower().getPrice() >  action.getPlayer().getMoney() ) {
-			System.out.println("Pas assez d'argent pour créer la tour");
+			JavaWars.getEngine().setError("Pas assez d'argent pour créer la tour");
 			// TODO check object null to destroy it
 			return;
 		}
@@ -67,7 +67,7 @@ public class ActionProcessor {
 			
 			if(point.getX() + 7.5 > newPoint.getX() - 7.5 && point.getX() - 7.5 < newPoint.getX() + 7.5){
 				if(point.getY() + 7.5 > newPoint.getY() - 7.5 && point.getY() - 7.5 < newPoint.getY() + 7.5){
-					System.out.println("Impossible de créer la tour ici.");
+					JavaWars.getEngine().setError("Impossible de créer la tour ici.");
 					return;
 				}
 			}
@@ -85,7 +85,7 @@ public class ActionProcessor {
 		
 		//check if anough money : 
 		if( action.getPrice() >  action.getPlayer().getMoney() ) {
-			System.out.println("Pas assez d'argent pour améliorer la tour");
+			JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la tour");
 			// TODO check object null to destroy it
 			return;
 		}
@@ -94,14 +94,7 @@ public class ActionProcessor {
 		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(2);
 		
 		action.getPlayer().changeMoney( - action.getPrice());
-		
-		
-		
-	}
-	
-	
-	
-	
-	
+			
+	}	
 	
 }

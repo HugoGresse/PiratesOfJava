@@ -143,6 +143,11 @@ public class BottomBar extends JPanel{
 		}
 	}
 	
+	public void updateError(){
+		String error = JavaWars.getDispatcher().getError();
+		dialogue.setText(error);
+	}
+	
 	/**
 	 * Getters
 	 */

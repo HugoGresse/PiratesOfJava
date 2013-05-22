@@ -77,5 +77,9 @@ public class Dispatcher {
 	public CopyOnWriteArrayList<Tower> getTowers(){
 		return JavaWars.getEngine().getTowers();
 	}
+	
+	public String getError(){
+		return JavaWars.getEngine().getError();
+	}
 
 }
