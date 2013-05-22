@@ -5,6 +5,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JButton;
@@ -162,7 +164,22 @@ public class BottomBar extends JPanel{
 	
 	public void updateError(){
 		String error = JavaWars.getDispatcher().getError();
+		
+		if(error == null)
+			return;
+		
 		dialogue.setText(error);
+		
+		//Remove the texte after 5s
+		TimerTask task = new TimerTask(){
+			@Override
+			public void run() {
+				dialogue.setText("");
+			}	
+		};
+		
+		Timer timer = new Timer();
+		timer.schedule(task, 5000);
 	}
 	
 	/**

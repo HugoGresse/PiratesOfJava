@@ -1,7 +1,11 @@
 package fr.imac.javawars.engine;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Action;
 
 /**
  * <b>BasesManager is a class which manage bases.</b>
@@ -20,13 +24,6 @@ import java.util.LinkedList;
 
 public class BasesManager {
 	/**
-	 * List of the bases present on the map
-	 * 
-	 * @see BasesManager#BasesManager(ArrayList)
-	 */
-	private ArrayList<Base> bases;
-	
-	/**
 	 * Table associating a box of the map to a base thanks to a integer
 	 * 
 	 * @see BasesManager#determineInfluenceAreaOfBases()
@@ -44,13 +41,13 @@ public class BasesManager {
 	 * 
 	 * @see BasesManager#bases
 	 */
-	public BasesManager(ArrayList<Base> bases, int[][] bitMap) {
-		this.bases = bases;
+	public BasesManager(int[][] bitMap) {
 		this.initialiseInfluenceAreaMap(bitMap);
 		this.determineInfluenceAreaOfBases(bitMap);
 	}
 	
 	private void initialiseInfluenceAreaMap(int[][] bitMap) {
+		System.out.println("change foreach bu iterator - BaseManager");
 		if(bitMap.length <= 0){
 			System.out.println("problem with the bitmap in initializeInfluenceAreaOfBases");
 			return;
@@ -82,8 +79,8 @@ public class BasesManager {
 		}
 		// we initialize the box which corresponds to a base position with the number of the player possessing the base
 		int k = 0;
-		for(Base b: bases){
-			int basePosition1D = (int) (this.bases.get(k).getPosition().getX() + this.bases.get(k).getPosition().getY() * width);
+		for(Base b: JavaWars.getEngine().getBases()){
+			int basePosition1D = (int) (JavaWars.getEngine().getBases().get(k).getPosition().getX() + JavaWars.getEngine().getBases().get(k).getPosition().getY() * width);
 			this.influenceAreaMap[basePosition1D] = b.getPlayer().getPlayerNumber();
 			k++;
 			//debug
@@ -100,11 +97,12 @@ public class BasesManager {
 	 * @see BasesManager#influenceAreaMap
 	 */
 	public void determineInfluenceAreaOfBases(int[][] bitMap) {
+		System.out.println("change foreach bu iterator - BaseManager");
 		if(bitMap.length <= 0){
 			System.out.println("problem with the bitmap in determineInfluenceAreaOfBases");
 			return;
 		}
-		if(this.bases.isEmpty()){
+		if(JavaWars.getEngine().getBases().isEmpty()){
 			System.out.println("list of bases is empty, can't calculate area influence");
 			return;
 		}
@@ -113,7 +111,7 @@ public class BasesManager {
 		int width = bitMap.length;
 		int basePosition1D = 0;
 		//we add all bases positions to the queue
-		for (Base b : this.bases){
+		for (Base b : JavaWars.getEngine().getBases()){
 			//cast from double to integer, basePosition corresponds to an index int the tab1D
 			basePosition1D = (int) (b.getPosition().getX() + b.getPosition().getY() * width);
 			boxesQueue.addLast(basePosition1D);
@@ -179,18 +177,6 @@ public class BasesManager {
 		}
 		//debug, create a xml map in the same format that the original to see if the algorithm works
 		//writeInXMLInfluenceMap(bitMap, this.influenceAreaMap, "map/influenceAreaOfBasesCalculated");
-	}
-
-	/**
-	 * Update the list of the bases
-	 * 
-	 * @param bases
-	 * 		list of bases present on the map
-	 * 
-	 * @see Base
-	 */
-	public void setBases(ArrayList<Base> bases) {
-		this.bases = bases;
 	}
 
 	/**

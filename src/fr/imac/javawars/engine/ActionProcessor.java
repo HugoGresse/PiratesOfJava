@@ -28,9 +28,8 @@ public class ActionProcessor {
 	public boolean process(ConcurrentLinkedQueue<Action> actions){
 		// remove i before production
 		int i = 1;
-		
-		boolean change = false; 
 		Iterator<Action> itr = actions.iterator();
+		boolean change = false;
 		while(itr.hasNext()){
 			Object e = itr.next();
 			
@@ -43,14 +42,10 @@ public class ActionProcessor {
 				actions.poll();
 			}
 			
-			
+			change = true;
 			System.out.println("processAction : "+i);
 			i++;
-			
-			change = true;
 		}
-		
-		
 		return change;
 	}
 

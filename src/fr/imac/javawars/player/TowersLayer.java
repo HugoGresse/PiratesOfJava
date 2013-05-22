@@ -5,9 +5,10 @@ import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -68,6 +69,9 @@ public class TowersLayer extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		
+		//Antialiasing ON
+		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				
 		//getting bases from engine
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
 		Iterator<Tower> it = towers.iterator();
