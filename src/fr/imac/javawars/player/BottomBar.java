@@ -1,6 +1,7 @@
 package fr.imac.javawars.player;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ public class BottomBar extends JPanel{
 	private JPanel wrapperInfos = new JPanel();
 	private JTextArea dialogue = new JTextArea(3,23);
 	
+	
 	//tower panel
 	private JPanel towerInfos = new JPanel();
 	private JLabel towerStrength = new JLabel();
@@ -47,6 +49,7 @@ public class BottomBar extends JPanel{
 		this.add(BorderLayout.WEST,wrapperInfos);
 		this.add(BorderLayout.EAST,wrapperButtons);
 		this.currentTower = null;
+		dialogue.setMargin(new Insets(10,10,10,10));
 		
 		wrapperInfos.setLayout(new BorderLayout());
 		wrapperInfos.add(BorderLayout.WEST,towerInfos);

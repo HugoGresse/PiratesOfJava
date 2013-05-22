@@ -7,9 +7,6 @@ public abstract class Player {
 	private int money;
 	protected int playerNumber = 0;
 	protected String playerType;
-	private int r;
-	private int g;
-	private int b;
 	
 	/**
 	 * Create a player with given plyaernumber, a name and a type (IA or Human)
@@ -21,14 +18,11 @@ public abstract class Player {
 	 * @param type
 	 * 				IA if it's a IA or Human
 	 */
-	public Player(int pNum, String name, String type, int r, int g, int b) {
+	public Player(int pNum, String name, String type) {
 		this.name = name;
 		playerNumber = pNum;
 		this.playerType = type;
 		this.money = 20;
-		this.r = r;
-		this.b = b;
-		this.g = g;
 	}
 	
 	
@@ -62,18 +56,6 @@ public abstract class Player {
 	}
 	public int getPlayerNumber(){
 		return playerNumber;
-	}
-	
-	public int getR(){
-		return r;
-	}
-	
-	public int getG(){
-		return g;
-	}
-	
-	public int getB(){
-		return b;
 	}
 	
 	

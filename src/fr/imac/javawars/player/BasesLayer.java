@@ -26,7 +26,6 @@ public class BasesLayer extends JPanel {
 		this.setOpaque(false);
 	}
 
-
 	/**
 	 * Painting layer (display bases)
 	 */
@@ -39,30 +38,45 @@ public class BasesLayer extends JPanel {
 		Iterator<Base> it = bases.iterator();
 		
 		while(it.hasNext()){
-			
 			Base b = it.next();
 			
 			int radius = b.getRadius();
 			Player player = b.getPlayer();
+			Color color1 = null;
+			Color color2 = null;
 			
-			//first circle : under (border)
+			//defining color for each player
 			if(player == null){
-				g.setColor(new Color(198, 198, 198));
+				color1 = new Color(198, 198, 198);
+				color2 = new Color(229, 229, 229);
 			}
 			else{
-				g.setColor(new Color(player.getR(), player.getG(), player.getB(),170));
+				switch(player.getPlayerNumber()){
+					case 1 : 
+						color1 = new Color(197,54,59,170);
+						color2 = new Color(197,54,59,255);
+						break;
+					case 2 :
+						color1 = new Color(23,100,145,170);
+						color2 = new Color(23,100,145,255);
+						break;
+					case 3:
+						color1 = new Color(131,195,25,170);
+						color2 = new Color(131,195,25,255);
+						break;
+					case 4 :
+						color1 = new Color(255,136,0,170);
+						color2 = new Color(255,136,0,255);
+						break;
+				}
 			}
 			
+			//first circle : under (border)
+			g.setColor(color1);
 			g.fillOval((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
 			
 			//second circle : above
-			if(player == null){
-				g.setColor(new Color(229, 229, 229));
-			}
-			else{
-				g.setColor(new Color(player.getR(), player.getG(), player.getB()));
-			}
-			
+			g.setColor(color2);
 			g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
 			
 			//number of alien

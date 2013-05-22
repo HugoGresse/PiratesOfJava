@@ -11,8 +11,8 @@ public class Human extends Player{
 	 * @param pNum
 	 * @param name
 	 */
-	public Human(int pNum, String name, int r, int g, int b) {
-		super(pNum, name, "human", r,g,b);
+	public Human(int pNum, String name) {
+		super(pNum, name, "human");
 		
 	}
 

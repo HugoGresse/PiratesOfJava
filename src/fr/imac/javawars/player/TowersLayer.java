@@ -1,12 +1,16 @@
 package fr.imac.javawars.player;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
@@ -25,6 +29,14 @@ import fr.imac.javawars.engine.TowerSniper;
  */
 public class TowersLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private Image freezeImg;
+	private Image laserImg;
+	private Image missileImg;
+	private Image machineGunImg;
+	private Image bombImg;
+	private Image bounceImg;
+	private Image sniperImg;
+	private Image poisonImg;
 	
 	/**
 	 * Constructor
@@ -33,6 +45,20 @@ public class TowersLayer extends JPanel {
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);	
+		//getting images for towers
+		try {
+			this.freezeImg = ImageIO.read(new File("res/img/freeze.png"));
+			this.laserImg = ImageIO.read(new File("res/img/laser.png"));
+			this.missileImg = ImageIO.read(new File("res/img/missile.png"));
+			this.machineGunImg = ImageIO.read(new File("res/img/machineGun.png"));
+			this.bombImg = ImageIO.read(new File("res/img/bomb.png"));
+			this.bounceImg = ImageIO.read(new File("res/img/bounce.png"));
+			this.sniperImg = ImageIO.read(new File("res/img/sniper.png"));
+			this.poisonImg = ImageIO.read(new File("res/img/poison.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -46,12 +72,22 @@ public class TowersLayer extends JPanel {
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
 		Iterator<Tower> it = towers.iterator();
 		
-		g.setColor(new Color(0,0,0));
-		
 		while(it.hasNext()){
 			Tower t = it.next();
-			g.fillRect((int)(t.getPosition().getX()-7.5), (int)(t.getPosition().getY()-7.5),15,15);
 			
+			Image icon = null;
+			
+			//changing image for each type
+			if(t.getClass() == TowerFreeze.class){ icon = freezeImg; }
+			else if(t.getClass() == TowerLaser.class){ icon = laserImg;}
+			else if(t.getClass() == TowerMissile.class){ icon = missileImg;}
+			else if(t.getClass() == TowerMachinegun.class){ icon = machineGunImg;}
+			else if(t.getClass() == TowerBombe.class){ icon = bombImg;}
+			else if(t.getClass() == TowerBounce.class){ icon = bounceImg;}
+			else if(t.getClass() == TowerSniper.class){ icon = sniperImg;}
+			else if(t.getClass() == TowerPoison.class){ icon = poisonImg;}
+			
+			g.drawImage(icon, (int)(t.getPosition().getX()-12.5),(int)(t.getPosition().getY()-12.5), 25,25, null);
 		}
 	}
 	
@@ -59,7 +95,6 @@ public class TowersLayer extends JPanel {
 	 * Create a tower/send info to dispatcher
 	 */
 	public void createTower(int x, int y, String type){	
-		//TODO passer le type à l'action pour différencier les tours lors de la construction
 		Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 		
 		ActionTowerCreate myAction = null;
@@ -84,8 +119,7 @@ public class TowersLayer extends JPanel {
 			System.out.println("Erreur Grave - tour inconnue - TowersLayers. Action not created");
 			return;
 		}
-		
-		
+
 		JavaWars.getDispatcher().addAction(myAction);
 		
 		repaint();
