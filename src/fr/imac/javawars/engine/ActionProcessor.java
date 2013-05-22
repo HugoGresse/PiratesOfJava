@@ -50,6 +50,9 @@ public class ActionProcessor {
 
 	
 	private void tryToAddTower(ActionTowerCreate action){
+		
+		double sizeTower = 7.5;
+		
 		Point newPoint = action.getTower().getPosition();
 		Point point;
 		
@@ -65,8 +68,8 @@ public class ActionProcessor {
 		while(itr.hasNext()){
 			point = itr.next().getPosition();
 			
-			if(point.getX() + 7.5 > newPoint.getX() - 7.5 && point.getX() - 7.5 < newPoint.getX() + 7.5){
-				if(point.getY() + 7.5 > newPoint.getY() - 7.5 && point.getY() - 7.5 < newPoint.getY() + 7.5){
+			if(point.getX() + sizeTower > newPoint.getX() - sizeTower && point.getX() - sizeTower < newPoint.getX() + sizeTower){
+				if(point.getY() + sizeTower > newPoint.getY() - sizeTower && point.getY() - sizeTower < newPoint.getY() + sizeTower){
 					System.out.println("Impossible de créer la tour ici.");
 					return;
 				}
@@ -74,6 +77,21 @@ public class ActionProcessor {
 			
 		}
 		itr = null;
+		
+		//check if the tower is on a fort
+		for(int x = (int) (newPoint.getX()-sizeTower); x <= (int) (newPoint.getX() + sizeTower); x++){
+
+			for(int y = (int) (newPoint.getY()-sizeTower); y <= (int) (newPoint.getY() + sizeTower); y++){
+				
+				if(JavaWars.getEngine().getGround().getGroundPosition(y, x) != -2) {
+					System.out.println("Vous devez créer la tour sur un contrefort.");
+					return;
+				}
+				
+			
+			}
+		}
+		
 		//If all OK : 
 		JavaWars.getEngine().addTower(action.getTower());
 		action.getPlayer().changeMoney( - action.getTower().getPrice());
