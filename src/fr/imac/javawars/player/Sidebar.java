@@ -44,6 +44,9 @@ public class Sidebar extends JPanel implements ActionListener {
 	private JLabel labelSlider = new JLabel();
 	private JLabel money = new JLabel();
 	
+	
+	private static String type = null;
+	
 	/**
 	 * Constructor 
 	 */
@@ -119,6 +122,11 @@ public class Sidebar extends JPanel implements ActionListener {
 	}
 	
 	
+	
+	public final static String getType() {
+		return type;
+	}
+
 	/**
 	 * Action when a "tower" button is clicked
 	 * 
@@ -132,40 +140,43 @@ public class Sidebar extends JPanel implements ActionListener {
 		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
 		final ListenersLayer listenersLayer = ihm.getCenterPanel().getListenersLayer();
 		
+		
+		//Save the type of tower, used in TowersLayer
+		if(e.getSource() == freezeTower){
+			type = "freeze";
+		}
+		else if(e.getSource() == laserTower){
+			type ="laser";
+		}
+		else if(e.getSource() == missileTower){
+			type="missile";
+		}
+		else if(e.getSource() == gunTower){
+			type="machinegun";
+		}
+		else if(e.getSource() == bombTower){
+			type="bomb";
+		}
+		else if(e.getSource() == ricochetTower){
+			type="bounce";
+		}
+		else if(e.getSource() == sniperTower){
+			type="sniper";
+		}
+		else if(e.getSource() == poisonTower){
+			type = "poison";
+		} else 
+			type= "undefined";
+		
+		
+
 		//adding a listener on listeners panel
 		listenersLayer.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
             	if(mouseListenerActive){
-            		//type of tower
-            		String type="";
-            		
-            		if(e.getSource() == freezeTower){
-            			type = "freeze";
-            		}
-            		else if(e.getSource() == laserTower){
-            			type ="laser";
-            		}
-            		else if(e.getSource() == missileTower){
-            			type="missile";
-            		}
-            		else if(e.getSource() == gunTower){
-            			type="gun";
-            		}
-            		else if(e.getSource() == bombTower){
-            			type="bomb";
-            		}
-            		else if(e.getSource() == ricochetTower){
-            			type="ricochet";
-            		}
-            		else if(e.getSource() == sniperTower){
-            			type="sniper";
-            		}
-            		else if(e.getSource() == poisonTower){
-            			type = "poison";
-            		}
             		
             		//create tower
-            		towersLayer.createTower(e.getX(), e.getY(), type);
+            		towersLayer.createTower(e.getX(), e.getY(), Sidebar.getType());
             		
             		//remove Listener
             		mouseListenerActive = false;

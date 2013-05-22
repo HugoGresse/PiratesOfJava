@@ -9,13 +9,19 @@ import fr.imac.javawars.dispatcher.Action;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
+/**
+ * The class which are in charge of processing Actions
+ * 
+ * @author Hugo
+ *
+ */
 public class ActionProcessor {
 
 	public ActionProcessor() {
 	}
 	
 	/**
-	 * process given Queue
+	 * process given Queue. Add method related to a specific action here
 	 * @param actions
 	 * 					the only one action queue
 	 */
@@ -48,8 +54,18 @@ public class ActionProcessor {
 		return change;
 	}
 
-	
+	/**
+	 * Check if a player can crate a tower related to :
+	 * 	- the position (on contrefort and not too near other Tower)
+	 * 	- the player's money
+	 * And if ok, add the tower and change player money
+	 * @param action
+	 * 				A ActionTowerCreate action
+	 */
 	private void tryToAddTower(ActionTowerCreate action){
+		
+		double sizeTower = 7.5;
+		
 		Point newPoint = action.getTower().getPosition();
 		Point point;
 		
@@ -65,8 +81,8 @@ public class ActionProcessor {
 		while(itr.hasNext()){
 			point = itr.next().getPosition();
 			
-			if(point.getX() + 7.5 > newPoint.getX() - 7.5 && point.getX() - 7.5 < newPoint.getX() + 7.5){
-				if(point.getY() + 7.5 > newPoint.getY() - 7.5 && point.getY() - 7.5 < newPoint.getY() + 7.5){
+			if(point.getX() + sizeTower > newPoint.getX() - sizeTower && point.getX() - sizeTower < newPoint.getX() + sizeTower){
+				if(point.getY() + sizeTower > newPoint.getY() - sizeTower && point.getY() - sizeTower < newPoint.getY() + sizeTower){
 					JavaWars.getEngine().setError("Impossible de créer la tour ici.");
 					return;
 				}
@@ -74,13 +90,33 @@ public class ActionProcessor {
 			
 		}
 		itr = null;
+		
+		//check if the tower is on a fort
+		for(int x = (int) (newPoint.getX()-sizeTower); x <= (int) (newPoint.getX() + sizeTower); x++){
+
+			for(int y = (int) (newPoint.getY()-sizeTower); y <= (int) (newPoint.getY() + sizeTower); y++){
+				
+				if(JavaWars.getEngine().getGround().getGroundPosition(y, x) != -2) {
+					System.out.println("Vous devez créer la tour sur un contrefort.");
+					return;
+				}
+				
+			
+			}
+		}
+		
 		//If all OK : 
 		JavaWars.getEngine().addTower(action.getTower());
 		action.getPlayer().changeMoney( - action.getTower().getPrice());
 		
 	}
 	
-	
+	/**
+	 * Verify if the player can upgrade a tower if : 
+	 * 	- player have anough money
+	 * If ok : upgrade the tower (range/ActionField and strengh/damage) and change tower money
+	 * @param action
+	 */
 	private void tryToUpgradeTower(ActionTowerUpgrade action){
 		
 		//check if anough money : 
