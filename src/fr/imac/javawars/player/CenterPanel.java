@@ -19,6 +19,9 @@ public class CenterPanel extends JPanel {
 	private ListenersLayer listeners;
 	private GroundLayer map;
 	
+	//test arthur
+	private AgentDisplay agent;
+	
 	/**
 	 * CONSTRUCTOR
 	 * @param layers
@@ -26,13 +29,17 @@ public class CenterPanel extends JPanel {
 	 * 
 	 */
 	public CenterPanel(JLayeredPane layers) {
+
+        
         this.layers  = layers;
         this.layers.setOpaque(false);
         this.towers = new TowersLayer();
         this.bases = new BasesLayer();
         this.agents = new AgentsLayer();
+
         this.listeners = new ListenersLayer();
         this.map = new GroundLayer("res/img/ground.jpg","res/img/wall.png");
+
         
         //add panels to the layeredPane
         this.layers.add(map,new Integer(-10));
@@ -41,6 +48,9 @@ public class CenterPanel extends JPanel {
 		this.layers.add(agents,new Integer(10));
 		this.layers.add(listeners,new Integer(11));
 		
+        //test arthur
+        /*this.agent = new AgentDisplay();
+        this.layers.add(agent, new Integer(12));*/
     }
 	
 	public TowersLayer getTowersLayer(){
@@ -51,5 +61,4 @@ public class CenterPanel extends JPanel {
 		return listeners;
 	}
 	
-
 }

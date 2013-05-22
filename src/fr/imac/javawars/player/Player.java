@@ -1,10 +1,17 @@
 package fr.imac.javawars.player;
 
+import java.awt.Point;
+import java.util.LinkedList;
+
+import fr.imac.javawars.engine.Agent;
+
 public abstract class Player {
 	
 
 	private String name;
 	private double money;
+	private LinkedList<Agent> agents;
+	private int numberOfAgents;
 	protected int playerNumber = 0;
 	protected String playerType;
 	
@@ -20,9 +27,15 @@ public abstract class Player {
 	 */
 	public Player(int pNum, String name, String type) {
 		this.name = name;
-		playerNumber = pNum;
-		this.playerType = type;
 		this.money = 20;
+		this.agents = new LinkedList<Agent>();
+		this.agents.addLast(new Agent(new Point(50,50), this));
+		this.agents.addLast(new Agent(new Point(100,100), this));
+		this.agents.addLast(new Agent(new Point(200,200), this));
+		this.numberOfAgents = 3;
+		
+		this.playerNumber = pNum;
+		this.playerType = type;
 	}
 	
 	
@@ -43,7 +56,6 @@ public abstract class Player {
 		this.money += money;
 	}
 
-
 	public void setPlayerType(String playerType) {
 		this.playerType = playerType;
 	}
@@ -59,7 +71,23 @@ public abstract class Player {
 	}
 	
 	
-	public abstract void update();
+	public LinkedList<Agent> getAgents() {
+		return agents;
+	}
+
+	public void setAgents(LinkedList<Agent> agents) {
+		this.agents = agents;
+	}
 	
+	public void addAgent(Agent agent){
+		agents.addLast(agent);
+		numberOfAgents++;
+	}
+	
+	public int getNumberOfAgents(){
+		return this.numberOfAgents;
+	}
+	
+	public abstract void update();
 	
 }

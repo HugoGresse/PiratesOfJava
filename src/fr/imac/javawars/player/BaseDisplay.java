@@ -4,60 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
 
-/**
- * Class BasesLayer: manage & display bases
- *  
- */
-public class BasesLayer extends JPanel {
+public class BaseDisplay extends JPanel implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * Constructor
-	 */
-	BasesLayer(){
-		super();
-		this.setBounds(0,0,700,500);
-		this.setOpaque(false);
-	}
-
-
-	/**
-	 * Painting layer (display bases)
-	 */
-	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);  
-
-		//getting bases from engine
-		CopyOnWriteArrayList<Base> bases = JavaWars.getDispatcher().getBases();
-		Iterator<Base> it = bases.iterator();
-		
-		while(it.hasNext()){
-			Base b = it.next();
-			/*BaseDisplay b1 = new BaseDisplay();
-			b1.drawBase(b, g);
-			BaseDisplay.drawBase(b, g);*/
-			drawBase(b, g);
-		}
-		
-	}
-	
-	private void drawBase(Base b, Graphics g){
+	public void drawBase(Base b, Graphics g){
 		int radius = b.getRadius();
-		
-		this.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-            
-            }
-		});
+
 		//first circle : under (border)
 		if(b.getPlayer() == null){
 			g.setColor(new Color(198, 198, 198));
@@ -83,6 +41,36 @@ public class BasesLayer extends JPanel {
 		}
 		
 		g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("yeah");
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

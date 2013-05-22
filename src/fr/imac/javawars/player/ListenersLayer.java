@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
+import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
 
@@ -25,6 +26,9 @@ import fr.imac.javawars.engine.Tower;
 public class ListenersLayer extends JPanel{
 	//swing needeed
 	private static final long serialVersionUID = 1L;
+	
+	Base currentHumanBaseSelected;
+	Base currentTargetBaseSelected;
 
 	/**
 	 * CONSTRUCTOR
@@ -33,7 +37,10 @@ public class ListenersLayer extends JPanel{
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
+		this.currentHumanBaseSelected = null;
+		this.currentTargetBaseSelected = null;
 		addListeners();
+		
 	}
 	
 	/**
@@ -68,7 +75,6 @@ public class ListenersLayer extends JPanel{
 		//initialize bases list/iterator
 		CopyOnWriteArrayList<Base> tmpBases = bases;
 		final Iterator<Base> it = tmpBases.iterator();
-		
 		//iterate on bases list
     	while(it.hasNext()){
     		Base b = it.next();
@@ -76,15 +82,27 @@ public class ListenersLayer extends JPanel{
     		
     		//create an oval and test if the click of the mouse is in it.
     		Ellipse2D oval = new Ellipse2D.Double((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
-			if ((e.getButton() == 1) && oval.contains(e.getX(), e.getY()) ) {
-				if(b.getPlayer() == human){
-					System.out.println("one of my bases");
-				}
-				else{
-					System.out.println("other or neutral base");
-				}
-			}
-    	}	
+    		if(e.getButton() == 1){
+				if (oval.contains(e.getX(), e.getY())) {
+					if(b.getPlayer() == human){
+						System.out.println("one of my bases positioned in : " + b.getPosition());
+						this.currentHumanBaseSelected = b;
+						Point agentPosition = new Point(100, 50);
+						human.addAgent(new Agent(agentPosition, human));
+						human.getIhm().getCenterPanel().repaint();
+		            	//System.out.println("currentHumanBase : " + this.currentHumanBaseSelected.getPlayer().getName());
+					}
+					else if(b.getPlayer() != null){
+						System.out.println("base " + b.getPlayer().getName() + " positioned in : " + b.getPosition());
+						this.currentTargetBaseSelected = b;
+		            	//System.out.println("currentTargetBase : " + this.currentTargetBaseSelected.getPlayer().getName());
+					}
+					else{
+						System.out.println("neutral base positioned in : " + b.getPosition());
+					}
+				}// end if
+    		}// end while
+    	}
 	}
 	
 	/**

@@ -13,6 +13,10 @@ public class Agent extends AbstractUnite {
 		this.speed = speed;
 	}
 	
+	public Agent(Point position, Player player){
+		this(100, position, player, 1);
+	}
+	
 	//methods
 	private void changePosition(Base base) {
 		int[] distanceMap = base.getDistanceMap();

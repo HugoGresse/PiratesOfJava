@@ -29,7 +29,7 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	// CONSTRUCTORS
-	public Base(int life, Point position,Player player, double actionField, int capacity, int speedRegeneration, int radius) {
+	public Base(int life, Point position, Player player, double actionField, int capacity, int speedRegeneration, int radius) {
 		super(life, position, player, actionField);
 		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;

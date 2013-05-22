@@ -64,4 +64,7 @@ public class Dispatcher {
 		return JavaWars.getEngine().getTowers();
 	}
 
+	public Map<Integer, Player> getPlayers(){
+		return JavaWars.getEngine().getPlayers();
+	}
 }
