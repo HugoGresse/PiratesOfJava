@@ -11,6 +11,14 @@ import javax.swing.JPanel;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.engine.Tower;
+import fr.imac.javawars.engine.TowerBombe;
+import fr.imac.javawars.engine.TowerBounce;
+import fr.imac.javawars.engine.TowerFreeze;
+import fr.imac.javawars.engine.TowerLaser;
+import fr.imac.javawars.engine.TowerMachinegun;
+import fr.imac.javawars.engine.TowerMissile;
+import fr.imac.javawars.engine.TowerPoison;
+import fr.imac.javawars.engine.TowerSniper;
 
 /**
  * Class TowersLayer: manage & display towers 
@@ -53,9 +61,32 @@ public class TowersLayer extends JPanel {
 	public void createTower(int x, int y, String type){	
 		//TODO passer le type à l'action pour différencier les tours lors de la construction
 		Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-	
-		//ActionTowerCreate myAction = new ActionTowerCreate(player, 10, new Point(x,y), 20, 5);
-		//JavaWars.getDispatcher().addAction(myAction);
+		
+		ActionTowerCreate myAction = null;
+		
+		if( type.equals("freeze")) {
+			myAction = new ActionTowerCreate(player,new TowerFreeze(new Point(x, y), player));
+		} else if(type.equals("laser")){
+			myAction = new ActionTowerCreate(player,new TowerLaser(new Point(x, y), player));
+		} else if(type.equals("missile")){
+			myAction = new ActionTowerCreate(player,new TowerMissile(new Point(x, y), player));
+		} else if(type.equals("machinegun")){
+			myAction = new ActionTowerCreate(player,new TowerMachinegun(new Point(x, y), player));
+		} else if(type.equals("bomb")){
+			myAction = new ActionTowerCreate(player,new TowerBombe(new Point(x, y), player));
+		} else if(type.equals("bounce")){
+			myAction = new ActionTowerCreate(player,new TowerBounce(new Point(x, y), player));
+		} else if(type.equals("sniper")){
+			myAction = new ActionTowerCreate(player,new TowerSniper(new Point(x, y), player));
+		} else if(type.equals("poison")){
+			myAction = new ActionTowerCreate(player,new TowerPoison(new Point(x, y), player));
+		} else {
+			System.out.println("Erreur Grave - tour inconnue - TowersLayers. Action not created");
+			return;
+		}
+		
+		
+		JavaWars.getDispatcher().addAction(myAction);
 		
 		repaint();
 	}
