@@ -47,7 +47,7 @@ public class Engine  implements Runnable{
 	private Ground ground;
 	
 	//stock erreurs à envoyer à l'IHM
-	private String error="";
+	private String error = null;
 	
 	/* CONSTRUCTOR */
 	public Engine() {

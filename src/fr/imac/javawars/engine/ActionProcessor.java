@@ -97,7 +97,7 @@ public class ActionProcessor {
 			for(int y = (int) (newPoint.getY()-sizeTower); y <= (int) (newPoint.getY() + sizeTower); y++){
 				
 				if(JavaWars.getEngine().getGround().getGroundPosition(y, x) != -2) {
-					System.out.println("Vous devez créer la tour sur un contrefort.");
+					JavaWars.getEngine().setError("Vous devez créer la tour sur un contrefort.");
 					return;
 				}
 				
