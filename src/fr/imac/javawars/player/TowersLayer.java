@@ -50,7 +50,8 @@ public class TowersLayer extends JPanel {
 	/**
 	 * Create a tower/send info to dispatcher
 	 */
-	public void createTower(int x, int y){		
+	public void createTower(int x, int y, String type){	
+		//TODO passer le type à l'action pour différencier les tours lors de la construction
 		Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 	
 		//ActionTowerCreate myAction = new ActionTowerCreate(player, 10, new Point(x,y), 20, 5);

@@ -20,7 +20,6 @@ import fr.imac.javawars.engine.Tower;
 public class ListenersLayer extends JPanel{
 	//swing needeed
 	private static final long serialVersionUID = 1L;
-	private Tower currentTower;
 
 	/**
 	 * CONSTRUCTOR
@@ -29,7 +28,6 @@ public class ListenersLayer extends JPanel{
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
-		this.currentTower = null;
 		addListeners();
 	}
 	
@@ -101,24 +99,20 @@ public class ListenersLayer extends JPanel{
 		//iterate on towers list
     	while(it2.hasNext()){
     		final Tower t = it2.next();
-    		currentTower = t;
     		
     		//create a rect and test if the click of the mouse is in it.
     		Rectangle2D rect = new Rectangle2D.Double((int)(t.getPosition().getX()-7.5), (int)(t.getPosition().getY()-7.5),15,15);
     		if ((e.getButton() == 1) && rect.contains(e.getX(), e.getY()) && t.getPlayer() == human ) {
-				//getting the bottom bar
+    			//getting the bottom bar
 				BottomBar bottom= human.getIhm().getBottomBar();
+				bottom.setCurrentTower(t);
 				
 				//filling with tower values and make the JPanel visible
 				bottom.getTowerStrength().setText(String.valueOf(t.getStrength()));
 				bottom.getTowerActionField().setText(String.valueOf(t.getActionField()));
 				bottom.getTowerInfos().setVisible(true);
+				
 			}
     	}
-	}
-	
-	/** getters **/
-	public Tower getCurrentTower(){
-		return currentTower;
 	}
 }

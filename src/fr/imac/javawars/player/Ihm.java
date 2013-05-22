@@ -75,17 +75,20 @@ public class Ihm  extends JFrame {
 		
 	}
 	
-	
-	public void updateTestLabel(double money){
-		
-	}
-	
+	/**
+	 * 
+	 *GETTERS	
+	 */
 	public CenterPanel getCenterPanel(){
 		return centerPanel;
 	}
 	
 	public BottomBar getBottomBar(){
 		return bottomBar;
+	}
+	
+	public Sidebar getSidebar(){
+		return sidebar;
 	}
 
 	

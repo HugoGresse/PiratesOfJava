@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -35,6 +37,8 @@ public class BottomBar extends JPanel{
 	private JButton upStrength = new JButton("+");
 	private JButton upActionField = new JButton("+");
 	
+	private Tower currentTower;
+	
 	
 	/** constructor */
 	public BottomBar(){
@@ -42,6 +46,7 @@ public class BottomBar extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(BorderLayout.WEST,wrapperInfos);
 		this.add(BorderLayout.EAST,wrapperButtons);
+		this.currentTower = null;
 		
 		wrapperInfos.setLayout(new BorderLayout());
 		wrapperInfos.add(BorderLayout.WEST,towerInfos);
@@ -99,13 +104,11 @@ public class BottomBar extends JPanel{
 		towerInfos.setVisible(false);
 		
 		//add listeners on buttons (improve strength & actionField)
-		final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-		
 		upStrength.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	System.out.println("+strength");
-	        	
-	        	Tower t = player.getIhm().getCenterPanel().getListenersLayer().getCurrentTower(); 
+	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+	        	Tower t = currentTower; 
 	    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
@@ -114,13 +117,30 @@ public class BottomBar extends JPanel{
 		upActionField.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	System.out.println("+actionField");
-	        	
-	        	Tower t = player.getIhm().getCenterPanel().getListenersLayer().getCurrentTower();
+	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+	        	Tower t = currentTower;
 	    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
 		
+	}
+	
+	public void updateTowersLabel(){
+		if(currentTower==null) return;
+		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
+		Iterator<Tower> it = towers.iterator();
+		
+		
+		while(it.hasNext()){
+			Tower t = it.next();
+			if(t.getPosition().getX() == currentTower.getPosition().getX() && t.getPosition().getY() == currentTower.getPosition().getY()){
+				currentTower = t;
+				towerStrength.setText(String.valueOf(t.getStrength()));
+				towerActionField.setText(String.valueOf(t.getActionField()));
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -145,14 +165,13 @@ public class BottomBar extends JPanel{
 	public JButton getUpActionField() {
 		return upActionField;
 	}
-
 	
+	/** getters **/
+	public Tower getCurrentTower(){
+		return currentTower;
+	}
 	
-	
-	
-	
-	
-	
-	
-
+	public void setCurrentTower(Tower t){
+		this.currentTower = t;
+	}
 }
