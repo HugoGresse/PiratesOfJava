@@ -65,12 +65,15 @@ public abstract class Tower extends AbstractTowerBase {
 		return strength;
 	}
 
-	public void setStrength(int strength) {
-		this.strength = strength;
-	}
-	
 	public void changeStrength(int strength) {
 		this.strength += strength;
+		this.upgradeStrengh++;
+	}
+	
+	@Override
+	public void changeActionField(double num){
+		this.actionField+=num;
+		this.upgradeRange++;
 	}
 
 	

@@ -29,7 +29,7 @@ public class BottomBar extends JPanel{
 	private JButton speed = new JButton(">>");
 	private JPanel wrapperButtons = new JPanel();
 	private JPanel wrapperInfos = new JPanel();
-	private JTextArea dialogue = new JTextArea(3,23);
+	private JTextArea dialogue = new JTextArea(3,22);
 	
 	
 	//tower panel
@@ -50,6 +50,8 @@ public class BottomBar extends JPanel{
 		this.add(BorderLayout.EAST,wrapperButtons);
 		this.currentTower = null;
 		dialogue.setMargin(new Insets(10,10,10,10));
+		dialogue.setLineWrap(true);
+		dialogue.setWrapStyleWord(true);
 		
 		wrapperInfos.setLayout(new BorderLayout());
 		wrapperInfos.add(BorderLayout.WEST,towerInfos);
@@ -112,8 +114,14 @@ public class BottomBar extends JPanel{
 	        	System.out.println("+strength");
 	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 	        	Tower t = currentTower; 
-	    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
-	    		JavaWars.getDispatcher().addAction(myAction);
+	        	
+	        	if(t.getUpgradeStrengh()<5){
+		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("Vous ne pouvez plus augmenter la puissance de cette tour");
+	        	}
 	        }
 	    });
 		
@@ -122,8 +130,14 @@ public class BottomBar extends JPanel{
 	        	System.out.println("+actionField");
 	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 	        	Tower t = currentTower;
-	    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
-	    		JavaWars.getDispatcher().addAction(myAction);
+	        	
+	        	if(t.getUpgradeRange()<5){
+		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("Vous ne pouvez plus augmenter la portée de cette tour");
+	        	}
 	        }
 	    });
 		
