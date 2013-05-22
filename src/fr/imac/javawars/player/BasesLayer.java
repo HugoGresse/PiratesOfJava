@@ -43,31 +43,16 @@ public class BasesLayer extends JPanel {
 			Base b = it.next();
 			
 			int radius = b.getRadius();
-			int playerNumber = b.getPlayer().getPlayerNumber();
 			
 			//first circle : under (border)
-			//neutral bases
 			if(b.getPlayer()== null){
 				g.setColor(new Color(198, 198, 198));
 			}
-			
-			//players bases
-			switch(playerNumber){
-				case 1 : 
-					g.setColor(new Color(197, 54, 59));
-					break;
-				case 2 :
-					g.setColor(new Color(27, 116, 169));
-					break;
-				case 3:
-					g.setColor(new Color(27, 116, 169));
-					break;
-				case 4 :
-					g.setColor(new Color(27, 116, 169));
-					break;
-				default:
-					g.setColor(new Color(27, 116, 169));
-					break;
+			else if(b.getPlayer().getPlayerNumber() == 1){
+				g.setColor(new Color(197, 54, 59));
+			}
+			else{
+				g.setColor(new Color(27, 116, 169));		
 			}
 			
 			g.fillOval((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
@@ -76,7 +61,7 @@ public class BasesLayer extends JPanel {
 			if(b.getPlayer()== null){
 				g.setColor(new Color(229, 229, 229));
 			}
-			else if(playerNumber == 1){
+			else if(b.getPlayer().getPlayerNumber() == 1){
 				g.setColor(new Color(158, 41, 45));
 			}
 			else{
