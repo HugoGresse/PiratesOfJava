@@ -2,12 +2,16 @@ package fr.imac.javawars.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JPanel;
+
+import sun.swing.SwingUtilities2;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
@@ -49,7 +53,10 @@ public class BasesLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
-
+		
+		//Antialiasing ON
+		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		//getting bases from engine
 		CopyOnWriteArrayList<Base> bases = JavaWars.getDispatcher().getBases();
 		Iterator<Base> it = bases.iterator();
