@@ -39,6 +39,6 @@ public class TowerBombe extends Tower{
 	public void setAoe(int aoe) {
 		this.aoe = aoe;
 	}
-	
+
 	
 }	

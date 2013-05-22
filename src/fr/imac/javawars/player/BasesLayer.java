@@ -3,6 +3,8 @@ package fr.imac.javawars.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JPanel;
@@ -24,9 +26,23 @@ public class BasesLayer extends JPanel {
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
+		autoUpdate();
 	}
 
-
+	/*
+	 * Auto update label on base every 1s
+	 */
+	private void autoUpdate(){
+		TimerTask task = new TimerTask(){
+			@Override
+			public void run() {
+				repaint();
+			}	
+		};
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 500);
+	}
 	/**
 	 * Painting layer (display bases)
 	 */

@@ -2,6 +2,8 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.imac.javawars.player.Player;
 /**
@@ -19,6 +21,9 @@ public class Base extends AbstractTowerBase {
  	imagine a map of boxes but here stocked in a tab 1d
  	every element represents the distance of the box to the base */
 	private int[] distanceMap;
+	/**
+	 * Rayon de la base
+	 */
 	private int radius;
 	
 	public enum Power{
@@ -36,6 +41,9 @@ public class Base extends AbstractTowerBase {
 		//this.towers = new LinkedList<Tower>();
 		this.power = Power.NORMAL;
 		this.radius = radius;
+		
+		//call autoAddLife for incrementing life of the bases 
+		autoAddLife();
 	}
 	
 	//this constructor is used to generate Bases from the map
@@ -278,4 +286,19 @@ public class Base extends AbstractTowerBase {
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
 	}*/
+	
+	/**
+	 * Auto add life to the base every 1s related to the speedRegeneration
+	 */
+	private void autoAddLife(){
+		TimerTask task = new TimerTask(){
+			@Override
+			public void run() {
+				addLife( (int) (getSpeedRegeneration() ) );
+			}	
+		};
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 500);
+	}
 }

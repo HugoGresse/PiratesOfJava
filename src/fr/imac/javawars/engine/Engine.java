@@ -129,35 +129,6 @@ public class Engine  implements Runnable{
 				// 
 				dataChange =  actionProcessor.process(dispatcher.getAction());
 				
-				// iterate on players
-				/*
-				it = playersData.entrySet().iterator();
-				while (it.hasNext()) {
-					entry = it.next();
-					//pour chaque player : 
-					switch (entry.getValue().getPlayerNumber()) {
-						case 1:
-							dataChange = processAction(entry.getValue(), dispatcher.getAction());
-							break;
-						case 2:
-							
-							break;
-						case 3:
-							
-							break;
-						case 4:
-							
-							break;
-						default:
-							break;
-						}
-					entry = null;
-				}
-				
-				it = null;
-				entry = null;
-				
-				*/
 				
 				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
 				// seulement si les données on changé
