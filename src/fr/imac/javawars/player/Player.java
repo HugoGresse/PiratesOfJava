@@ -4,7 +4,7 @@ public abstract class Player {
 	
 
 	private String name;
-	private double money;
+	private int money;
 	protected int playerNumber = 0;
 	protected String playerType;
 	
@@ -32,10 +32,10 @@ public abstract class Player {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getMoney() {
+	public int getMoney() {
 		return money;
 	}
-	public void setMoney(double money) {
+	public void setMoney(int money) {
 		this.money = money;
 	}
 

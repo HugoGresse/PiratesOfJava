@@ -157,9 +157,9 @@ public class Engine  implements Runnable{
 				
 				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
 				// seulement si les données on changé
-				if(dataChange)
+				if(dataChange){
 					dispatcher.updatePlayers();
-				
+				}
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {

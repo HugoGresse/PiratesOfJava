@@ -43,16 +43,31 @@ public class BasesLayer extends JPanel {
 			Base b = it.next();
 			
 			int radius = b.getRadius();
+			int playerNumber = b.getPlayer().getPlayerNumber();
 			
 			//first circle : under (border)
+			//neutral bases
 			if(b.getPlayer()== null){
 				g.setColor(new Color(198, 198, 198));
 			}
-			else if(b.getPlayer().getPlayerNumber() == 1){
-				g.setColor(new Color(197, 54, 59));
-			}
-			else{
-				g.setColor(new Color(27, 116, 169));		
+			
+			//players bases
+			switch(playerNumber){
+				case 1 : 
+					g.setColor(new Color(197, 54, 59));
+					break;
+				case 2 :
+					g.setColor(new Color(27, 116, 169));
+					break;
+				case 3:
+					g.setColor(new Color(27, 116, 169));
+					break;
+				case 4 :
+					g.setColor(new Color(27, 116, 169));
+					break;
+				default:
+					g.setColor(new Color(27, 116, 169));
+					break;
 			}
 			
 			g.fillOval((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
@@ -61,7 +76,7 @@ public class BasesLayer extends JPanel {
 			if(b.getPlayer()== null){
 				g.setColor(new Color(229, 229, 229));
 			}
-			else if(b.getPlayer().getPlayerNumber() == 1){
+			else if(playerNumber == 1){
 				g.setColor(new Color(158, 41, 45));
 			}
 			else{
@@ -69,13 +84,9 @@ public class BasesLayer extends JPanel {
 			}
 			
 			g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
-		
-			//gray rectangle
-			g.setColor(Color.gray);
-			g.fillRect((int)(b.getPosition().getX()- 10), (int)(b.getPosition().getY()-8), 20, 16);
 			
 			//number of alien
-			g.setColor(Color.white);
+			g.setColor(Color.black);
 			g.drawString(String.valueOf(b.getLife()), (int)(b.getPosition().getX()-6), (int)(b.getPosition().getY()+4));
 		}
 		
