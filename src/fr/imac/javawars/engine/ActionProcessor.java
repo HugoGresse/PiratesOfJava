@@ -9,13 +9,19 @@ import fr.imac.javawars.dispatcher.Action;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
+/**
+ * The class which are in charge of processing Actions
+ * 
+ * @author Hugo
+ *
+ */
 public class ActionProcessor {
 
 	public ActionProcessor() {
 	}
 	
 	/**
-	 * process given Queue
+	 * process given Queue. Add method related to a specific action here
 	 * @param actions
 	 * 					the only one action queue
 	 */
@@ -48,7 +54,14 @@ public class ActionProcessor {
 		return change;
 	}
 
-	
+	/**
+	 * Check if a player can crate a tower related to :
+	 * 	- the position (on contrefort and not too near other Tower)
+	 * 	- the player's money
+	 * And if ok, add the tower and change player money
+	 * @param action
+	 * 				A ActionTowerCreate action
+	 */
 	private void tryToAddTower(ActionTowerCreate action){
 		
 		double sizeTower = 7.5;
@@ -98,7 +111,12 @@ public class ActionProcessor {
 		
 	}
 	
-	
+	/**
+	 * Verify if the player can upgrade a tower if : 
+	 * 	- player have anough money
+	 * If ok : upgrade the tower (range/ActionField and strengh/damage) and change tower money
+	 * @param action
+	 */
 	private void tryToUpgradeTower(ActionTowerUpgrade action){
 		
 		//check if anough money : 

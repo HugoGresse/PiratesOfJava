@@ -22,8 +22,8 @@ public class ActionTowerCreate extends ActionTower{
 	 * @param tower
 	 * 				the tower he want to create
 	 */
-	public ActionTowerCreate(Player player, int life, Point pos, double actionField, int strengh) {
-		super(player, new Tower(life, pos, player, actionField, 4, strengh));
+	public ActionTowerCreate(Player player, Tower t) {
+		super(player, t);
 		
 	}
 

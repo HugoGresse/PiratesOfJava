@@ -53,8 +53,8 @@ public class TowersLayer extends JPanel {
 	public void createTower(int x, int y){		
 		Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 	
-		ActionTowerCreate myAction = new ActionTowerCreate(player, 10, new Point(x,y), 20, 5);
-		JavaWars.getDispatcher().addAction(myAction);
+		//ActionTowerCreate myAction = new ActionTowerCreate(player, 10, new Point(x,y), 20, 5);
+		//JavaWars.getDispatcher().addAction(myAction);
 		
 		repaint();
 	}
