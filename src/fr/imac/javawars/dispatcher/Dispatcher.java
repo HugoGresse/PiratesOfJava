@@ -58,6 +58,14 @@ public class Dispatcher {
 	}
 	
 	/**
+	 * Repaint the ihm
+	 * Call it in Engine
+	 */
+	public void repaintIhm(){
+		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().repaint();
+	}
+	
+	/**
 	 * Getting the map for the initialization of the game
 	 */
 	public int[][] getGround(){
