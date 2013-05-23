@@ -44,7 +44,6 @@ public class ActionProcessor {
 			}
 			else if(e instanceof ActionAgentSend){
 				this.sendAgent((ActionAgentSend)e);
-				System.out.println("hello there");
 				actions.poll();
 			}
 			
@@ -61,7 +60,6 @@ public class ActionProcessor {
 			return;
 		}
 		else{
-			System.out.println("hello boy");
 			e.getAgent().sendToBase(e.getBaseTarget());
 		}
 	}
