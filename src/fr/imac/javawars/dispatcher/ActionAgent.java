@@ -5,7 +5,7 @@ import fr.imac.javawars.player.Player;
 
 
 /**
- * Action related to agent
+ * Action related to an agent
  * 
  * @author Hugo
  * @see Action
@@ -15,9 +15,9 @@ public abstract class ActionAgent extends Action{
 	private Agent agent;
 	
 	/**
-	 * Create an actio nrelated to Agent
+	 * Create an action related to an agent
 	 * @param player
-	 * 				THe player who own the tower and 
+	 * 				The player who owns the tower and 
 	 * @param agent
 	 * 				A given agent to act on
 	 */

@@ -36,11 +36,6 @@ public class JavaWars {
 		
 		//create ihm
 		((Human)joueur1).initIhm("JavaWars");
-		
-		//on met à jour les Players
-		dispatcher.updatePlayers();
-		
-		
 	}
 	
 	
@@ -51,8 +46,5 @@ public class JavaWars {
 	public static Engine getEngine(){
 		return engine;
 	}
-	
-	
-
 	
 }

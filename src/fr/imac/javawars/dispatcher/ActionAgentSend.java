@@ -13,12 +13,12 @@ import fr.imac.javawars.player.Player;
  */
 public class ActionAgentSend extends ActionAgent{
 
-	Base baseCible;
+	Base baseTarget;
 	
 	/**
 	 * Create an action sending an agent to a base
 	 * @param player
-	 * 				THe player who own the tower and 
+	 * 				The player who owns the agent
 	 * @param agent
 	 * 				The agent you want to moove
 	 * @param base
@@ -26,7 +26,6 @@ public class ActionAgentSend extends ActionAgent{
 	 */
 	public ActionAgentSend(Player player, Agent agent, Base base) {
 		super(player, agent);
-		this.baseCible = base;
+		this.baseTarget = base;
 	}
-
 }

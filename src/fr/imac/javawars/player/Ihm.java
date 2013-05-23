@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 public class Ihm  extends JFrame {
 	private Player p;
+	private Menu menu = new Menu();
 	private JPanel conteneur = new JPanel();
 	
 	//panels
@@ -52,16 +53,14 @@ public class Ihm  extends JFrame {
 //	    this.setJMenuBar(menu);
 	    
 	    
-	    CreatePanel();
-	    
-	    this.setContentPane(this.conteneur);
+	    this.setContentPane(this.menu);
 	    this.setVisible(true);
 	}
 	
 	/**
 	 * Create panels, juliette's code should go here
 	 */
-	private void CreatePanel(){
+	public void CreatePanel(){
 		centerPanel = new CenterPanel(this.getLayeredPane());
 		sidebar = new Sidebar();
 		bottomBar = new BottomBar();
@@ -73,6 +72,7 @@ public class Ihm  extends JFrame {
 		this.conteneur.add(BorderLayout.EAST,sidebar);
 		this.conteneur.add(BorderLayout.SOUTH,bottomBar);
 		
+		this.setContentPane(this.conteneur);
 	}
 	
 	/**
@@ -90,6 +90,7 @@ public class Ihm  extends JFrame {
 	public Sidebar getSidebar(){
 		return sidebar;
 	}
+	
 
 	
 }
