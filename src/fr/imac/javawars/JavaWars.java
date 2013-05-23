@@ -46,7 +46,5 @@ public class JavaWars {
 	public static Engine getEngine(){
 		return engine;
 	}
-
-
 	
 }

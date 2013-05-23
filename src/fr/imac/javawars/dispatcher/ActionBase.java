@@ -15,9 +15,9 @@ public abstract class ActionBase extends Action{
 	private Base base;
 	
 	/**
-	 * Create an action for related to base
+	 * Create an action related to a base
 	 * @param player
-	 * 				The player who sent the agent
+	 * 				The player who sends the agent
 	 * @param base
 	 * 				The base you want to act on
 	 */

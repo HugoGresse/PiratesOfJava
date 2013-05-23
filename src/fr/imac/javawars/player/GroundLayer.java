@@ -35,7 +35,7 @@ public class GroundLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
-		
+
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( 
 				RenderingHints.KEY_ANTIALIASING, 

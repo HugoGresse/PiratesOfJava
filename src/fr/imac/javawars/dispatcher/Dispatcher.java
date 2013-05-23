@@ -95,4 +95,7 @@ public class Dispatcher {
 		
 	}
 
+	public Map<Integer, Player> getPlayers(){
+		return JavaWars.getEngine().getPlayers();
+	}
 }

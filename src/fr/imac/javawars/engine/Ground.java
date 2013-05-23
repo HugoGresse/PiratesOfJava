@@ -202,7 +202,7 @@ public class Ground {
 			    		if (coord==0){
 			    			Random rnd = new Random();
 			    	 		int rayon = rnd.nextInt(RADIUS-10)+10;
-			    	 		Base base = new Base(rnd.nextInt(100)+1, new Point(j,i),rayon, coefSpeedRegen*rayon);
+			    	 		Base base = new Base(rnd.nextInt(100)+1, new Point(j,i), coefSpeedRegen*rayon, rayon);
 	    					listBases.add(base);
 	    					
 			    		} else if (coord>=1){
@@ -222,7 +222,7 @@ public class Ground {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
+			Base b = new Base(p, entry.getValue(), coefSpeedRegen*RADIUS,  RADIUS);
 			
 			listBases.add(b);
 
@@ -276,7 +276,7 @@ public class Ground {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
+			Base b = new Base(p, entry.getValue(), coefSpeedRegen*RADIUS, RADIUS);
 			
 			listBases.add(b);
 
@@ -330,7 +330,7 @@ public class Ground {
 			 else if (r == WHITE ) // PATH
 				 return -1;
 			 else { // NEUTRAL BASES
-				 Base base = new Base(rnd.nextInt(100)+1, p,rayon, coefSpeedRegen*rayon);
+				 Base base = new Base(rnd.nextInt(100)+1, p, coefSpeedRegen*rayon, rayon);
 				 listBases.add(base);
 				 return 0;
 			 }
@@ -433,7 +433,7 @@ public class Ground {
 			generateCircleInPixel(RADIUS, oX, oY, bitMap, entry.getKey());
 			
 			Point p = new Point(oX, oY);
-			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
+			Base b = new Base(p, entry.getValue(), coefSpeedRegen*RADIUS, RADIUS);
 			bases.add(b);
 			centerBases.add(p);
 				
@@ -464,7 +464,7 @@ public class Ground {
 			 
 			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
-			 Base b = new Base(rnd.nextInt(100)+1, p, rayon, coefSpeedRegen*rayon);
+			 Base b = new Base(rnd.nextInt(100)+1, p, coefSpeedRegen*rayon, rayon);
 			 bases.add(b);
 			 centerBases.add(p); 	
 		 }

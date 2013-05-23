@@ -154,11 +154,20 @@ public class Engine  implements Runnable{
 		
 		initializationOfPlayers(p1,p2,p3,p4);
 		
+
 		/*initialisation of the ground*/
 		this.ground = new Ground("map/mapCool_2.xml");
 		//this.ground.printGround();
 		
-		//initialisation of the bases and towers
+		// compute the map of distance for every map
+		Iterator<Base> itBases = this.bases.iterator();
+		while(itBases.hasNext()){
+			Base b = itBases.next();
+			b.initializeDistanceMap(this.ground.getBitMap());
+			b.computeDistanceMap(this.ground.getBitMap());
+		}
+		
+		//initialisation of and towers
 		towers = new CopyOnWriteArrayList<Tower>();
 		
 		
@@ -241,6 +250,4 @@ public class Engine  implements Runnable{
         //this.basesManager = new BasesManager(this.bases, ground.getBitMap());
 	}
 	
-	
-
 }
