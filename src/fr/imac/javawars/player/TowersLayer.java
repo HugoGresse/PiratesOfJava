@@ -71,7 +71,14 @@ public class TowersLayer extends JPanel {
 		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				
+		
+		
+		   Graphics2D g2d = (Graphics2D) g;
+		    g2d.setRenderingHint(
+		        RenderingHints.KEY_ALPHA_INTERPOLATION,
+		        RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		
+		
 		//getting bases from engine
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
 		Iterator<Tower> it = towers.iterator();

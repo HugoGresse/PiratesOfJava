@@ -8,7 +8,7 @@ import java.awt.Point;
  * @author Hugo
  *
  */
-public abstract class Projectile {
+public class Projectile {
 	private double speed;
 	private Point position;
 	private Point targetTest;
@@ -17,6 +17,9 @@ public abstract class Projectile {
 	//Variable used to calculate positon
 	private double a;
 	private double b;
+	private int direction;
+	
+	private static int numPro = 0;
 	
 	/**
 	 * Create a projectile.
@@ -26,14 +29,16 @@ public abstract class Projectile {
 	 * @param targetTest
 	 * 				THe point the projectile should go
 	 */
-	public Projectile(Point origin, Point targetTest){
+	public Projectile(Tower t, Point origin, Point targetTest){
+		t.addProjectiles(this);
 		this.position = origin;
 		this.targetTest = targetTest;
-		this.speed = 0.01;
+		this.speed = 1;
 		
 		//Calculate the variables used (y=ax+b)
 		calcDestination();
 		
+		numPro++;
 	}
 	
 	public double getSpeed() {
@@ -74,30 +79,47 @@ public abstract class Projectile {
 	private void calcDestination(){
 		// yb-ya / xb-xa
 		this.a = (targetTest.getY() - this.position.getY())/(targetTest.getX() - this.position.getX());
-		this.b = this.position.getY();
+		this.b = this.position.getY() - this.a*this.position.getX();
+		
+		//calculate if we have to go on left or right
+		if(this.targetTest.getX() - this.position.getX() >=0)
+			this.direction  = 1;
+		else this.direction = -1;
 	}
 	
 	/**
 	 * Update the position of the projectile.
 	 * @return 
+	 * 			return true is the projectile is arrived
 	 */
-	public void updateProjectile(){
+	public boolean updateProjectile(){
+		System.out.println(this.getPosition().getX()+" - "+ this.getPosition().getY());
+		
 		
 		// If the projectile is arrived at it's destination : 
 		if(this.position.distance(this.targetTest) <=0){
 			System.out.println("Should delete this projectile now");
-			return;
+			return true;
 		}
 		
 		//FIXME calcDestination();
+		int x;
+		if(direction == -1)
+			x = (int) (this.position.getX() - speed);
+		else
+			x = (int) (this.position.getX() + speed);
 		
-		int x = (int) (this.position.getX() + speed);
-		//y = a * (previous x) +b
-		int y = (int) (this.a * this.position.getX() + this.b) ; 
+		
+		//y = a * x +b
+		int y = (int) (this.a * x + this.b) ; 
 		
 		this.setPosition(x, y);
 		
+		return false;
 		
-		//TODO : delete it when arrived.
+	
 	}
+	
+	
+	
 }
