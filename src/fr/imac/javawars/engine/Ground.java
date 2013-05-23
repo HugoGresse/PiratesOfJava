@@ -3,9 +3,14 @@ package fr.imac.javawars.engine;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,12 +54,12 @@ public class Ground {
 	
 	private ArrayList<Point> centerBases = new ArrayList<Point>();
 	
-    public static final int WHITE=255;
-    public static final int BLACK=0;
-    public static final int WIN_HEIGHT=500;
-    public static final int WIN_WITDH=700;
-	public static final int RADIUS=25;
-	
+    private static final int WHITE=255;
+    private static final int BLACK=0;
+    private static final int WIN_HEIGHT=500;
+    private static final int WIN_WIDTH=700;
+    private static final int RADIUS=25;
+	private final double coefSpeedRegen = 0.04;
 	//test arthur
 	//nbPlayers calculated from the number of bases for players at the beginning.
 	private int numberOfPlayers;
@@ -64,7 +69,7 @@ public class Ground {
 	 */
     public Ground(){
     	// Map Random
-    	bitMap = new int[WIN_HEIGHT][WIN_WITDH];
+    	bitMap = new int[WIN_HEIGHT][WIN_WIDTH];
     	numberOfPlayers = 4;
     	
     	initGroundPath();
@@ -83,6 +88,7 @@ public class Ground {
      */
 	public Ground(String file) {
 		
+		
 		// Search extension of file
 		String[] ext = file.split("\\.");
 		
@@ -95,7 +101,6 @@ public class Ground {
 		
 		// IF it is a text file (xml)
 		else if (ext[1].toString().equals("xml")){
-			System.out.println("XML");
 			generateGroundByXML(file);
 		} 
 		
@@ -133,7 +138,98 @@ public class Ground {
 
 	
 	public void generateGroundByXML(String file){
+
+		//String tabDecoup[] = new String[WIN_HEIGHT*WIN_WITDH];
+		String chaine ="";
+		//String heightWidth="";
+		String fichier ="fichiertexte.txt";
 		
+		File f = new File (file);
+		boolean firstLine = false;
+		int k =0;
+		
+		// Open file xml
+		try
+		{
+		    FileReader fr = new FileReader (f);
+		    BufferedReader br = new BufferedReader (fr);
+		    
+		    // Read character per character
+			try
+			{
+				String line = br.readLine();
+				 
+		        while (line != null)
+		        {
+		        	chaine += line;
+		            line = br.readLine();
+
+		        }
+		 
+		        br.close();
+		        fr.close();
+			}
+			catch (IOException exception)
+			{
+			    System.out.println ("Erreur lors de la lecture : " + exception.getMessage());
+			}
+			
+		}
+		catch (FileNotFoundException exception)
+		{
+		    System.out.println ("Le fichier n'a pas été trouvé");
+		}
+				 
+		
+		String decoup[]=chaine.split(" ");		
+		
+		int i=0;
+		int j=0;
+		int l=2;
+		int width = Integer.parseInt(decoup[0]);
+		int height = Integer.parseInt(decoup[1]);
+		bitMap = new int[height][width];
+		
+		CopyOnWriteArrayList<Base> listBases = new CopyOnWriteArrayList<Base>();
+		
+		while(i<height){
+			// column to column
+			j=0;
+		    	while(j<width){
+		    		// row to row
+			    		int coord = Integer.parseInt(decoup[l]);
+			    		bitMap[i][j]= coord;
+			    		if (coord==0){
+			    			Random rnd = new Random();
+			    	 		int rayon = rnd.nextInt(RADIUS-10)+10;
+			    	 		Base base = new Base(rnd.nextInt(100)+1, new Point(j,i),rayon, coefSpeedRegen*rayon);
+	    					listBases.add(base);
+	    					
+			    		} else if (coord>=1){
+			    			centerBases.add(new Point(j,i));
+			    		}
+			    		j++;	
+			    		
+		    		
+		    		l++;
+		    	}
+		    	
+		    i++;
+		}
+		
+		Iterator<Map.Entry<Integer, Player>> itTemp = JavaWars.getEngine().getPlayers().entrySet().iterator();
+		while (itTemp.hasNext()) {
+			Map.Entry<Integer, Player> entry = itTemp.next();
+			
+			Point p = centerBases.get(entry.getKey()-1);
+			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
+			
+			listBases.add(b);
+
+		}
+		
+		JavaWars.getEngine().setBases(listBases);
+
 	}
 	
 	/** Generate a bitMap by a File
@@ -147,15 +243,17 @@ public class Ground {
 		BufferedImage mapImg;
 		try {
 			mapImg = ImageIO.read(new File(file));
-			bitMap = new int[mapImg.getWidth()][mapImg.getHeight()];
+			bitMap = new int[mapImg.getHeight()][mapImg.getWidth()];
 		}
 		catch (IOException e) {
 			mapImg = null;
 			System.err.println("Fichier image de la map invalide" );
 		}
-		
 		int i=0;
 		int j=0;
+		
+		
+		CopyOnWriteArrayList<Base> listBases = new CopyOnWriteArrayList<Base>();
 		
 		//Create the map table
 		while(i<mapImg.getHeight()){
@@ -164,12 +262,28 @@ public class Ground {
 		    	while(j<mapImg.getWidth()){
 		    		// row to row
 		    		Color c = new Color(mapImg.getRGB(j,i));
-		    		bitMap[i][j]=rgbToInt(c, playerColor);
+		    		Point p = new Point(j, i);
+		    		bitMap[i][j]=rgbToInt(c, playerColor, listBases, p);
 		    		
 		    		j++;	   
 		    	}
+		    	
 		    i++;
 		}
+		
+		Iterator<Map.Entry<Integer, Player>> itTemp = JavaWars.getEngine().getPlayers().entrySet().iterator();
+		while (itTemp.hasNext()) {
+			Map.Entry<Integer, Player> entry = itTemp.next();
+			
+			Point p = centerBases.get(entry.getKey()-1);
+			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
+			
+			listBases.add(b);
+
+		}
+		
+		JavaWars.getEngine().setBases(listBases);
+		saveAsXML(bitMap, "mapCool");
 	}
 	
 	/** Save bitMap in XML file
@@ -186,7 +300,7 @@ public class Ground {
 	    	  j = 0;
 	    	  for (j = 0; j< bitMap[0].length; j++)
 	    		  out.print(bitMap[i][j] + " " );
-	    	  out.println(" ");
+	    	  out.println("");
 	      }
 	      out.close();
 	    }
@@ -201,25 +315,32 @@ public class Ground {
 	 * 			Color in the image
 	 * @return value of Color
 	 */
-	 private int rgbToInt(Color c,  LinkedList<Color> playerColor){
+	 private int rgbToInt(Color c,  LinkedList<Color> playerColor, CopyOnWriteArrayList<Base> listBases, Point p){
 
  		int r = c.getRed();
  		int g = c.getGreen();
  		int b = c.getBlue();
  		
+ 		Random rnd = new Random();
+ 		int rayon = rnd.nextInt(RADIUS-10)+10;
+ 		
 		 if(r==g && g==b){
-			 if (r == BLACK)
+			 if (r == BLACK) // WALL
 				 return -2;
-			 else if (r == WHITE )
+			 else if (r == WHITE ) // PATH
 				 return -1;
-			 else 
+			 else { // NEUTRAL BASES
+				 Base base = new Base(rnd.nextInt(100)+1, p,rayon, coefSpeedRegen*rayon);
+				 listBases.add(base);
 				 return 0;
+			 }
 		 }
 		 else {
 			 int i = 1;
 			 // LinkedList Empty, add first value
 			 if (playerColor.isEmpty()){
 				 playerColor.add(c);
+				 centerBases.add(p);
 				 return i;
 			 }
 			 else {
@@ -233,6 +354,8 @@ public class Ground {
 				 playerColor.add(c);
 				 //test arthur
 				 this.numberOfPlayers = playerColor.size();
+				 // Add center of Bases to create Base with player
+				 centerBases.add(p);
 				 
 				 return i;
 			 }
@@ -275,30 +398,30 @@ public class Ground {
     	Random rnd = new Random();
     	int oX, oY;
     	
-    	//loop on all players to create base
+    	// loop on all players to create base in 4 corner of the windows
 		Iterator<Map.Entry<Integer, Player>> itTemp = JavaWars.getEngine().getPlayers().entrySet().iterator();
 		while (itTemp.hasNext()) {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			do {
 				switch(entry.getKey()){
 					case 1:
-						oX = rnd.nextInt(WIN_WITDH-(2*(RADIUS+1)+WIN_WITDH/2))+(RADIUS+1);
+						oX = rnd.nextInt(WIN_WIDTH-(2*(RADIUS+1)+WIN_WIDTH/2))+(RADIUS+1);
 					 	oY = rnd.nextInt(WIN_HEIGHT-(2*(RADIUS+1)+WIN_HEIGHT/2))+(RADIUS+1);	
 					break;
 					case 2:
-						oX = rnd.nextInt(WIN_WITDH-(2*(RADIUS+1)+WIN_WITDH/2))+((RADIUS+1)+WIN_WITDH/2);
+						oX = rnd.nextInt(WIN_WIDTH-(2*(RADIUS+1)+WIN_WIDTH/2))+((RADIUS+1)+WIN_WIDTH/2);
 					 	oY = rnd.nextInt(WIN_HEIGHT-(2*(RADIUS+1)+WIN_HEIGHT/2))+(RADIUS+1);
 					break;
 					case 3:
-						oX = rnd.nextInt(WIN_WITDH-(2*(RADIUS+1)+WIN_WITDH/2))+(RADIUS+1);
+						oX = rnd.nextInt(WIN_WIDTH-(2*(RADIUS+1)+WIN_WIDTH/2))+(RADIUS+1);
 					 	oY = rnd.nextInt(WIN_HEIGHT-(2*RADIUS+WIN_HEIGHT/2))+(RADIUS+WIN_HEIGHT/2);	
 					break;
 					case 4:
-						oX = rnd.nextInt(WIN_WITDH-(2*(RADIUS+1)+WIN_WITDH/2))+((RADIUS+1)+WIN_WITDH/2);
+						oX = rnd.nextInt(WIN_WIDTH-(2*(RADIUS+1)+WIN_WIDTH/2))+((RADIUS+1)+WIN_WIDTH/2);
 					 	oY = rnd.nextInt(WIN_HEIGHT-(2*RADIUS+WIN_HEIGHT/2))+(RADIUS+WIN_HEIGHT/2);
 					break;
 					default:
-						oX = rnd.nextInt(WIN_WITDH-2*RADIUS)+RADIUS;
+						oX = rnd.nextInt(WIN_WIDTH-2*RADIUS)+RADIUS;
 					 	oY = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;	
 					break;
 				}		 
@@ -310,7 +433,7 @@ public class Ground {
 			generateCircleInPixel(RADIUS, oX, oY, bitMap, entry.getKey());
 			
 			Point p = new Point(oX, oY);
-			Base b = new Base(p,RADIUS, entry.getValue());
+			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
 			bases.add(b);
 			centerBases.add(p);
 				
@@ -332,16 +455,16 @@ public class Ground {
 	    	CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
 	    	
 		 for (int i=1; i<= nbBases; ++i){
-			 rayon = rnd.nextInt(RADIUS-1)+1;
+			 rayon = rnd.nextInt(RADIUS-10)+10;
 			 do {
 				
-				oX = rnd.nextInt(WIN_WITDH-2*rayon)+rayon;
+				oX = rnd.nextInt(WIN_WIDTH-2*rayon)+rayon;
 			 	oY = rnd.nextInt(WIN_HEIGHT-2*rayon)+rayon;		 
 			 } while(bitMap[oY][oX]!=-1 || !checkSpaceBases(oX, oY, rayon, bitMap) );
-
+			 
 			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
-			 Base b = new Base(p,rayon);
+			 Base b = new Base(rnd.nextInt(100)+1, p, rayon, coefSpeedRegen*rayon);
 			 bases.add(b);
 			 centerBases.add(p); 	
 		 }
@@ -363,8 +486,8 @@ public class Ground {
 		 // Create wall around the window
 	    	while(j<bitMap[0].length){
 	    		
-	    		disposition = rnd.nextInt(10);
-	    		rayon = rnd.nextInt(RADIUS)+20;
+	    		disposition = rnd.nextInt(6);
+	    		rayon = rnd.nextInt(RADIUS)+10;
 	    		
 	    		//Left wall
 	    		if (disposition>2 && bitMap[0][j]==-1){
@@ -387,19 +510,19 @@ public class Ground {
 	    		rayon = rnd.nextInt(RADIUS)+5;
 		    	if (disposition>2 && bitMap[j][WIN_HEIGHT-1]==-1){
 		    		
-	    			generateCircleInPixel(rayon,WIN_WITDH-1, j, bitMap, -2);
+	    			generateCircleInPixel(rayon,WIN_WIDTH-1, j, bitMap, -2);
 	   		 	}
 		    	j++;
 	    	}
 	    	
 	    	// Create wall in the windows
-	    	for (int i = 0; i<5; ++i) {
-	    		rayon = rnd.nextInt(RADIUS)+5;
+	    	for (int i = 0; i<20; ++i) {
+	    		rayon = rnd.nextInt(RADIUS)+20;
 	    		
 	    		oX = rnd.nextInt(WIN_HEIGHT-2*RADIUS)+RADIUS;
-		 		oY = rnd.nextInt(WIN_WITDH-2*RADIUS)+RADIUS;	
+		 		oY = rnd.nextInt(WIN_WIDTH-2*RADIUS)+RADIUS;	
 		 		
-		 		for (int l =0; l<5; ++l) {
+		 		for (int l=0; l<5; ++l) {
 		 			rndX = rnd.nextInt(rayon);
 		 			rndY = rnd.nextInt(rayon);
 		 			generateCircleInPixel(rayon, oX+rndX, oY+rndY, bitMap, -2);
@@ -414,8 +537,19 @@ public class Ground {
 	  * @param bitMap
 	  */
 	 public void extendPathBases(){
+		 Random rnd = new Random();
+		
+		 int rndX = 0;
+		 int rndY = 0;
 		 for (int i =0; i<centerBases.size(); ++i){
 			 generateCircleInPixel(RADIUS+20, (int)centerBases.get(i).getX(), (int)centerBases.get(i).getY(), bitMap, -1);
+			 for (int l=0; l<5; ++l) {
+				
+				 int rayon = rnd.nextInt(RADIUS);
+		 			rndX = 20;
+		 			rndY = 20;
+		 			generateCircleInPixel(rayon, (int)centerBases.get(i).getX()+rndX, (int)centerBases.get(i).getY()+rndY, bitMap, -1);
+		 		}
 		 }
 	 }
 	 
@@ -440,7 +574,7 @@ public class Ground {
 	    	int x, y;
 	    	for (x=oX-(rayon); x<=oX+(rayon); x++){
 	    		for (y=oY-(rayon); y<=oY+(rayon); y++) {
-		    		if( ( (x-oX)*(x-oX) + (y-oY)*(y-oY) ) <= rayon*rayon && x>=0 && y>=0 && x<WIN_WITDH && y<WIN_HEIGHT && bitMap[y][x]<0){
+		    		if( ( (x-oX)*(x-oX) + (y-oY)*(y-oY) ) <= rayon*rayon && x>=0 && y>=0 && x<WIN_WIDTH && y<WIN_HEIGHT && bitMap[y][x]<0){
 		        		bitMap[y][x]=value;
 		        	}
 	    		}

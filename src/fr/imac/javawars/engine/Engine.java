@@ -155,7 +155,8 @@ public class Engine  implements Runnable{
 		initializationOfPlayers(p1,p2,p3,p4);
 		
 		/*initialisation of the ground*/
-		this.ground = new Ground();
+		this.ground = new Ground("map/mapCool_2.xml");
+		//this.ground.printGround();
 		
 		//initialisation of the bases and towers
 		towers = new CopyOnWriteArrayList<Tower>();
