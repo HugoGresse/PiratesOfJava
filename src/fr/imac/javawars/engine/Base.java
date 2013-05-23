@@ -47,9 +47,10 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	//this constructor is used to generate Bases Neutral from the map
-	public Base(Point position, int radius, double speedRegeneration){
+	public Base(int life, Point position, int radius, double speedRegeneration){
 		// by default capacity of 50 agents ?
-		this(0, position, null, 0.0, 50, speedRegeneration, radius);
+		this(life, position, null, 0.0, 50, speedRegeneration, radius);
+		System.out.println(radius+" - "+speedRegeneration);
 	}
 	
 	//this constructor is used to generate Bases Player from the map

@@ -54,12 +54,12 @@ public class Ground {
 	
 	private ArrayList<Point> centerBases = new ArrayList<Point>();
 	
-    public static final int WHITE=255;
-    public static final int BLACK=0;
-    public static final int WIN_HEIGHT=500;
-    public static final int WIN_WIDTH=700;
-	public static final int RADIUS=25;
-	
+    private static final int WHITE=255;
+    private static final int BLACK=0;
+    private static final int WIN_HEIGHT=500;
+    private static final int WIN_WIDTH=700;
+    private static final int RADIUS=25;
+	private final double coefSpeedRegen = 0.04;
 	//test arthur
 	//nbPlayers calculated from the number of bases for players at the beginning.
 	private int numberOfPlayers;
@@ -202,7 +202,7 @@ public class Ground {
 			    		if (coord==0){
 			    			Random rnd = new Random();
 			    	 		int rayon = rnd.nextInt(RADIUS-10)+10;
-			    	 		Base base = new Base(new Point(j,i),rayon, 0.05*rayon);
+			    	 		Base base = new Base(rnd.nextInt(100)+1, new Point(j,i),rayon, coefSpeedRegen*rayon);
 	    					listBases.add(base);
 	    					
 			    		} else if (coord>=1){
@@ -222,7 +222,7 @@ public class Ground {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p,RADIUS, entry.getValue(), 0.05*RADIUS);
+			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
 			
 			listBases.add(b);
 
@@ -276,7 +276,7 @@ public class Ground {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p,RADIUS, entry.getValue(), 0.05*RADIUS);
+			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
 			
 			listBases.add(b);
 
@@ -330,7 +330,7 @@ public class Ground {
 			 else if (r == WHITE ) // PATH
 				 return -1;
 			 else { // NEUTRAL BASES
-				 Base base = new Base(p,rayon, 0.05*rayon);
+				 Base base = new Base(rnd.nextInt(100)+1, p,rayon, coefSpeedRegen*rayon);
 				 listBases.add(base);
 				 return 0;
 			 }
@@ -433,7 +433,7 @@ public class Ground {
 			generateCircleInPixel(RADIUS, oX, oY, bitMap, entry.getKey());
 			
 			Point p = new Point(oX, oY);
-			Base b = new Base(p,RADIUS, entry.getValue(), 0.05*RADIUS);
+			Base b = new Base(p,RADIUS, entry.getValue(), coefSpeedRegen*RADIUS);
 			bases.add(b);
 			centerBases.add(p);
 				
@@ -461,10 +461,10 @@ public class Ground {
 				oX = rnd.nextInt(WIN_WIDTH-2*rayon)+rayon;
 			 	oY = rnd.nextInt(WIN_HEIGHT-2*rayon)+rayon;		 
 			 } while(bitMap[oY][oX]!=-1 || !checkSpaceBases(oX, oY, rayon, bitMap) );
-
+			 
 			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
-			 Base b = new Base(p,rayon, 0.05*rayon);
+			 Base b = new Base(rnd.nextInt(100)+1, p, rayon, coefSpeedRegen*rayon);
 			 bases.add(b);
 			 centerBases.add(p); 	
 		 }
