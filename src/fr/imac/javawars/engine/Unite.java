@@ -8,7 +8,7 @@ public interface Unite {
 	
 	//methods
 	public void loseLife();
-	public void addLife();
+	public void addLife(int addLife);
 	
 	//getters/setters
 	public void setLife(int life);

@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Dispatcher;
-import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 /*
@@ -45,9 +44,10 @@ public class Engine  implements Runnable{
 	
 	//test arthur
 	private BasesManager basesManager;
-	private ArrayList<Player> players;
 	private Ground ground;
 	
+	//stock erreurs à envoyer à l'IHM
+	private String error = null;
 	
 	/* CONSTRUCTOR */
 	public Engine() {
@@ -95,13 +95,17 @@ public class Engine  implements Runnable{
 	public void setGround(Ground ground) {
 		this.ground = ground;
 	}
-
-	public void setPlayers(ArrayList<Player> players) {
-		this.players = players;
-	}
 	
 	public void stopThread(){
 		running = false;
+	}
+	
+	public void setError(String error){
+		this.error = error;
+	}
+	
+	public String getError(){
+		return error;
 	}
 	
 	/**
@@ -125,41 +129,12 @@ public class Engine  implements Runnable{
 				// 
 				dataChange =  actionProcessor.process(dispatcher.getAction());
 				
-				// iterate on players
-				/*
-				it = playersData.entrySet().iterator();
-				while (it.hasNext()) {
-					entry = it.next();
-					//pour chaque player : 
-					switch (entry.getValue().getPlayerNumber()) {
-						case 1:
-							dataChange = processAction(entry.getValue(), dispatcher.getAction());
-							break;
-						case 2:
-							
-							break;
-						case 3:
-							
-							break;
-						case 4:
-							
-							break;
-						default:
-							break;
-						}
-					entry = null;
-				}
-				
-				it = null;
-				entry = null;
-				
-				*/
 				
 				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
 				// seulement si les données on changé
-				if(dataChange)
+				if(dataChange){
 					dispatcher.updatePlayers();
-				
+				}
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {
@@ -178,14 +153,6 @@ public class Engine  implements Runnable{
 	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
 		
 		initializationOfPlayers(p1,p2,p3,p4);
-		
-		
-		//creation of players and initialization in the engine
-		Player joueur1 = new Human(1, "Hugo");
-		Player joueur2 = new IA(2, "IA 1");
-		Player joueur3 = new IA(3, "AI 2");
-		Player joueur4 = new IA(4, "AI 3");
-		
 		
 		/*initialisation of the ground*/
 		this.ground = new Ground("map/mapCool_2.xml");

@@ -42,7 +42,10 @@ public class Sidebar extends JPanel implements ActionListener {
 	//slider+money
 	private JSlider slider = new JSlider(JSlider.VERTICAL,0,100,50);
 	private JLabel labelSlider = new JLabel();
-	private JLabel money = new JLabel("50");
+	private JLabel money = new JLabel();
+	
+	
+	private static String type = null;
 	
 	/**
 	 * Constructor 
@@ -57,6 +60,9 @@ public class Sidebar extends JPanel implements ActionListener {
 		this.add(BorderLayout.SOUTH,money);
 		
 	    money.setBorder(new TitledBorder("Argent disponible"));
+	    Player p = (Human)JavaWars.getEngine().getPlayers().get(1);
+	    int money = p.getMoney();
+	    this.money.setText(String.valueOf(money));
 		this.addButtons(wrapperButtons);
 		this.addSlider(wrapperSlider);
 	}
@@ -108,7 +114,19 @@ public class Sidebar extends JPanel implements ActionListener {
 		wrapperSlider.add(BorderLayout.SOUTH,labelSlider);
 	}
 	
+	/**
+	 * Update money
+	 */
+	public void updateMoney(int money){
+	    this.money.setText(String.valueOf(money));
+	}
 	
+	
+	
+	public final static String getType() {
+		return type;
+	}
+
 	/**
 	 * Action when a "tower" button is clicked
 	 * 
@@ -122,22 +140,48 @@ public class Sidebar extends JPanel implements ActionListener {
 		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
 		final ListenersLayer listenersLayer = ihm.getCenterPanel().getListenersLayer();
 		
+		
+		//Save the type of tower, used in TowersLayer
+		if(e.getSource() == freezeTower){
+			type = "freeze";
+		}
+		else if(e.getSource() == laserTower){
+			type ="laser";
+		}
+		else if(e.getSource() == missileTower){
+			type="missile";
+		}
+		else if(e.getSource() == gunTower){
+			type="machinegun";
+		}
+		else if(e.getSource() == bombTower){
+			type="bomb";
+		}
+		else if(e.getSource() == ricochetTower){
+			type="bounce";
+		}
+		else if(e.getSource() == sniperTower){
+			type="sniper";
+		}
+		else if(e.getSource() == poisonTower){
+			type = "poison";
+		} else 
+			type= "undefined";
+		
+		
+
 		//adding a listener on listeners panel
 		listenersLayer.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
             	if(mouseListenerActive){
+            		
             		//create tower
-            		towersLayer.createTower(e.getX(), e.getY());
+            		towersLayer.createTower(e.getX(), e.getY(), Sidebar.getType());
+            		
             		//remove Listener
             		mouseListenerActive = false;
             	}
             }
 		});
-		
-		//tests
-		if(e.getSource() == freezeTower){
-			money.setText("Freeze");
-			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
-		}
 	}
 }

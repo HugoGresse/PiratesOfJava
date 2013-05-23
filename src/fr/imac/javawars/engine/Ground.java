@@ -132,7 +132,7 @@ public class Ground {
 			}
 	}
 	
-	private int getGroundPosition(int x, int y){
+	public int getGroundPosition(int x, int y){
 		return bitMap[x][y];
 	}
 
