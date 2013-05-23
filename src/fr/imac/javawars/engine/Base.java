@@ -2,6 +2,8 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.imac.javawars.player.Player;
 /**
@@ -12,13 +14,16 @@ import fr.imac.javawars.player.Player;
 
 public class Base extends AbstractTowerBase {
 	private int capacity;
-	private int speedRegeneration; //if = 1 means 1 agent produce by second ?
+	private double speedRegeneration; //if = 1 means 1 agent produce by second ?
 	private LinkedList<Tower> towers;
 	private Power power;
 	/* table containing distances of the base
  	imagine a map of boxes but here stocked in a tab 1d
  	every element represents the distance of the box to the base */
 	private int[] distanceMap;
+	/**
+	 * Rayon de la base
+	 */
 	private int radius;
 	public enum Power{
 		NORMAL,
@@ -28,23 +33,33 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	// CONSTRUCTORS
-	public Base(int life, Point position, Player player, double actionField, int capacity, int speedRegeneration, int radius) {
+
+	public Base(int life, Point position,Player player, double actionField, int capacity, double speedRegeneration, int radius) {
 		super(life, position, player, actionField);
 		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;
 		//this.towers = new LinkedList<Tower>();
 		this.power = Power.NORMAL;
 		this.radius = radius;
+		
+		//call autoAddLife for incrementing life of the bases 
+		autoAddLife();
 	}
 	
-	public Base(Point position, int radius, Player player){
-		this(50, position, player, 0.0, 50, 1, radius);
-	}
-	
-	//this constructor is used to generate Bases from the map
-	public Base(Point position, int radius){
+	//this constructor is used to generate Bases Neutral from the map
+	public Base(int life, Point position, double speedRegeneration,  int radius){
 		// by default capacity of 50 agents ?
-		this(0, position, null, 0.0, 50, 1, radius);
+		this(life, position, null, 0.0, 50, speedRegeneration, radius);
+		System.out.println(radius+" - "+speedRegeneration);
+	}
+	
+	//this constructor is used to generate Bases Player from the map
+	public Base(Point point, Player player, double speedRegeneration, int radius){
+		this(50, point, player, 0.0, 50, speedRegeneration, radius);
+	}
+
+	public Base(Point position, Player player, int radius){
+		this(50, position, player, 0.0, 50, 1, radius);
 	}
 	
 	public Base(Point position){
@@ -228,7 +243,7 @@ public class Base extends AbstractTowerBase {
 		this.capacity = capacity;
 	}
 
-	public int getSpeedRegeneration() {
+	public double getSpeedRegeneration() {
 		return speedRegeneration;
 	}
 
@@ -284,5 +299,20 @@ public class Base extends AbstractTowerBase {
 			}
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
+	}
+	
+	/**
+	 * Auto add life to the base every 1s related to the speedRegeneration
+	 */
+	private void autoAddLife(){
+		TimerTask task = new TimerTask(){
+			@Override
+			public void run() {
+				addLife( (int) (getSpeedRegeneration() ) );
+			}	
+		};
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 500);
 	}
 }

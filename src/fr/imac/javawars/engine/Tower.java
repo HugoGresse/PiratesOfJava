@@ -4,20 +4,21 @@ import java.awt.Point;
 
 import fr.imac.javawars.player.Player;
 
-public class Tower extends AbstractTowerBase {
+public abstract class Tower extends AbstractTowerBase {
 	private int price;
 	private int strength;
 	private int upgradeStrengh;
 	private int upgradeRange;
+	private double attackSpeed;
 	
 	//constructor
-	public Tower(int life, Point position, Player player, double actionField ,int price, int strength ) {
+	public Tower(Player player,  Point position, int life, int price, double actionField , int strength, double attackSpeed) {
 		super(life, position, player, actionField);
 		this.price = price;
 		this.strength = strength;
 		this.upgradeStrengh = 0;
 		this.upgradeRange = 0;
-		
+		this.attackSpeed = attackSpeed;
 	}
 	
 	//methods
@@ -64,12 +65,15 @@ public class Tower extends AbstractTowerBase {
 		return strength;
 	}
 
-	public void setStrength(int strength) {
-		this.strength = strength;
-	}
-	
 	public void changeStrength(int strength) {
 		this.strength += strength;
+		this.upgradeStrengh++;
+	}
+	
+	@Override
+	public void changeActionField(double num){
+		this.actionField+=num;
+		this.upgradeRange++;
 	}
 
 	

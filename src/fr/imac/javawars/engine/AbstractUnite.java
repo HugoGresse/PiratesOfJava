@@ -24,9 +24,8 @@ public abstract class AbstractUnite implements Unite {
 
 	}
 
-	public void addLife() {
-		// A REMPLIR
-
+	public void addLife(int lifeAdd) {
+		this.life += lifeAdd;
 	}
 
 	// Getters/setters

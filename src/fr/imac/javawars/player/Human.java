@@ -1,5 +1,6 @@
 package fr.imac.javawars.player;
 
+
 public class Human extends Player{
 	
 	protected Ihm ihm;
@@ -14,20 +15,31 @@ public class Human extends Player{
 		super(pNum, name, "human");
 		
 	}
-	
 
+	/**
+	 * initialize ihm
+	 */
+	public void initIhm(String name){
+		ihm = new Ihm(name, this);
+	}
+	
+	/**
+	 * update player's money
+	 */
+	public void update(){
+		ihm.getSidebar().updateMoney(this.getMoney());
+		ihm.getBottomBar().updateTowersLabel();
+		ihm.getBottomBar().updateError();
+	}
+	
+	/**
+	 * Getters
+	 */
 	public String getPlayerType(){
 		return "human";
 	}
 	
 	public Ihm getIhm(){
 		return ihm;
-	}
-	
-	public void initIhm(String name){
-		ihm = new Ihm(name, this);
-	}
-	public void update(){
-		ihm.updateTestLabel(this.getMoney());
 	}
 }

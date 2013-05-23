@@ -1,8 +1,6 @@
 package fr.imac.javawars.player;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -13,9 +11,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.ActionTowerCreate;
-import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
-import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
 
@@ -87,10 +82,7 @@ public class ListenersLayer extends JPanel{
 					if(b.getPlayer() == human){
 						System.out.println("one of my bases positioned in : " + b.getPosition());
 						this.currentHumanBaseSelected = b;
-						// test arthur
-						Point agentPosition = new Point(100, 50);
-						human.addAgent(new Agent(agentPosition, human));
-						// update the display
+						// update the display, sert à qqch????
 						human.getIhm().getCenterPanel().repaint();
 		            	//System.out.println("currentHumanBase : " + this.currentHumanBaseSelected.getPlayer().getName());
 					}
@@ -128,34 +120,15 @@ public class ListenersLayer extends JPanel{
     		//create a rect and test if the click of the mouse is in it.
     		Rectangle2D rect = new Rectangle2D.Double((int)(t.getPosition().getX()-7.5), (int)(t.getPosition().getY()-7.5),15,15);
     		if ((e.getButton() == 1) && rect.contains(e.getX(), e.getY()) && t.getPlayer() == human ) {
-				//getting the bottom bar
+    			//getting the bottom bar
 				BottomBar bottom= human.getIhm().getBottomBar();
+				bottom.setCurrentTower(t);
 				
 				//filling with tower values and make the JPanel visible
 				bottom.getTowerStrength().setText(String.valueOf(t.getStrength()));
 				bottom.getTowerActionField().setText(String.valueOf(t.getActionField()));
 				bottom.getTowerInfos().setVisible(true);
 				
-				//adding listeners on buttons (strength & actionField)
-				bottom.getUpStrength().addActionListener(new ActionListener() {
-			        public void actionPerformed(ActionEvent e){
-			        	System.out.println("+strength");
-			        	Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-			    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
-			    		JavaWars.getDispatcher().addAction(myAction);
-			        }
-			    });
-				
-				bottom.getUpActionField().addActionListener(new ActionListener() {
-			        public void actionPerformed(ActionEvent e){
-			        	// TODO : improve tower actionField, send to dispatcher
-			        	System.out.println("+actionField");
-
-			        	Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-			    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
-			    		JavaWars.getDispatcher().addAction(myAction);
-			        }
-			    });
 			}
     	}
 	}

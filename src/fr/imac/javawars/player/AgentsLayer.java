@@ -2,11 +2,14 @@ package fr.imac.javawars.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
 import java.awt.Point;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -32,6 +35,9 @@ public class AgentsLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		//Antialiasing ON
+		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		// need to run trough all agents created
 		//getting bases from engine
 		Map<Integer, Player> agentPositions = JavaWars.getDispatcher().getPlayers();

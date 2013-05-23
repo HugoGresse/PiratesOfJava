@@ -18,15 +18,11 @@ public class AgentDisplay extends JPanel{
 	AgentDisplay(Point position){
 		super();
 		this.position = position;
-		this.setBounds(0,0,700,500);
-		this.setOpaque(false);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g); 
-		g.setColor(Color.white);
-	    g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		drawAgent(g);
 	}
 	

@@ -1,7 +1,9 @@
 package fr.imac.javawars.player;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,6 +35,12 @@ public class GroundLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
+
+		//Antialiasing ON
+		((Graphics2D)  g).setRenderingHint( 
+				RenderingHints.KEY_ANTIALIASING, 
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		        
 		//Get the map with numbers
 		int[][] map = JavaWars.getDispatcher().getGround();
 			

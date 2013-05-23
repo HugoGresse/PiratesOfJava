@@ -30,6 +30,7 @@ public class JavaWars {
 		Player joueur2 = new IA(2, "IA 1");
 		Player joueur3 = new IA(3, "AI 2");
 		Player joueur4 = new IA(4, "AI 3");
+		
 		//send the players to engine
 		engine.initializationOfTheGame(joueur1, joueur2, joueur3, joueur4);
 		

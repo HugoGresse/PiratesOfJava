@@ -5,7 +5,7 @@ import java.awt.Point;
 import fr.imac.javawars.player.Player;
 
 public abstract class AbstractTowerBase extends AbstractUnite {
-	private double actionField;
+	protected double actionField;
 	
 	//constructor
 	public AbstractTowerBase(int life, Point position, Player player, double actionField) {
