@@ -63,56 +63,8 @@ public class BasesLayer extends JPanel {
 		
 		while(it.hasNext()){
 			Base b = it.next();
-			/*BaseDisplay b1 = new BaseDisplay();
-			b1.drawBase(b, g);
-			BaseDisplay.drawBase(b, g);*/
-			//drawBase(b, g);
-			
-			int radius = b.getRadius();
-			Player player = b.getPlayer();
-			Color color1 = null;
-			Color color2 = null;
-			
-			//defining color for each player
-			if(player == null){
-				color1 = new Color(198, 198, 198);
-				color2 = new Color(229, 229, 229);
-			}
-			else{
-				switch(player.getPlayerNumber()){
-					case 1 : 
-						color1 = new Color(197,54,59,170);
-						color2 = new Color(197,54,59,255);
-						break;
-					case 2 :
-						color1 = new Color(23,100,145,170);
-						color2 = new Color(23,100,145,255);
-						break;
-					case 3:
-						color1 = new Color(131,195,25,170);
-						color2 = new Color(131,195,25,255);
-						break;
-					case 4 :
-						color1 = new Color(255,136,0,170);
-						color2 = new Color(255,136,0,255);
-						break;
-				}
-			}
-			
-			//first circle : under (border)
-			g.setColor(color1);
-			g.fillOval((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
-			
-			//second circle : above
-			g.setColor(color2);
-			g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
-			
-			//number of alien
-			if(player == null)g.setColor(Color.gray);
-			else g.setColor(Color.white);
-			g.drawString(String.valueOf(b.getLife()), (int)(b.getPosition().getX()-6), (int)(b.getPosition().getY()+4));
+			drawBase(b, g);
 		}
-		
 	}
 	
 	private void drawBase(Base b, Graphics g){
