@@ -79,7 +79,9 @@ public class Dispatcher {
 	}
 	
 	public String getError(){
-		return JavaWars.getEngine().getError();
+		String error = JavaWars.getEngine().getError();
+		JavaWars.getEngine().setError(null);
+		return error;
 	}
 
 }
