@@ -59,6 +59,7 @@ public class Ground {
     public static final int WIN_HEIGHT=500;
     public static final int WIN_WIDTH=700;
 	public static final int RADIUS=25;
+	private static final double speedRegeneration=0.04;
 	
 	//test arthur
 	//nbPlayers calculated from the number of bases for players at the beginning.
@@ -79,7 +80,7 @@ public class Ground {
     	extendPathBases();
     	onePixelPerBase();
     	
-    	saveAsXML(bitMap, "map/randomMap_1");
+    	saveAsXML("map/randomMap_1");
     }
     
     /** Constructor to generate Map by file (Text or Image)
@@ -95,7 +96,7 @@ public class Ground {
 		// IF it is an image (gif or png)
 		if (ext[1].toString().equals("gif") || ext[1].toString().equals("png") ){
 			generateGroundByImg(file);
-			saveAsXML(bitMap, ext[0].toString());
+			saveAsXML(ext[0].toString());
 			// Generation Map with XML
 		} 
 		
@@ -112,6 +113,9 @@ public class Ground {
 		
 	}
 	
+	/** Print the ground
+	 * 
+	 */
 	public void printGround(){
 		int i=0;
 		int j=0;
@@ -136,17 +140,18 @@ public class Ground {
 		return bitMap[x][y];
 	}
 
-	
+	/** Generate the Ground by a XML file
+	 * Struct of the file :
+	 * width height
+	 * bitMap ....
+	 * 
+	 * @param file
+	 */
 	public void generateGroundByXML(String file){
 
-		//String tabDecoup[] = new String[WIN_HEIGHT*WIN_WITDH];
 		String chaine ="";
-		//String heightWidth="";
-		String fichier ="fichiertexte.txt";
 		
 		File f = new File (file);
-		boolean firstLine = false;
-		int k =0;
 		
 		// Open file xml
 		try
@@ -154,7 +159,7 @@ public class Ground {
 		    FileReader fr = new FileReader (f);
 		    BufferedReader br = new BufferedReader (fr);
 		    
-		    // Read character per character
+		    // Read line per line and save in "Chaine"
 			try
 			{
 				String line = br.readLine();
@@ -181,48 +186,56 @@ public class Ground {
 		}
 				 
 		
+		// Splite "chaine" with space to have a table of elements ( [-1][-2]...)
 		String decoup[]=chaine.split(" ");		
 		
 		int i=0;
 		int j=0;
+		
+		// The 2 first number of the file are width and height, so began count at 2
 		int l=2;
 		int width = Integer.parseInt(decoup[0]);
 		int height = Integer.parseInt(decoup[1]);
+		
+		// Initialized bitmap[][]
 		bitMap = new int[height][width];
 		
 		CopyOnWriteArrayList<Base> listBases = new CopyOnWriteArrayList<Base>();
 		
 		while(i<height){
-			// column to column
+			// row to row
 			j=0;
 		    	while(j<width){
-		    		// row to row
+		    		// column to column
+		    		
 			    		int coord = Integer.parseInt(decoup[l]);
 			    		bitMap[i][j]= coord;
+			    		
+			    		// If its neutral bases
 			    		if (coord==0){
 			    			Random rnd = new Random();
 			    	 		int rayon = rnd.nextInt(RADIUS-10)+10;
-			    	 		Base base = new Base(new Point(j,i),rayon, 0.05*rayon);
+			    	 		Base base = createBases(new Point(j,i), rayon);
 	    					listBases.add(base);
 	    					
-			    		} else if (coord>=1){
+			    		} 
+			    		// If its player bases
+			    		else if (coord>=1){
 			    			centerBases.add(new Point(j,i));
 			    		}
-			    		j++;	
-			    		
-		    		
+			    	j++;	
 		    		l++;
-		    	}
-		    	
+		    	}    	
 		    i++;
 		}
 		
+		// Loop arround Player List to associate a base to a player
 		Iterator<Map.Entry<Integer, Player>> itTemp = JavaWars.getEngine().getPlayers().entrySet().iterator();
 		while (itTemp.hasNext()) {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p,RADIUS, entry.getValue(), 0.05*RADIUS);
+			Base b = createBases(p,RADIUS, entry.getValue());
 			
 			listBases.add(b);
 
@@ -240,6 +253,7 @@ public class Ground {
 		
 		LinkedList<Color> playerColor = new LinkedList<Color>();
 		
+		// Read the image
 		BufferedImage mapImg;
 		try {
 			mapImg = ImageIO.read(new File(file));
@@ -257,13 +271,13 @@ public class Ground {
 		
 		//Create the map table
 		while(i<mapImg.getHeight()){
-			// column to column
+			// row to row
 			j=0;
 		    	while(j<mapImg.getWidth()){
-		    		// row to row
+		    		// column to column
 		    		Color c = new Color(mapImg.getRGB(j,i));
 		    		Point p = new Point(j, i);
-		    		bitMap[i][j]=rgbToInt(c, playerColor, listBases, p);
+		    		bitMap[i][j]=fillBitMapByImg(c, playerColor, listBases, p);
 		    		
 		    		j++;	   
 		    	}
@@ -283,15 +297,14 @@ public class Ground {
 		}
 		
 		JavaWars.getEngine().setBases(listBases);
-		saveAsXML(bitMap, "mapCool");
+		saveAsXML("mapCool");
 	}
 	
 	/** Save bitMap in XML file
 	 * 
-	 * @param bitMap
 	 * @param File
 	 */
-	public static void saveAsXML(int bitMap[][], String File){
+	public void saveAsXML(String File){
 	    String nameFile = File+".xml";
 	    try{
 	      PrintWriter out  = new PrintWriter(new FileWriter(nameFile));
@@ -313,9 +326,13 @@ public class Ground {
 	 * 
 	 * @param c
 	 * 			Color in the image
-	 * @return value of Color
+	 * @param playerColor
+	 * @param listBases
+	 * @param p
+	 * @return
+	 * 
 	 */
-	 private int rgbToInt(Color c,  LinkedList<Color> playerColor, CopyOnWriteArrayList<Base> listBases, Point p){
+	 private int fillBitMapByImg(Color c,  LinkedList<Color> playerColor, CopyOnWriteArrayList<Base> listBases, Point p){
 
  		int r = c.getRed();
  		int g = c.getGreen();
@@ -363,9 +380,8 @@ public class Ground {
 		 }
 	 }
 	 
-	 /** Init all the map at 0 --> all path
+	 /** Init all the map at -1 --> all path
 	  * 
-	  * @param bitMap
 	  */
 	 public void initGroundPath(){
 		int i=0;
@@ -389,8 +405,6 @@ public class Ground {
 	 
 	 /** Generate Player's Bases
 	  * 
-	  * @param nbBases
-	  * @param bitMap
 	  */
 	 public void generateBasesPlayer(){	
 		CopyOnWriteArrayList<Base> bases = new CopyOnWriteArrayList<Base>();
@@ -433,7 +447,7 @@ public class Ground {
 			generateCircleInPixel(RADIUS, oX, oY, bitMap, entry.getKey());
 			
 			Point p = new Point(oX, oY);
-			Base b = new Base(p,RADIUS, entry.getValue(), 0.05*RADIUS);
+			Base b = createBases(p,RADIUS, entry.getValue());
 			bases.add(b);
 			centerBases.add(p);
 				
@@ -446,7 +460,6 @@ public class Ground {
 	 /** Generate neutral Bases
 	  * 
 	  * @param nbBases
-	  * @param bitMap
 	  */
 	 
 	 public void generateBasesNeutral(int nbBases){	    	
@@ -464,7 +477,7 @@ public class Ground {
 
 			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
-			 Base b = new Base(p,rayon, 0.05*rayon);
+			 Base b = createBases(p,rayon);
 			 bases.add(b);
 			 centerBases.add(p); 	
 		 }
@@ -534,7 +547,6 @@ public class Ground {
 
 	 /** Create an extend circle around Bases
 	  * 
-	  * @param bitMap
 	  */
 	 public void extendPathBases(){
 		 Random rnd = new Random();
@@ -560,6 +572,14 @@ public class Ground {
 		 }
 	 }
 	 
+	 public Base createBases(Point p, int radius, Player pl){
+		 Base b = new Base(p,radius, pl, speedRegeneration*radius);
+		 return b;
+	 }
+	 public Base createBases(Point p, int radius){
+		 Base b = new Base(p,radius,speedRegeneration*radius);
+		 return b;
+	 }
 	 
 	 /** Create a circle in BitMap with origin, radius
 	  * 
@@ -619,6 +639,8 @@ public class Ground {
 	public int getNumberOfPlayers() {
 		return this.numberOfPlayers;
 	}
+	
+	
 	
 	
 	
