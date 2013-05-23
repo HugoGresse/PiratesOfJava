@@ -21,9 +21,14 @@ public abstract class ActionAgent extends Action{
 	 * @param agent
 	 * 				A given agent to act on
 	 */
+
 	public ActionAgent(Player player, Agent agent) {
 		super(player);
 		this.agent = agent;
+		player.addAgent(agent);
 	}
-
+	
+	public Agent getAgent() {
+		return this.agent;
+	}
 }

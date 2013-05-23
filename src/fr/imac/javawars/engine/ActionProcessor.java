@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
+import fr.imac.javawars.dispatcher.ActionAgentSend;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
@@ -41,12 +42,28 @@ public class ActionProcessor {
 				this.tryToAddTower((ActionTowerCreate)e);
 				actions.poll();
 			}
+			else if(e instanceof ActionAgentSend){
+				this.sendAgent((ActionAgentSend)e);
+				System.out.println("hello there");
+				actions.poll();
+			}
 			
 			change = true;
 			System.out.println("processAction : "+i);
 			i++;
 		}
 		return change;
+	}
+
+	private void sendAgent(ActionAgentSend e) {
+		if(e.getAgent() == null){
+			System.out.println("agent null");
+			return;
+		}
+		else{
+			System.out.println("hello boy");
+			e.getAgent().sendToBase(e.getBaseTarget());
+		}
 	}
 
 	/**
@@ -64,7 +81,7 @@ public class ActionProcessor {
 		Point newPoint = action.getTower().getPosition();
 		Point point;
 		
-		//check if anough money : 
+		//check if player has enough money : 
 		if( action.getTower().getPrice() >  action.getPlayer().getMoney() ) {
 			JavaWars.getEngine().setError("Pas assez d'argent pour créer la tour");
 			// TODO check object null to destroy it
@@ -114,7 +131,7 @@ public class ActionProcessor {
 	 */
 	private void tryToUpgradeTower(ActionTowerUpgrade action){
 		
-		//check if anough money : 
+		//check if player has enough money : 
 		if( action.getPrice() >  action.getPlayer().getMoney() ) {
 			JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la tour");
 			// TODO check object null to destroy it

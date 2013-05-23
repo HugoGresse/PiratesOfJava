@@ -91,6 +91,4 @@ public class Ihm  extends JFrame {
 		return sidebar;
 	}
 	
-
-	
 }

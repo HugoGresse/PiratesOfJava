@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -14,8 +16,18 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionAgentSend;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
+import fr.imac.javawars.engine.TowerBombe;
+import fr.imac.javawars.engine.TowerBounce;
+import fr.imac.javawars.engine.TowerFreeze;
+import fr.imac.javawars.engine.TowerLaser;
+import fr.imac.javawars.engine.TowerMachinegun;
+import fr.imac.javawars.engine.TowerMissile;
+import fr.imac.javawars.engine.TowerPoison;
+import fr.imac.javawars.engine.TowerSniper;
 
 /**
  * Class AgentsLayer: manage & display agents 
@@ -58,5 +70,15 @@ public class AgentsLayer extends JPanel {
 				agentDisplay.paintComponent(g);
 			}
 		}
+	}
+	
+	public void createAndSendAgent(Player player, Base start, Base target){	
+		//Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+		
+		ActionAgentSend myAction = new ActionAgentSend(player, start, target);
+
+		JavaWars.getDispatcher().addAction(myAction);
+		
+		repaint();
 	}
 }

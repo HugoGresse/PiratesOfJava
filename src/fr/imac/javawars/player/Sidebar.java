@@ -150,7 +150,7 @@ public class Sidebar extends JPanel implements ActionListener {
 		Ihm ihm = human.getIhm();
 		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
 		final ListenersLayer listenersLayer = ihm.getCenterPanel().getListenersLayer();
-		
+		final AgentsLayer agentsLayer = ihm.getCenterPanel().getAgentsLayer();
 		
 		//Save the type of tower, used in TowersLayer
 		if(e.getSource() == freezeTower){
@@ -201,12 +201,14 @@ public class Sidebar extends JPanel implements ActionListener {
 			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
 			
 			// TEST ARTHUR (agents créés dans le player en dur pour les tests
+			Base baseStart = JavaWars.getDispatcher().getBases().get(1);
 			Base baseTarget = JavaWars.getDispatcher().getBases().get(4);// base au pif cible de l'agent
-			System.out.println("base position :" + baseTarget.getPosition().getX() + ", " + baseTarget.getPosition().getY());
-			System.out.println("agent position : " + human.getAgents().getLast().getPosition());
+			agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
+			//System.out.println("base position :" + baseTarget.getPosition().getX() + ", " + baseTarget.getPosition().getY());
+			//System.out.println("agent position : " + human.getAgents().getLast().getPosition());
 			//envoi du dernier agent de la liste sur la base
-			human.getAgents().getLast().sendToBase(baseTarget);
-			//human.getIhm().getCenterPanel().repaint();
+			//human.getAgents().getLast().sendToBase(baseTarget);
+			human.getIhm().getCenterPanel().repaint();
 		}
 	}
 }

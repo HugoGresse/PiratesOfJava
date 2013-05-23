@@ -25,6 +25,7 @@ public class Agent extends AbstractUnite {
 	public void sendToBase(Base base) {
 		int[] distanceMap = base.getDistanceMap();
 		int width = 700;
+		System.out.println("YOOOOOOOOOOOOOOoo");
 		// point of start of the agent
 		int currentAgentPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
 		// while the agent isn't on a case which value is zero (on the base)
