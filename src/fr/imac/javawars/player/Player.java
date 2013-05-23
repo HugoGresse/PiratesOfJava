@@ -9,7 +9,7 @@ public abstract class Player {
 	
 
 	private String name;
-	private LinkedList<Agent> agents;
+	protected LinkedList<Agent> agents;
 	private int numberOfAgents;
 	private int money;
 	protected int playerNumber = 0;
@@ -29,11 +29,7 @@ public abstract class Player {
 		this.name = name;
 		this.money = 20;
 		this.agents = new LinkedList<Agent>();
-		//test arthur
-		this.agents.addLast(new Agent(new Point(100,100), this));
-		this.agents.addLast(new Agent(new Point(50,50), this));
-		this.agents.addLast(new Agent(new Point(300 ,50), this));
-		this.numberOfAgents = 3;
+		this.numberOfAgents = 0;
 		
 		this.playerNumber = pNum;
 		this.playerType = type;
