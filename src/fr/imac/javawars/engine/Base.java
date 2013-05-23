@@ -43,7 +43,7 @@ public class Base extends AbstractTowerBase {
 		this.radius = radius;
 		
 		//call autoAddLife for incrementing life of the bases 
-		autoAddLife();
+		//autoAddLife();
 	}
 	
 	//this constructor is used to generate Bases Neutral from the map
@@ -292,7 +292,7 @@ public class Base extends AbstractTowerBase {
 	/**
 	 * Auto add life to the base every 1s related to the speedRegeneration
 	 */
-	private void autoAddLife(){
+	public void autoAddLife(){
 		TimerTask task = new TimerTask(){
 			@Override
 			public void run() {

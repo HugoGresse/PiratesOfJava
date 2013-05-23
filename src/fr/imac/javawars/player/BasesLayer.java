@@ -30,13 +30,12 @@ public class BasesLayer extends JPanel {
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
-		autoUpdate();
 	}
 
 	/**
 	 * Auto update label on base every 1s
 	 */
-	private void autoUpdate(){
+	public void autoUpdate(){
 		TimerTask task = new TimerTask(){
 			@Override
 			public void run() {

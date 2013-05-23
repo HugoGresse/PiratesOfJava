@@ -83,5 +83,16 @@ public class Dispatcher {
 		JavaWars.getEngine().setError(null);
 		return error;
 	}
+	
+	public void setAutoAddLife(){
+		CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
+		Iterator<Base> it = bases.iterator();
+		
+		while(it.hasNext()){
+			Base b = it.next();
+			b.autoAddLife();
+		}
+		
+	}
 
 }

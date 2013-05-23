@@ -51,5 +51,9 @@ public class CenterPanel extends JPanel {
 		return listeners;
 	}
 	
+	public BasesLayer getBasesLayer(){
+		return bases;
+	}
+	
 
 }
