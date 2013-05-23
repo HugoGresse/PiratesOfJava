@@ -54,13 +54,13 @@ public class Ground {
 	
 	private ArrayList<Point> centerBases = new ArrayList<Point>();
 	
-    public static final int WHITE=255;
-    public static final int BLACK=0;
-    public static final int WIN_HEIGHT=500;
-    public static final int WIN_WIDTH=700;
-	public static final int RADIUS=25;
-	private static final double speedRegeneration=0.04;
-	
+
+    private static final int WHITE=255;
+    private static final int BLACK=0;
+    private static final int WIN_HEIGHT=500;
+    private static final int WIN_WIDTH=700;
+    private static final int RADIUS=25;
+	private final double coefSpeedRegen = 0.04;
 	//test arthur
 	//nbPlayers calculated from the number of bases for players at the beginning.
 	private int numberOfPlayers;
@@ -80,7 +80,7 @@ public class Ground {
     	extendPathBases();
     	onePixelPerBase();
     	
-    	saveAsXML("map/randomMap_1");
+    	saveAsXML(bitMap, "map/randomMap_1");
     }
     
     /** Constructor to generate Map by file (Text or Image)
@@ -96,7 +96,7 @@ public class Ground {
 		// IF it is an image (gif or png)
 		if (ext[1].toString().equals("gif") || ext[1].toString().equals("png") ){
 			generateGroundByImg(file);
-			saveAsXML(ext[0].toString());
+			saveAsXML(bitMap, ext[0].toString());
 			// Generation Map with XML
 		} 
 		
@@ -215,7 +215,9 @@ public class Ground {
 			    		if (coord==0){
 			    			Random rnd = new Random();
 			    	 		int rayon = rnd.nextInt(RADIUS-10)+10;
+
 			    	 		Base base = createBases(new Point(j,i), rayon);
+
 	    					listBases.add(base);
 	    					
 			    		} 
@@ -290,29 +292,29 @@ public class Ground {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p,RADIUS, entry.getValue(), 0.05*RADIUS);
+			Base b = new Base(p, entry.getValue(), coefSpeedRegen*RADIUS, RADIUS);
 			
 			listBases.add(b);
 
 		}
 		
 		JavaWars.getEngine().setBases(listBases);
-		saveAsXML("mapCool");
+		saveAsXML(bitMap, "mapCool");
 	}
 	
 	/** Save bitMap in XML file
 	 * 
 	 * @param File
 	 */
-	public void saveAsXML(String File){
+	public static void saveAsXML(int[][] bm, String File){
 	    String nameFile = File+".xml";
 	    try{
 	      PrintWriter out  = new PrintWriter(new FileWriter(nameFile));
 	      int i, j;
-	      for (i = 0; i < bitMap.length; i++) {
+	      for (i = 0; i < bm.length; i++) {
 	    	  j = 0;
-	    	  for (j = 0; j< bitMap[0].length; j++)
-	    		  out.print(bitMap[i][j] + " " );
+	    	  for (j = 0; j< bm[0].length; j++)
+	    		  out.print(bm[i][j] + " " );
 	    	  out.println("");
 	      }
 	      out.close();
@@ -347,7 +349,7 @@ public class Ground {
 			 else if (r == WHITE ) // PATH
 				 return -1;
 			 else { // NEUTRAL BASES
-				 Base base = new Base(p,rayon, 0.05*rayon);
+				 Base base = new Base(rnd.nextInt(100)+1, p, coefSpeedRegen*rayon, rayon);
 				 listBases.add(base);
 				 return 0;
 			 }
@@ -474,7 +476,7 @@ public class Ground {
 				oX = rnd.nextInt(WIN_WIDTH-2*rayon)+rayon;
 			 	oY = rnd.nextInt(WIN_HEIGHT-2*rayon)+rayon;		 
 			 } while(bitMap[oY][oX]!=-1 || !checkSpaceBases(oX, oY, rayon, bitMap) );
-
+			 
 			 generateCircleInPixel(rayon, oX, oY, bitMap, 0);
 			 Point p = new Point(oX, oY);
 			 Base b = createBases(p,rayon);
@@ -573,11 +575,12 @@ public class Ground {
 	 }
 	 
 	 public Base createBases(Point p, int radius, Player pl){
-		 Base b = new Base(p,radius, pl, speedRegeneration*radius);
+		 Base b = new Base(p, pl, coefSpeedRegen*radius, radius);
 		 return b;
 	 }
 	 public Base createBases(Point p, int radius){
-		 Base b = new Base(p,radius,speedRegeneration*radius);
+		 Random rnd = new Random();
+		 Base b = new Base(rnd.nextInt(100)+1,p,coefSpeedRegen*radius, radius);
 		 return b;
 	 }
 	 
