@@ -49,23 +49,14 @@ public class AgentsLayer extends JPanel {
 	}
 		
 	public void drawAgentsOfPlayer(Player player, Graphics g){
-		//pas bien d'importer Agent ?
 		LinkedList<Agent> agents = player.getAgents();
 		if (agents != null){
 			Iterator<Agent> it = agents.iterator();
 			while(it.hasNext()){
 				Agent agent = it.next();
-				//drawAgent(agent, g);
 				AgentDisplay agentDisplay = new AgentDisplay(agent.getPosition());
 				agentDisplay.paintComponent(g);
 			}
 		}
 	}
-	/*
-	public void drawAgent(Agent agent, Graphics g){
-		int x = (int) agent.getPosition().getX();
-		int y = (int) agent.getPosition().getY();
-		g.setColor(Color.red);
-		g.fillOval(x, y, 15, 15);
-	}*/
 }
