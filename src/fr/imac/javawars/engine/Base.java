@@ -12,7 +12,7 @@ import fr.imac.javawars.player.Player;
 
 public class Base extends AbstractTowerBase {
 	private int capacity;
-	private int speedRegeneration; //if = 1 means 1 agent produce by second ?
+	private double speedRegeneration; //if = 1 means 1 agent produce by second ?
 	private LinkedList<Tower> towers;
 	private Power power;
 	/* table containing distances of the base
@@ -29,7 +29,7 @@ public class Base extends AbstractTowerBase {
 	}
 	
 	// CONSTRUCTORS
-	public Base(int life, Point position,Player player, double actionField, int capacity, int speedRegeneration, int radius) {
+	public Base(int life, Point position,Player player, double actionField, int capacity, double speedRegeneration, int radius) {
 		super(life, position, player, actionField);
 		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;
@@ -38,14 +38,15 @@ public class Base extends AbstractTowerBase {
 		this.radius = radius;
 	}
 	
-	//this constructor is used to generate Bases from the map
-	public Base(Point position, int radius){
+	//this constructor is used to generate Bases Neutral from the map
+	public Base(Point position, int radius, double speedRegeneration){
 		// by default capacity of 50 agents ?
-		this(0, position, null, 0.0, 50, 1, radius);
+		this(0, position, null, 0.0, 50, speedRegeneration, radius);
 	}
 	
-	public Base(Point point, int radius, Player player){
-		this(50, point, player, 0.0, 50, 1, radius);
+	//this constructor is used to generate Bases Player from the map
+	public Base(Point point, int radius, Player player, double speedRegeneration){
+		this(50, point, player, 0.0, 50, speedRegeneration, radius);
 	}
 	
 	public Base(){
@@ -221,7 +222,7 @@ public class Base extends AbstractTowerBase {
 		this.capacity = capacity;
 	}
 
-	public int getSpeedRegeneration() {
+	public double getSpeedRegeneration() {
 		return speedRegeneration;
 	}
 
