@@ -29,9 +29,10 @@ public abstract class Player {
 		this.name = name;
 		this.money = 20;
 		this.agents = new LinkedList<Agent>();
-		this.agents.addLast(new Agent(new Point(50,50), this));
+		//test arthur
 		this.agents.addLast(new Agent(new Point(100,100), this));
-		this.agents.addLast(new Agent(new Point(200,200), this));
+		this.agents.addLast(new Agent(new Point(50,50), this));
+		this.agents.addLast(new Agent(new Point(300 ,50), this));
 		this.numberOfAgents = 3;
 		
 		this.playerNumber = pNum;

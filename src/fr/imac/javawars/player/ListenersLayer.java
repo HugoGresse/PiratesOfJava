@@ -87,8 +87,10 @@ public class ListenersLayer extends JPanel{
 					if(b.getPlayer() == human){
 						System.out.println("one of my bases positioned in : " + b.getPosition());
 						this.currentHumanBaseSelected = b;
+						// test arthur
 						Point agentPosition = new Point(100, 50);
 						human.addAgent(new Agent(agentPosition, human));
+						// update the display
 						human.getIhm().getCenterPanel().repaint();
 		            	//System.out.println("currentHumanBase : " + this.currentHumanBaseSelected.getPlayer().getName());
 					}

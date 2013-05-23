@@ -33,7 +33,6 @@ public class GroundLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
-		
 		//Get the map with numbers
 		int[][] map = JavaWars.getDispatcher().getGround();
 			

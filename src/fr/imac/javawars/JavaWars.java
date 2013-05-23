@@ -38,8 +38,6 @@ public class JavaWars {
 		
 		//on met à jour les Players
 		dispatcher.updatePlayers();
-		
-		
 	}
 	
 	
@@ -50,8 +48,5 @@ public class JavaWars {
 	public static Engine getEngine(){
 		return engine;
 	}
-	
-	
-
 	
 }

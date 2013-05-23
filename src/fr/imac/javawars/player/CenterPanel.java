@@ -13,14 +13,11 @@ public class CenterPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JLayeredPane layers;
-	private TowersLayer towers;
-	private BasesLayer bases;
-	private AgentsLayer agents;
-	private ListenersLayer listeners;
-	private GroundLayer map;
-	
-	//test arthur
-	private AgentDisplay agent;
+	private TowersLayer towersLayer;
+	private BasesLayer basesLayer;
+	private AgentsLayer agentsLayer;
+	private ListenersLayer listenersLayer;
+	private GroundLayer groundLayer;
 	
 	/**
 	 * CONSTRUCTOR
@@ -33,32 +30,66 @@ public class CenterPanel extends JPanel {
         
         this.layers  = layers;
         this.layers.setOpaque(false);
-        this.towers = new TowersLayer();
-        this.bases = new BasesLayer();
-        this.agents = new AgentsLayer();
-
-        this.listeners = new ListenersLayer();
-        this.map = new GroundLayer("res/img/ground.jpg","res/img/wall.png");
+        this.towersLayer = new TowersLayer();
+        this.basesLayer = new BasesLayer();
+        this.agentsLayer = new AgentsLayer();
+        this.listenersLayer = new ListenersLayer();
+        this.groundLayer = new GroundLayer("res/img/ground.jpg","res/img/wall.png");
 
         
         //add panels to the layeredPane
-        this.layers.add(map,new Integer(-10));
-		this.layers.add(bases,new Integer(8));
-		this.layers.add(towers,new Integer(9));
-		this.layers.add(agents,new Integer(10));
-		this.layers.add(listeners,new Integer(11));
-		
-        //test arthur
-        /*this.agent = new AgentDisplay();
-        this.layers.add(agent, new Integer(12));*/
+        this.layers.add(groundLayer,new Integer(-10));
+		this.layers.add(basesLayer,new Integer(8));
+		this.layers.add(towersLayer,new Integer(9));
+		this.layers.add(agentsLayer,new Integer(10));
+		this.layers.add(listenersLayer,new Integer(11));
     }
-	
-	public TowersLayer getTowersLayer(){
-		return towers;
+
+	public JLayeredPane getLayers() {
+		return layers;
 	}
-	
-	public ListenersLayer getListenersLayer(){
-		return listeners;
+
+	public void setLayers(JLayeredPane layers) {
+		this.layers = layers;
 	}
-	
+
+	public TowersLayer getTowersLayer() {
+		return towersLayer;
+	}
+
+	public void setTowersLayer(TowersLayer towersLayer) {
+		this.towersLayer = towersLayer;
+	}
+
+	public BasesLayer getBasesLayer() {
+		return basesLayer;
+	}
+
+	public void setBasesLayer(BasesLayer basesLayer) {
+		this.basesLayer = basesLayer;
+	}
+
+	public AgentsLayer getAgentsLayer() {
+		return agentsLayer;
+	}
+
+	public void setAgentsLayer(AgentsLayer agentsLayer) {
+		this.agentsLayer = agentsLayer;
+	}
+
+	public ListenersLayer getListenersLayer() {
+		return listenersLayer;
+	}
+
+	public void setListenersLayer(ListenersLayer listenersLayer) {
+		this.listenersLayer = listenersLayer;
+	}
+
+	public GroundLayer getGroundLayer() {
+		return groundLayer;
+	}
+
+	public void setGroundLayer(GroundLayer groundLayer) {
+		this.groundLayer = groundLayer;
+	}
 }

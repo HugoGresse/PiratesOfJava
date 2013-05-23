@@ -31,10 +31,9 @@ public class AgentsLayer extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);  
+		super.paintComponent(g);
 		// need to run trough all agents created
 		//getting bases from engine
-		//VERIFIER QUE C'EST BON
 		Map<Integer, Player> agentPositions = JavaWars.getDispatcher().getPlayers();
 		Iterator<Map.Entry<Integer, Player>> it = agentPositions.entrySet().iterator();
 	
@@ -50,9 +49,17 @@ public class AgentsLayer extends JPanel {
 			Iterator<Agent> it = agents.iterator();
 			while(it.hasNext()){
 				Agent agent = it.next();
+				//drawAgent(agent, g);
 				AgentDisplay agentDisplay = new AgentDisplay(agent.getPosition());
 				agentDisplay.paintComponent(g);
 			}
 		}
 	}
+	/*
+	public void drawAgent(Agent agent, Graphics g){
+		int x = (int) agent.getPosition().getX();
+		int y = (int) agent.getPosition().getY();
+		g.setColor(Color.red);
+		g.fillOval(x, y, 15, 15);
+	}*/
 }

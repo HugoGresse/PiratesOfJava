@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import fr.imac.javawars.engine.Base;
 
-public class BaseDisplay extends JPanel implements MouseListener{
+public class BaseDisplay extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	public void drawBase(Base b, Graphics g){
@@ -41,36 +41,6 @@ public class BaseDisplay extends JPanel implements MouseListener{
 		}
 		
 		g.fillOval( (int)(b.getPosition().getX()- radius*1.5/2), (int)(b.getPosition().getY()-radius*1.5/2), (int)(radius*1.5), (int)(radius*1.5));
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("yeah");
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -20,7 +20,6 @@ public class Base extends AbstractTowerBase {
  	every element represents the distance of the box to the base */
 	private int[] distanceMap;
 	private int radius;
-	
 	public enum Power{
 		NORMAL,
 		SPEED_UP,
@@ -38,19 +37,24 @@ public class Base extends AbstractTowerBase {
 		this.radius = radius;
 	}
 	
+	public Base(Point position, int radius, Player player){
+		this(50, position, player, 0.0, 50, 1, radius);
+	}
+	
 	//this constructor is used to generate Bases from the map
 	public Base(Point position, int radius){
 		// by default capacity of 50 agents ?
 		this(0, position, null, 0.0, 50, 1, radius);
 	}
 	
-	public Base(Point point, int radius, Player player){
-		this(50, point, player, 0.0, 50, 1, radius);
+	public Base(Point position){
+		this(50, position, null, 0.0, 50, 1, 10);
 	}
 	
 	public Base(){
 		this(0, null, null, 0, 0, 0, 0);
 	}
+	
 	
 	// METHODS
 	/**
@@ -63,32 +67,34 @@ public class Base extends AbstractTowerBase {
 	 * 
 	 * @see Base#distanceMap
 	 */
+	/*WARNING : bitMap[indexOfTheLine][indexOfTheColumn] = distanceMap[indexOfTheColumn + indexOfTheLine * width]*/
+	/*WARNING : at the moment a base placed in (1,2) means she is in the first column and second line*/
+	// in bitMap[i][j], i represents the number of lines, j the number of columns
 	public void initializeDistanceMap(int[][] bitMap){
-		//initialization should be done with a file (-2 for walls, -1 when not decided)
 		if(bitMap.length <= 0){
 			return;
 		}
 		int height = bitMap.length;
 		int width = bitMap[0].length;
-		this.distanceMap= new int[height * width];
+		this.distanceMap = new int[height * width];
 		//we initialize all boxes
 		for(int i = 0; i < height; ++i){
 			for(int j = 0; j < width; ++j){
-				if(bitMap[i][j] == 1){
+				if(bitMap[i][j] == -2){
 					// we initialize unaccessible zone for agents to a distance of -2, for the moment a wall is representing by a 1 in the map
-					distanceMap[i + j * width] = - 2;
+					this.distanceMap[j + i * width] = - 2;
 				}
 				else{
 					// we initialize other to a distance of -1 meaning the distance as not been calculated yet
-					distanceMap[i + j * width] = -1;
+					this.distanceMap[j + i * width] = - 1;
 				}
 			}
 		}
 		// we initialize also the outline of the map with -2 
 		// it's a trick to avoid an unwanted access later
 		//the line at the top of the map
-		for(int i = 0; i < width ; ++i){
-			this.distanceMap[i] = -2;
+		for(int j = 0; j < width ; ++j){
+			this.distanceMap[j] = -2;
 		}
 		//the line at the left of the map
 		for(int i = 1; i < height; ++i){
@@ -99,11 +105,12 @@ public class Base extends AbstractTowerBase {
 			this.distanceMap[i*width - 1] = -2;
 		}
 		//the line at the bottom of the map
-		for(int i = (height * width) - width; i < (height * width) - 1 ; ++i){
-			this.distanceMap[i] = -2;
+		for(int j = (height * width) - width; j < (height * width) - 1 ; ++j){
+			this.distanceMap[j] = -2;
 		}
 
 		//the box corresponding to the position of the base is at 0 of distance
+		//WARNING : X OR Y X associated to a line, and Y to a column
 		this.distanceMap[(int) (this.getPosition().getX() + this.getPosition().getY() * width)] = 0;
 		
 		//debug
@@ -125,7 +132,7 @@ public class Base extends AbstractTowerBase {
 			System.out.println("problem with the bitmap in computeDistanceMap");
 			return;
 		}
-		int width = bitMap.length;
+		int width = bitMap[0].length;
 		//creation of a queue of the boxes , for the moment a LinkedList
 		LinkedList<Integer> boxesQueue = new LinkedList<Integer>();
 		// use addLast to add the element at the end of the list
@@ -269,13 +276,13 @@ public class Base extends AbstractTowerBase {
 	 * 		the name we want to give to our file
 	 */
 	//used for debug
-	/*private void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
+	private void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
 		int[][] bitMapInfluenceArea = bitMap;
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
-				bitMapInfluenceArea[i][j] = distanceMap[i + j * bitMapInfluenceArea[0].length];
+				bitMapInfluenceArea[i][j] = distanceMap[j + i * bitMapInfluenceArea[0].length];
 			}
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
-	}*/
+	}
 }

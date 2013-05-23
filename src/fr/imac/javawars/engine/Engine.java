@@ -180,17 +180,25 @@ public class Engine  implements Runnable{
 		initializationOfPlayers(p1,p2,p3,p4);
 		
 		
-		//creation of players and initialization in the engine
+		//creation of players and initialization in the engine, SERT A RIEN CA MAINTENANT NAN ?
 		Player joueur1 = new Human(1, "Hugo");
 		Player joueur2 = new IA(2, "IA 1");
 		Player joueur3 = new IA(3, "AI 2");
 		Player joueur4 = new IA(4, "AI 3");
 		
 		
-		/*initialisation of the ground*/
-		this.ground = new Ground();
+		//initialisation of the ground
+		this.ground = new Ground(); // create bases too at this moment
 		
-		//initialisation of the bases and towers
+		// compute the map of distance for every map
+		Iterator<Base> itBases = this.bases.iterator();
+		while(itBases.hasNext()){
+			Base b = itBases.next();
+			b.initializeDistanceMap(this.ground.getBitMap());
+			b.computeDistanceMap(this.ground.getBitMap());
+		}
+		
+		//initialisation of and towers
 		towers = new CopyOnWriteArrayList<Tower>();
 		
 		
@@ -273,6 +281,4 @@ public class Engine  implements Runnable{
         //this.basesManager = new BasesManager(this.bases, ground.getBitMap());
 	}
 	
-	
-
 }

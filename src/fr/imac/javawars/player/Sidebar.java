@@ -2,6 +2,7 @@ package fr.imac.javawars.player;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +18,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Agent;
+import fr.imac.javawars.engine.Base;
 
 /**
  * Class Sidebar: create sidebar of the interface
@@ -103,9 +106,17 @@ public class Sidebar extends JPanel implements ActionListener {
                 // TODO : send new number to dispatcher
             }
         });
+		JButton confirmAgentSend = new JButton("OK");
+		confirmAgentSend.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("test clic");
+			}
+		});
 		wrapperSlider.setLayout(new BorderLayout());
 		wrapperSlider.add(BorderLayout.NORTH,slider);
 		wrapperSlider.add(BorderLayout.SOUTH,labelSlider);
+		
 	}
 	
 	
@@ -136,8 +147,16 @@ public class Sidebar extends JPanel implements ActionListener {
 		
 		//tests
 		if(e.getSource() == freezeTower){
-			money.setText("Freeze");
+			money.setText("G");
 			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
+			
+			// TEST ARTHUR (agents créés dans le player en dur pour les tests
+			Base baseTarget = JavaWars.getDispatcher().getBases().get(5);// base au pif cible de l'agent
+			System.out.println("base position :" + baseTarget.getPosition().getX() + ", " + baseTarget.getPosition().getY());
+			System.out.println("agent position : " + human.getAgents().getLast().getPosition());
+			//envoi du dernier agent de la liste sur la base
+			human.getAgents().getLast().sendToBase(baseTarget);
+			//human.getIhm().getCenterPanel().repaint();
 		}
 	}
 }
