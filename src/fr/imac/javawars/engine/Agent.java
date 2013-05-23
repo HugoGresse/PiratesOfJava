@@ -100,7 +100,7 @@ public class Agent extends AbstractUnite {
 			}
 			// update currentAgentPosition
 			currentAgentPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
-			System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
+			//System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			try {
 		        Thread.sleep(10);
 		     } catch (InterruptedException e) {

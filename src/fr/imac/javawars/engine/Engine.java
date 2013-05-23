@@ -30,7 +30,10 @@ public class Engine  implements Runnable{
 	protected Thread engineThread;
 	
 	protected Dispatcher dispatcher;
-	protected static ActionProcessor actionProcessor;
+	
+	//Processor
+	private static ProcessorAction actionProcessor;
+	private static ProcessorTower towerProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -52,7 +55,8 @@ public class Engine  implements Runnable{
 	/* CONSTRUCTOR */
 	public Engine() {
 	
-		actionProcessor = new ActionProcessor();
+		actionProcessor = new ProcessorAction();
+		towerProcessor = new ProcessorTower();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
@@ -119,22 +123,31 @@ public class Engine  implements Runnable{
 	
 	@Override
 	public void run() {
+		
+		//check if the something change
+		boolean playerChange;
+		boolean towerChange;
+		
 		while(running){
 			try {
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
-				//check if something has changed
-				boolean dataChange = false;
-				
-				// 
-				dataChange =  actionProcessor.process(dispatcher.getAction());
+
+				playerChange = towerChange = true;
 				
 				
-				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
-				// seulement si les données on changé
-				if(dataChange){
+				playerChange =  actionProcessor.process(dispatcher.getAction());
+				
+				towerChange = towerProcessor.process(towers);
+				
+				
+				//when the action is processed, updatePlayers trough dispatcher
+				if(playerChange)
 					dispatcher.updatePlayers();
-				}
+				
+				//When towers is processed, updateit
+				//if(towerChange)
+					
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {
