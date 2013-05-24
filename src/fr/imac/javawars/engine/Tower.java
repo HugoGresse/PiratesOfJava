@@ -33,7 +33,7 @@ public abstract class Tower extends AbstractTowerBase {
 		this.attackSpeed = attackSpeed;
 		this.projectiles = new ArrayList<Projectile>();
 		
-		Projectile ptest = new Projectile(this, (Point)position.clone(), new Point(200,200));
+		
 	}
 	
 	//methods

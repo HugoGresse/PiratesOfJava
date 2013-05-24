@@ -1,9 +1,11 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.player.Player;
 
 
 
@@ -15,7 +17,18 @@ import fr.imac.javawars.JavaWars;
  */
 public class ProcessorTower {
 	
-	public ProcessorTower(){ };
+	public ProcessorTower(){
+		
+		
+	};
+	
+	public void testHugo(){
+		//TEST
+		JavaWars.getEngine().getPlayers().get(2).getAgents().addLast(new Agent(new Point(100,100), JavaWars.getEngine().getPlayers().get(2)));
+
+		//Projectile ptest = new Projectile(this, (Point)position.clone(), new Point(200,200));
+	}
+	
 	
 	/**
 	 * Process the given collections for moove projectiles 
@@ -41,9 +54,12 @@ public class ProcessorTower {
 				while(itProj.hasNext()){
 					p = itProj.next();
 					
-					//Update the position of the projectile, delete it if arrived
-					if(p.updateProjectile())
+					//Update the position of the projectile, delete it if arrived and remove lfie to agent
+					if(p.updateProjectile()) {
+						
 						itProj.remove();
+					}
+						
 				}
 
 				change = true;
@@ -56,6 +72,11 @@ public class ProcessorTower {
 	}
 	
 	
-	
+	/**
+	 * Check if there are any agents in the actionField of the tower
+	 */
+	private void checkAgentInRange(Player p){
+		
+	}
 	
 }

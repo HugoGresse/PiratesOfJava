@@ -30,7 +30,7 @@ public class Human extends Player{
 	}
 	
 	/**
-	 * update player's money
+	 * update player
 	 */
 	public void update(){
 		ihm.getSidebar().updateMoney(this.getMoney());
