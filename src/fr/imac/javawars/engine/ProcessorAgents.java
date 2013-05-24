@@ -16,9 +16,9 @@ import fr.imac.javawars.player.Player;
  * @author Hugo
  *
  */
-public class AgentsProcessor {
+public class ProcessorAgents {
 	
-	public AgentsProcessor(){ };
+	public ProcessorAgents(){ };
 	
 	/**
 	 * Process the given collections for move agents 
