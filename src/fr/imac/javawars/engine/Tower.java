@@ -18,6 +18,7 @@ public abstract class Tower extends AbstractTowerBase {
 	private int upgradeStrengh;
 	private int upgradeRange;
 	private double attackSpeed;
+	private double waitBeforeResend;
 	
 	private ArrayList<Projectile> projectiles;
 	
@@ -33,9 +34,17 @@ public abstract class Tower extends AbstractTowerBase {
 		this.attackSpeed = attackSpeed;
 		this.projectiles = new ArrayList<Projectile>();
 		
-		Projectile ptest = new Projectile(this, (Point)position.clone(), new Point(200,200));
+		
 	}
 	
+	public double getAttackSpeed() {
+		return attackSpeed;
+	}
+
+	public void setAttackSpeed(double attackSpeed) {
+		this.attackSpeed = attackSpeed;
+	}
+
 	//methods
 	public double sellTower(){
 		double price = this.getPrice();
@@ -46,13 +55,9 @@ public abstract class Tower extends AbstractTowerBase {
 	
 	
 	public void increaseStrength(int val){
-		
+		System.out.println("implement this method increaseStrengh TOwer");
 	}
-	
-	public void attackAgents(){
 		
-	}
-	
 	public int getUpgradeStrengh() {
 		return upgradeStrengh;
 	}
@@ -105,14 +110,11 @@ public abstract class Tower extends AbstractTowerBase {
 	 * Order tower to send projectiles on the specified Point
 	 * 
 	 * @param target
-	 * 				The target of the projectile
+	 * 				The target/Agent of the projectile
 	 */
-	public void attackPoint(Point target){
-		
+	public void attackAgent(Agent target){
+
+		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
 	}
-	
-	
-	
-	
 	
 }

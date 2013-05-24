@@ -19,9 +19,8 @@ public abstract class AbstractUnite implements Unite {
 	}
 	
 	//methods
-	public void loseLife() {
-		// A REMPLIR
-
+	public void loseLife(int lifeLose) {
+		this.life -= lifeLose;
 	}
 
 	public void addLife(int lifeAdd) {

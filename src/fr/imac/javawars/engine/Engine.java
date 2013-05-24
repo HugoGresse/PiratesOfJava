@@ -34,6 +34,7 @@ public class Engine  implements Runnable{
 	//Processor
 	private static ProcessorAction actionProcessor;
 	private static ProcessorTower towerProcessor;
+	private static ProcessorAgents agentsProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -57,6 +58,7 @@ public class Engine  implements Runnable{
 	
 		actionProcessor = new ProcessorAction();
 		towerProcessor = new ProcessorTower();
+		agentsProcessor = new ProcessorAgents();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
@@ -133,12 +135,12 @@ public class Engine  implements Runnable{
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
 				playerChange = ihmChange = true;
-				
-				
-				
+
 				playerChange =  actionProcessor.process(dispatcher.getAction());
 				
 				ihmChange = towerProcessor.process(towers);
+				
+				ihmChange = agentsProcessor.process(playersData);
 				
 				
 				//when the action is processed, updatePlayers trough dispatcher
@@ -155,7 +157,6 @@ public class Engine  implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	
@@ -180,12 +181,12 @@ public class Engine  implements Runnable{
 			b.computeDistanceMap(this.ground.getBitMap());
 		}
 		
-		//initialisation of and towers
+		//initialization of and towers
 		towers = new CopyOnWriteArrayList<Tower>();
 		
 		
 
-		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
+		// Stock dispatcher to avoid to call him every time
 		dispatcher = JavaWars.getDispatcher();
 		
 	}
@@ -233,41 +234,4 @@ public class Engine  implements Runnable{
 		engineThread.start();
 	}
 		
-	/*TEST ARTHUR*/
-	private void testArthur(){
-		
-		/*creation of the players*/
-        //int nbPlayers = ground.getNumberOfPlayers();
-        //System.out.println("number of players : " + nbPlayers);
-        //creation of a list of players
-        //this.players = new ArrayList<Player>();
-        //we have a human player
-        //Player player1 = new Human(1, "Player1");
-        //adding the human player to our arraylist
-        //this.players.add(player1);
-        //others are IA
-       // for(int i = 0; i < nbPlayers - 1 ; ++i){
-                //String nameIA = "IA" + i;
-                //adding IAs to our arrayList
-                //this.players.add(new IA(i + 2, nameIA ));
-        //}
-        //System.out.println("size of array of players : " + players.size());
-        /*creation of bases belonging to the players */
-        //this.bases = new ArrayList<Base>();
-        //Base base1 = new Base(new Point(50, 40), players.get(0));
-        //this.bases.add(base1);
-        //Base base2 = new Base(new Point(80, 50), players.get(1));
-        //this.bases.add(base2);
-        //Base base3 = new Base(new Point(60, 5), players.get(2));
-       // this.bases.add(base3);
-        //System.out.println("size of array of bases : " + bases.size());
-        // test distanceMap
-        //this.bases.get(1).initializeDistanceMap(ground.getBitMap());
-        //this.bases.get(1).computeDistanceMap(ground.getBitMap());
-        
-        //initialisation of BasesManager with the list of the bases,
-        // test influence Area of bases
-        //this.basesManager = new BasesManager(this.bases, ground.getBitMap());
-	}
-	
 }

@@ -1,9 +1,12 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.player.Player;
 
 
 
@@ -15,7 +18,15 @@ import fr.imac.javawars.JavaWars;
  */
 public class ProcessorTower {
 	
-	public ProcessorTower(){ };
+	Map.Entry<Integer, Player> entry;
+	Iterator<Map.Entry<Integer, Player>> itPlayer;
+	Iterator<Agent> itAg;
+	
+	public ProcessorTower(){
+		
+		
+	};
+	
 	
 	/**
 	 * Process the given collections for moove projectiles 
@@ -33,28 +44,73 @@ public class ProcessorTower {
 		while(itr.hasNext()){
 			Tower e = itr.next();
 			
-			//if the tower have projectiles : mooves them
-			if( ! e.getProjectiles().isEmpty()) {
-				
-				Iterator<Projectile> itProj = e.getProjectiles().iterator();
-				Projectile p;
-				while(itProj.hasNext()){
-					p = itProj.next();
-					
-					//Update the position of the projectile, delete it if arrived
-					if(p.updateProjectile())
-						itProj.remove();
-				}
-
-				change = true;
-			}
+			checkAgentInRangeAndAttack(e);
 			
-			//System.out.println("processTower : "+i);
+			//if no projectile, continue !
+			if(e.getProjectiles().isEmpty())
+				continue;
+			
+			//if the tower have projectiles : mooves them
+			Iterator<Projectile> itProj = e.getProjectiles().iterator();
+			Projectile projectile;
+			while(itProj.hasNext()){
+				projectile = itProj.next();
+				
+				//Update the position of the projectile, delete it if arrived and remove lfie to agent
+				if(projectile.updateProjectile()) {
+					projectile.getAgent().addLife(- e.getStrength());
+					itProj.remove();
+				}
+					
+			}
+
+			change = true;
+			
+			System.out.println("processTower : "+i);
 			i++;
 		}
 		return change;
 	}
 	
+	/**
+	 * Check if there are any agents in the actionField of the tower
+	 */
+	private void checkAgentInRangeAndAttack(Tower t){
+		
+		itPlayer = JavaWars.getEngine().getPlayers().entrySet().iterator();
+		
+		
+        while (itPlayer.hasNext()) {
+                entry = itPlayer.next();
+                //Si le joueur est le même que celui de la tour
+                if(entry.getKey() != t.getPlayer().getPlayerNumber())
+                	continue;
+                
+                //On parcour les agents
+				itAg = entry.getValue().getAgents().iterator();
+				
+				while(itAg.hasNext()){
+					Agent agent = itAg.next();
+					//if distance between the tower and the agent if more than tower ActionField, continue, else, create a projectile
+					if(agent.getPosition().distance(t.getPosition()) > t.getActionField())
+						continue;
+					
+					//if(t.getAttackSpeed())
+					//	continue;
+					
+					//on ajoute un projectile
+					t.attackAgent(agent);
+					
+					
+				} // end whilte agents
+                
+        }
+        
+        
+        
+        
+		
+	}
 	
 	
 	

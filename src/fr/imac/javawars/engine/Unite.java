@@ -7,7 +7,7 @@ import fr.imac.javawars.player.Player;
 public interface Unite {
 	
 	//methods
-	public void loseLife();
+	public void loseLife(int loseLife);
 	public void addLife(int addLife);
 	
 	//getters/setters

@@ -21,7 +21,7 @@ public class TowerMissile extends Tower{
 	 */
 	public TowerMissile(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   2,    25,          10,       10);
+		super(player, position, 20,   2,    100,          10,       10);
 		
 	}
 	

@@ -27,7 +27,7 @@ public class TowerBombe extends Tower{
 	
 	public TowerBombe(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   4,    20,          15,       4);
+		super(player, position, 20,   4,    80,          15,       4);
 		this.aoe = 5;
 		
 	}
