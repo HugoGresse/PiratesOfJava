@@ -22,7 +22,7 @@ public class TowerMachinegun extends Tower{
 	
 	public TowerMachinegun(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   3,    20,          5,       20);
+		super(player, position, 20,   3,    85,          5,       3);
 		
 	}
 	

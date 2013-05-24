@@ -129,9 +129,13 @@ public class Engine  implements Runnable{
 		//check if the something change
 		boolean playerChange;
 		boolean ihmChange;
+		double beginTime;
+		double endTime;
 		
 		while(running){
 			try {
+				beginTime = System.currentTimeMillis();
+				
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
 				playerChange = ihmChange = true;
@@ -142,6 +146,7 @@ public class Engine  implements Runnable{
 				
 				ihmChange = agentsProcessor.process(playersData);
 				
+				//for(double i=0; i<50000; i += 0.02){}
 				
 				//when the action is processed, updatePlayers trough dispatcher
 				if(playerChange)
@@ -150,6 +155,10 @@ public class Engine  implements Runnable{
 				//When something change on ihm : 
 				if(ihmChange)
 					dispatcher.repaintIhm();
+				
+				endTime = System.currentTimeMillis() - beginTime;
+				
+				if(endTime > 15) System.out.println("fps (ms) : "+endTime);
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {
@@ -188,7 +197,7 @@ public class Engine  implements Runnable{
 
 		// Stock dispatcher to avoid to call him every time
 		dispatcher = JavaWars.getDispatcher();
-
+		
 	}
 	
 	/**

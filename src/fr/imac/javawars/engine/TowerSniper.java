@@ -23,7 +23,7 @@ public class TowerSniper extends Tower{
 	
 	public TowerSniper(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   5,    40,          20,       3);
+		super(player, position, 20,   5,    1000,          20,       20);
 		
 	}
 

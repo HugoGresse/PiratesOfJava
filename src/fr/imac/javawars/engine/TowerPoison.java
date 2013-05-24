@@ -22,7 +22,7 @@ public class TowerPoison extends Tower{
 	
 	public TowerPoison(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   4,    15,          6,       8);
+		super(player, position, 20,   4,    70,          6,       10);
 		
 	}
 

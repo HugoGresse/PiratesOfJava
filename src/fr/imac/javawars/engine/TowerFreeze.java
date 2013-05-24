@@ -23,7 +23,7 @@ public class TowerFreeze extends Tower{
 	
 	public TowerFreeze(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   4,    15,          4,       6);
+		super(player, position, 20,   4,    70,          4,       10);
 		this.aoe = 5;
 		
 	}

@@ -11,7 +11,6 @@ import java.awt.Point;
 public class Projectile {
 	private double speed;
 	private Point position;
-	private Point targetTest;
 	private Agent target;
 	
 	//Variable used to calculate positon
@@ -29,10 +28,10 @@ public class Projectile {
 	 * @param targetTest
 	 * 				THe point the projectile should go
 	 */
-	public Projectile(Tower t, Point origin, Point targetTest){
+	public Projectile(Tower t, Point origin, Agent target){
 		t.addProjectiles(this);
 		this.position = origin;
-		this.targetTest = targetTest;
+		this.target = target;
 		this.speed = 1;
 		
 		//Calculate the variables used (y=ax+b)
@@ -49,13 +48,10 @@ public class Projectile {
 		return position;
 	}
 
-	public Point getTargetTest() {
-		return targetTest;
-	}
-
-	public Agent getTarget() {
+	public Agent getAgent() {
 		return target;
 	}
+
 
 	
 	public void setPosition(int x, int y) {
@@ -65,11 +61,7 @@ public class Projectile {
 		this.position = position;
 	}
 
-	public void setTargetTest(Point targetTest) {
-		this.targetTest = targetTest;
-	}
-
-	public void setTarget(Agent target) {
+	public void setAgent(Agent target) {
 		this.target = target;
 	}
 	
@@ -78,13 +70,15 @@ public class Projectile {
 	 */
 	private void calcDestination(){
 		// yb-ya / xb-xa
-		this.a = (targetTest.getY() - this.position.getY())/(targetTest.getX() - this.position.getX());
+		this.a = (target.getPosition().getY() - this.position.getY())/(target.getPosition().getX() - this.position.getX());
 		this.b = this.position.getY() - this.a*this.position.getX();
 		
 		//calculate if we have to go on left or right
-		if(this.targetTest.getX() - this.position.getX() >=0)
+		if(target.getPosition().getX() - this.position.getX() >=0)
 			this.direction  = 1;
 		else this.direction = -1;
+		
+		
 	}
 	
 	/**
@@ -95,14 +89,18 @@ public class Projectile {
 	public boolean updateProjectile(){
 		//System.out.println(this.getPosition().getX()+" - "+ this.getPosition().getY());
 		
-		
+		if(this.position.distance(this.target.getPosition()) <= 50){
+			//System.out.println(this.position.distance(this.target.getPosition()));
+		}
 		// If the projectile is arrived at it's destination : 
-		if(this.position.distance(this.targetTest) <= 1){
-			System.out.println("Should delete this projectile now");
+		if(this.position.distance(this.target.getPosition()) <= 10){
+			System.out.println("Should delete this projectile now - id " + numPro);
 			return true;
 		}
 		
-		//FIXME calcDestination();
+		//Update the direction/straight
+		calcDestination();
+		
 		int x;
 		if(direction == -1)
 			x = (int) (this.position.getX() - speed);
