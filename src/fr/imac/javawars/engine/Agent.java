@@ -112,9 +112,6 @@ public class Agent extends AbstractUnite {
 		}
 	}
 	
-	public void destroyAgent(){
-	}
-	
 	/*public void moveToAnotherBase(Base baseStart, Base baseTarget, int nbAgentsMoving){
 		baseStart.nbAgents -= 1;
 		changePosition();
