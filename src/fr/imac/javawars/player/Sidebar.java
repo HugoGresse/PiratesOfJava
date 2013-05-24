@@ -204,11 +204,6 @@ public class Sidebar extends JPanel implements ActionListener {
 			if( baseStart != null && baseTarget != null){
 				agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
 			}
-			//System.out.println("base position :" + baseTarget.getPosition().getX() + ", " + baseTarget.getPosition().getY());
-			//System.out.println("agent position : " + human.getAgents().getLast().getPosition());
-			//envoi du dernier agent de la liste sur la base
-			//human.getAgents().getLast().sendToBase(baseTarget);
-			human.getIhm().getCenterPanel().repaint();
 		}
 	}
 }

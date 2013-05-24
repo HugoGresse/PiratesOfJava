@@ -51,9 +51,9 @@ public class AgentsLayer extends JPanel {
 		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		// need to run trough all agents created
-		//getting bases from engine
-		Map<Integer, Player> agentPositions = JavaWars.getDispatcher().getPlayers();
-		Iterator<Map.Entry<Integer, Player>> it = agentPositions.entrySet().iterator();
+		//getting players from engine
+		Map<Integer, Player> players = JavaWars.getDispatcher().getPlayers();
+		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
 	
 		while(it.hasNext()){
 			drawAgentsOfPlayer(it.next().getValue(), g);

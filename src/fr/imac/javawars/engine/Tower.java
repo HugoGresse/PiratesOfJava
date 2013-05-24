@@ -111,8 +111,4 @@ public abstract class Tower extends AbstractTowerBase {
 		
 	}
 	
-	
-	
-	
-	
 }

@@ -26,9 +26,10 @@ public class ActionAgentSend extends ActionAgent{
 	 * 				the target base, required to access to the distance map of the base
 	 */
 	public ActionAgentSend(Player player, Base start, Base target) {
+		super(player);
 		// Base start is just used to initialize agents so it is not needed to stock it
 		// WARNING : not passed start.getPosition() because we don't want to modify coordinates of the base
-		super(player, new Agent(100, new Point(start.getPosition()), player, 1));
+		//super(player, new Agent(100, new Point(start.getPosition()), player, 1, start, target)); // add the agent to the player's agents list
 		this.baseStart = start;
 		this.baseTarget = target;
 	}

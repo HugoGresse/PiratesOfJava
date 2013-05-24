@@ -34,6 +34,7 @@ public class Engine  implements Runnable{
 	//Processor
 	private static ProcessorAction actionProcessor;
 	private static ProcessorTower towerProcessor;
+	private static AgentsProcessor agentsProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -57,6 +58,7 @@ public class Engine  implements Runnable{
 	
 		actionProcessor = new ProcessorAction();
 		towerProcessor = new ProcessorTower();
+		agentsProcessor = new AgentsProcessor();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
@@ -138,6 +140,9 @@ public class Engine  implements Runnable{
 				playerChange =  actionProcessor.process(dispatcher.getAction());
 				
 				ihmChange = towerProcessor.process(towers);
+				
+				//test arthur
+				ihmChange = agentsProcessor.process(playersData);
 				
 				
 				//when the action is processed, updatePlayers trough dispatcher

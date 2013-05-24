@@ -43,7 +43,8 @@ public class ProcessorAction {
 				actions.poll();
 			}
 			else if(e instanceof ActionAgentSend){
-				this.sendAgent((ActionAgentSend)e);
+				this.createAgent((ActionAgentSend)e);
+				//this.sendAgent((ActionAgentSend)e);
 				actions.poll();
 			}
 			
@@ -54,7 +55,14 @@ public class ProcessorAction {
 		return change;
 	}
 
-	private void sendAgent(ActionAgentSend e) {
+	private void createAgent(ActionAgentSend e){
+		//creation of the agent, it's in the agentsProcessor that his displacement is managed
+		e.getPlayer().addAgent(new Agent(100, new Point(e.getBaseStart().getPosition()), e.getPlayer(), 1, e.getBaseStart(), e.getBaseTarget()));
+		//the base which sends an agent loses a point of life (an agent)
+		e.getBaseStart().loseLife(1);
+	}
+	
+	/*private void sendAgent(ActionAgentSend e) {
 		if(e.getAgent() == null){
 			System.out.println("agent null");
 			return;
@@ -94,7 +102,7 @@ public class ProcessorAction {
 		}
 		//once the agent is arrived to destination, we delete it (he exists on the base)
 		e.getBaseStart().getPlayer().deleteAgent(e.getAgent());
-	}
+	}*/
 
 	/**
 	 * Check if a player can crate a tower related to :
