@@ -68,7 +68,9 @@ public class ProcessorAgents {
 								else{
 									//the base belongs now to the player of the starting base
 									a.getBaseTarget().setPlayer(a.getBaseStart().getPlayer());
-									a.getBaseTarget().addLife(1);
+									/*a.getBaseTarget().setSpeedRegeneration((int)0.04 * a.getBaseTarget().getRadius());
+									a.getBaseTarget().autoAddLife();
+									a.getBaseTarget().addLife(1);*/
 								}
 							}
 							//else, it's an enemy base

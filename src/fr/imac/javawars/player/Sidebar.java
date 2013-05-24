@@ -200,7 +200,10 @@ public class Sidebar extends JPanel implements ActionListener {
 			Base baseStart = listenersLayer.getCurrentHumanBaseSelected();
 			Base baseTarget = listenersLayer.getCurrentTargetBaseSelected();
 			if( baseStart != null && baseTarget != null){
-				agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
+				//if there are enough agents :
+				if(baseStart.getLife() > 1){
+					agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
+				}
 			}
 		}
 	}

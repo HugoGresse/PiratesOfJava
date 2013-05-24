@@ -106,7 +106,6 @@ public class Dispatcher {
 			Base b = it.next();
 			b.autoAddLife();
 		}
-		
 	}
 	
 	/**

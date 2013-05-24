@@ -4,11 +4,9 @@ package fr.imac.javawars.player;
 import java.awt.Graphics;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
@@ -16,7 +14,6 @@ import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionAgentSend;
-import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
 
@@ -53,7 +50,7 @@ public class AgentsLayer extends JPanel {
 	}
 		
 	public void drawAgentsOfPlayer(Player player, Graphics g){
-		LinkedList<Agent> agents = player.getAgents();
+		ConcurrentLinkedQueue<Agent> agents = player.getAgents();
 		if (agents != null){
 			Iterator<Agent> it = agents.iterator();
 			while(it.hasNext()){

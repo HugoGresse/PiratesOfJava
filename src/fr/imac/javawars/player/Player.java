@@ -1,6 +1,7 @@
 package fr.imac.javawars.player;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.engine.Agent;
 
@@ -8,7 +9,7 @@ public abstract class Player {
 	
 
 	private String name;
-	protected LinkedList<Agent> agents;
+	protected ConcurrentLinkedQueue<Agent> agents;
 	private int numberOfAgents;
 	private int money;
 	protected int playerNumber = 0;
@@ -27,7 +28,7 @@ public abstract class Player {
 	public Player(int pNum, String name, String type) {
 		this.name = name;
 		this.money = 20;
-		this.agents = new LinkedList<Agent>();
+		this.agents = new ConcurrentLinkedQueue<Agent>();
 		this.numberOfAgents = 0;
 		
 		this.playerNumber = pNum;
@@ -67,16 +68,16 @@ public abstract class Player {
 	}
 	
 	
-	public LinkedList<Agent> getAgents() {
+	public ConcurrentLinkedQueue<Agent> getAgents() {
 		return agents;
 	}
 
-	public void setAgents(LinkedList<Agent> agents) {
+	public void setAgents(ConcurrentLinkedQueue<Agent> agents) {
 		this.agents = agents;
 	}
 	
 	public void addAgent(Agent agent){
-		agents.addLast(agent);
+		agents.add(agent);
 		numberOfAgents++;
 	}
 	
