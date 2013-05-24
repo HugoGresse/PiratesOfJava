@@ -126,28 +126,27 @@ public class Engine  implements Runnable{
 		
 		//check if the something change
 		boolean playerChange;
-		boolean towerChange;
+		boolean ihmChange;
 		
 		while(running){
 			try {
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
-
-				playerChange = towerChange = true;
+				playerChange = ihmChange = true;
 				
 				
 				playerChange =  actionProcessor.process(dispatcher.getAction());
 				
-				towerChange = towerProcessor.process(towers);
+				ihmChange = towerProcessor.process(towers);
 				
 				
 				//when the action is processed, updatePlayers trough dispatcher
 				if(playerChange)
 					dispatcher.updatePlayers();
 				
-				//When towers is processed, updateit
-				//if(towerChange)
-					
+				//When something change on ihm : 
+				if(ihmChange)
+					dispatcher.repaintIhm();
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {
@@ -187,10 +186,7 @@ public class Engine  implements Runnable{
 
 		// Stock dispatcher to avoid to call him every time
 		dispatcher = JavaWars.getDispatcher();
-		
-		//Launch engine
-		running = true;
-		engineThread.start();
+
 	}
 	
 	/**
@@ -224,6 +220,16 @@ public class Engine  implements Runnable{
 		for(Thread t : threadsPlayers)
 			t.start();
 		
+	}
+	
+	/**
+	 * Start the engine thread
+	 * @see JavaWars
+	 */
+	public void startThread(){
+		//On démarre ENgine
+		running = true;
+		engineThread.start();
 	}
 		
 }

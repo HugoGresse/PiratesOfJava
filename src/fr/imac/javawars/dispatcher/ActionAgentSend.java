@@ -15,6 +15,7 @@ import fr.imac.javawars.player.Player;
  */
 public class ActionAgentSend extends ActionAgent{
 
+	Base baseStart;
 	Base baseTarget;
 	
 	/**
@@ -28,11 +29,16 @@ public class ActionAgentSend extends ActionAgent{
 		// Base start is just used to initialize agents so it is not needed to stock it
 		// WARNING : not passed start.getPosition() because we don't want to modify coordinates of the base
 		super(player, new Agent(100, new Point(start.getPosition()), player, 1));
+		this.baseStart = start;
 		this.baseTarget = target;
 	}
 
 	public Base getBaseTarget() {
 		return this.baseTarget;
+	}
+	
+	public Base getBaseStart() {
+		return this.baseStart;
 	}
 
 }

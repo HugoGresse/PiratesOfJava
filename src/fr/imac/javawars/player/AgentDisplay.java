@@ -30,7 +30,7 @@ public class AgentDisplay extends JPanel{
 		int x = (int) this.position.getX();
 		int y = (int) this.position.getY();
 		g.setColor(Color.red);
-		g.fillOval(x, y, 15, 15);
+		g.fillOval(x - 5, y - 5, 10, 10);
 	}
 
 }

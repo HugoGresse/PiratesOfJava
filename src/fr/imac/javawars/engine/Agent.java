@@ -50,49 +50,49 @@ public class Agent extends AbstractUnite {
 			/*used to access the ihm and update display*/
 			Human human =(Human)JavaWars.getDispatcher().getPlayers().get(1);
 			
-			if(distanceMap[currentAgentPosition - 1] < distanceMap[currentAgentPosition]) {
+			if(distanceMap[currentAgentPosition - 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition - 1] >= 0) {
 				this.position.setLocation(currentXagentPosition - 1, currentYagentPosition);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 1");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition + 1] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition + 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition + 1] >= 0) {
 				this.position.setLocation(currentXagentPosition + 1, currentYagentPosition);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 2");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition - width] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition - width] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition - width] >= 0) {
 				this.position.setLocation(currentXagentPosition, currentYagentPosition - 1);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 3");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition + width] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition + width] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition + width] >= 0) {
 				this.position.setLocation(currentXagentPosition, currentYagentPosition + 1);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 4");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition - width - 1] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition - width - 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition - width - 1] >= 0) {
 				this.position.setLocation(currentXagentPosition - 1, currentYagentPosition - 1);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 5");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition - width + 1] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition - width + 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition - width + 1] >= 0) {
 				this.position.setLocation(currentXagentPosition + 1, currentYagentPosition - 1);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 6");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition + width - 1] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition + width - 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition + width - 1] >= 0) {
 				this.position.setLocation(currentXagentPosition - 1, currentYagentPosition + 1);
 				human.getIhm().getCenterPanel().getAgentsLayer().repaint();
 //				System.out.println("Yo 7");
 //				System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			}
-			else if(distanceMap[currentAgentPosition + width + 1] < distanceMap[currentAgentPosition]) {
+			else if(distanceMap[currentAgentPosition + width + 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition + width + 1] >= 0) {
 				this.position.setLocation(currentXagentPosition + 1, currentYagentPosition + 1);
 				human.getIhm().getCenterPanel().repaint();
 //				System.out.println("Yo 8");
@@ -102,7 +102,7 @@ public class Agent extends AbstractUnite {
 			currentAgentPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
 			//System.out.println("current agent position : " + this.getPosition().getX() + ", " + this.getPosition().getY() );
 			try {
-		        Thread.sleep(10);
+		        Thread.sleep(5);
 		     } catch (InterruptedException e) {
 		        e.printStackTrace();
 		     }

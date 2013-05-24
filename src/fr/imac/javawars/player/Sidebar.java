@@ -199,11 +199,11 @@ public class Sidebar extends JPanel implements ActionListener {
 		if(e.getSource() == freezeTower){
 			money.setText("G");
 			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
-			
-			// TEST ARTHUR (agents créés dans le player en dur pour les tests
-			Base baseStart = JavaWars.getDispatcher().getBases().get(1);
-			Base baseTarget = JavaWars.getDispatcher().getBases().get(4);// base au pif cible de l'agent
-			agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
+			Base baseStart = listenersLayer.getCurrentHumanBaseSelected();
+			Base baseTarget = listenersLayer.getCurrentTargetBaseSelected();
+			if( baseStart != null && baseTarget != null){
+				agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
+			}
 			//System.out.println("base position :" + baseTarget.getPosition().getX() + ", " + baseTarget.getPosition().getY());
 			//System.out.println("agent position : " + human.getAgents().getLast().getPosition());
 			//envoi du dernier agent de la liste sur la base
