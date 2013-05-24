@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.engine.Projectile;
 import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.engine.TowerBombe;
 import fr.imac.javawars.engine.TowerBounce;
@@ -39,6 +40,8 @@ public class TowersLayer extends JPanel {
 	private Image sniperImg;
 	private Image poisonImg;
 	
+	private Image projectileDefaultImg;
+	
 	/**
 	 * Constructor
 	 */
@@ -56,6 +59,7 @@ public class TowersLayer extends JPanel {
 			this.bounceImg = ImageIO.read(new File("res/img/bounce.png"));
 			this.sniperImg = ImageIO.read(new File("res/img/sniper.png"));
 			this.poisonImg = ImageIO.read(new File("res/img/poison.png"));
+			this.projectileDefaultImg = ImageIO.read(new File("res/img/projectiles/proj-def.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,11 +75,13 @@ public class TowersLayer extends JPanel {
 		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				
-		//getting bases from engine
+		
+		//getting towers from engine
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
 		Iterator<Tower> it = towers.iterator();
+		Iterator<Projectile> itProjec;
 		
+		//Display Tower and projectiles if any
 		while(it.hasNext()){
 			Tower t = it.next();
 			
@@ -92,7 +98,19 @@ public class TowersLayer extends JPanel {
 			else if(t.getClass() == TowerPoison.class){ icon = poisonImg;}
 			
 			g.drawImage(icon, (int)(t.getPosition().getX()-12.5),(int)(t.getPosition().getY()-12.5), 25,25, null);
-		}
+			
+			
+			
+			// draw projectiles if any
+			
+			itProjec = t.getProjectiles().iterator();
+			while(itProjec.hasNext()){
+				Projectile p = itProjec.next();
+				g.drawImage(projectileDefaultImg, (int)(p.getPosition().getX()-7.5),(int)(p.getPosition().getY()-7.5), 15,15, null);
+			}//end projectile
+			
+			
+		} // end while tower
 	}
 	
 	/**

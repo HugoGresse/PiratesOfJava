@@ -50,7 +50,6 @@ public class Base extends AbstractTowerBase {
 	public Base(int life, Point position, double speedRegeneration,  int radius){
 		// by default capacity of 50 agents ?
 		this(life, position, null, 0.0, 50, speedRegeneration, radius);
-		System.out.println(radius+" - "+speedRegeneration);
 	}
 	
 	//this constructor is used to generate Bases Player from the map

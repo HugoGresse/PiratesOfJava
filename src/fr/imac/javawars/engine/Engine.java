@@ -30,7 +30,10 @@ public class Engine  implements Runnable{
 	protected Thread engineThread;
 	
 	protected Dispatcher dispatcher;
-	protected static ActionProcessor actionProcessor;
+	
+	//Processor
+	private static ProcessorAction actionProcessor;
+	private static ProcessorTower towerProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -52,7 +55,8 @@ public class Engine  implements Runnable{
 	/* CONSTRUCTOR */
 	public Engine() {
 	
-		actionProcessor = new ActionProcessor();
+		actionProcessor = new ProcessorAction();
+		towerProcessor = new ProcessorTower();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
@@ -119,22 +123,31 @@ public class Engine  implements Runnable{
 	
 	@Override
 	public void run() {
+		
+		//check if the something change
+		boolean playerChange;
+		boolean ihmChange;
+		
 		while(running){
 			try {
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
-				//check if the something change
-				boolean dataChange = false;
-				
-				// 
-				dataChange =  actionProcessor.process(dispatcher.getAction());
+				playerChange = ihmChange = true;
 				
 				
-				//une fois les PlayerInfos modif, on les renvoie au dispatcher !
-				// seulement si les données on changé
-				if(dataChange){
+				
+				playerChange =  actionProcessor.process(dispatcher.getAction());
+				
+				ihmChange = towerProcessor.process(towers);
+				
+				
+				//when the action is processed, updatePlayers trough dispatcher
+				if(playerChange)
 					dispatcher.updatePlayers();
-				}
+				
+				//When something change on ihm : 
+				if(ihmChange)
+					dispatcher.repaintIhm();
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {
@@ -175,9 +188,6 @@ public class Engine  implements Runnable{
 		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
 		dispatcher = JavaWars.getDispatcher();
 		
-		//On démarre ENgine
-		running = true;
-		engineThread.start();
 	}
 	
 	/**
@@ -211,6 +221,16 @@ public class Engine  implements Runnable{
 		for(Thread t : threadsPlayers)
 			t.start();
 		
+	}
+	
+	/**
+	 * Start the engine thread
+	 * @see JavaWars
+	 */
+	public void startThread(){
+		//On démarre ENgine
+		running = true;
+		engineThread.start();
 	}
 		
 	/*TEST ARTHUR*/

@@ -15,9 +15,9 @@ import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
  * @author Hugo
  *
  */
-public class ActionProcessor {
+public class ProcessorAction {
 
-	public ActionProcessor() {
+	public ProcessorAction() {
 	}
 	
 	/**
