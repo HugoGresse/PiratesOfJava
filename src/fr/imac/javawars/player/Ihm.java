@@ -3,8 +3,12 @@ package fr.imac.javawars.player;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class Ihm  extends JFrame {
 	private Player p;
@@ -55,6 +59,8 @@ public class Ihm  extends JFrame {
 	    
 	    this.setContentPane(this.menu);
 	    this.setVisible(true);
+	    
+	    this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/img/icone.png"));
 	}
 	
 	/**
