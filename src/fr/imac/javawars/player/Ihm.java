@@ -40,14 +40,6 @@ public class Ihm  extends JFrame {
 		this.setTitle(name);
 	    this.setSize(900, 600);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    Image icon = null;
-		try {
-			icon = ImageIO.read(new File("res/img/icone.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    this.setIconImage(icon);
 	    // TODO : change default listener and close thread before quit
 	    // http://stackoverflow.com/questions/6084039/create-custom-operation-for-setdefaultcloseoperation
 	    this.setLocationRelativeTo(null);
