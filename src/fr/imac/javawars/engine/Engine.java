@@ -188,6 +188,8 @@ public class Engine  implements Runnable{
 		// on stocke le dispatcher histoire de ne pas le rapeller tout le temps
 		dispatcher = JavaWars.getDispatcher();
 		
+		//TEST Hugo
+		towerProcessor.testHugo();
 	}
 	
 	/**

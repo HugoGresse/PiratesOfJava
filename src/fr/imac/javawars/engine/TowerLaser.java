@@ -29,7 +29,7 @@ public class TowerLaser extends Tower{
 	
 	public TowerLaser(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   6,    15,          4,       8);
+		super(player, position, 20,   6,    70,          4,       8);
 		this.increaseAttackDamage = 1;
 		
 	}

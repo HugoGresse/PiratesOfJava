@@ -48,7 +48,7 @@ public class Projectile {
 		return position;
 	}
 
-	public Agent getTarget() {
+	public Agent getAgent() {
 		return target;
 	}
 
@@ -61,7 +61,7 @@ public class Projectile {
 		this.position = position;
 	}
 
-	public void setTarget(Agent target) {
+	public void setAgent(Agent target) {
 		this.target = target;
 	}
 	
