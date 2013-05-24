@@ -34,7 +34,7 @@ public class Engine  implements Runnable{
 	//Processor
 	private static ProcessorAction actionProcessor;
 	private static ProcessorTower towerProcessor;
-	private static AgentsProcessor agentsProcessor;
+	private static ProcessorAgents agentsProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -58,7 +58,7 @@ public class Engine  implements Runnable{
 	
 		actionProcessor = new ProcessorAction();
 		towerProcessor = new ProcessorTower();
-		agentsProcessor = new AgentsProcessor();
+		agentsProcessor = new ProcessorAgents();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
