@@ -89,10 +89,12 @@ public class Projectile {
 	public boolean updateProjectile(){
 		//System.out.println(this.getPosition().getX()+" - "+ this.getPosition().getY());
 		
-		
+		if(this.position.distance(this.target.getPosition()) <= 50){
+			//System.out.println(this.position.distance(this.target.getPosition()));
+		}
 		// If the projectile is arrived at it's destination : 
-		if(this.position.distance(this.target.getPosition()) <= 1){
-			System.out.println("Should delete this projectile now");
+		if(this.position.distance(this.target.getPosition()) <= 10){
+			System.out.println("Should delete this projectile now - id " + numPro);
 			return true;
 		}
 		

@@ -59,6 +59,8 @@ public class ProcessorTower {
 				//Update the position of the projectile, delete it if arrived and remove lfie to agent
 				if(projectile.updateProjectile()) {
 					projectile.getAgent().addLife(- e.getStrength());
+					e.setWaitBeforeResend(0);
+					//System.out.println(projectile.getAgent().getLife());
 					itProj.remove();
 				}
 					
@@ -66,7 +68,7 @@ public class ProcessorTower {
 
 			change = true;
 			
-			System.out.println("processTower : "+i);
+			//System.out.println("processTower : "+i);
 			i++;
 		}
 		return change;
@@ -98,7 +100,7 @@ public class ProcessorTower {
 					//if(t.getAttackSpeed())
 					//	continue;
 					
-					//on ajoute un projectile
+					//we attack the agent !
 					t.attackAgent(agent);
 					
 					

@@ -17,15 +17,15 @@ public abstract class Tower extends AbstractTowerBase {
 	private int strength;
 	private int upgradeStrengh;
 	private int upgradeRange;
-	private double attackSpeed;
-	private double waitBeforeResend;
+	private int attackSpeed;
+	private int waitBeforeResend;
 	
 	private ArrayList<Projectile> projectiles;
 	
 
 
 	//constructor
-	public Tower(Player player,  Point position, int life, int price, double actionField , int strength, double attackSpeed) {
+	public Tower(Player player,  Point position, int life, int price, double actionField , int strength, int attackSpeed) {
 		super(life, position, player, actionField);
 		this.price = price;
 		this.strength = strength;
@@ -34,14 +34,14 @@ public abstract class Tower extends AbstractTowerBase {
 		this.attackSpeed = attackSpeed;
 		this.projectiles = new ArrayList<Projectile>();
 		
-		
+		this.waitBeforeResend = attackSpeed;
 	}
 	
 	public double getAttackSpeed() {
 		return attackSpeed;
 	}
 
-	public void setAttackSpeed(double attackSpeed) {
+	public void setAttackSpeed(int attackSpeed) {
 		this.attackSpeed = attackSpeed;
 	}
 
@@ -106,6 +106,14 @@ public abstract class Tower extends AbstractTowerBase {
 		this.projectiles.add(p);
 	}
 	
+	public int getWaitBeforeResend() {
+		return waitBeforeResend;
+	}
+
+	public void setWaitBeforeResend(int waitBeforeResend) {
+		this.waitBeforeResend = waitBeforeResend;
+	}
+
 	/**
 	 * Order tower to send projectiles on the specified Point
 	 * 
@@ -113,7 +121,14 @@ public abstract class Tower extends AbstractTowerBase {
 	 * 				The target/Agent of the projectile
 	 */
 	public void attackAgent(Agent target){
-
+		
+		waitBeforeResend++;
+		//if the tower cannot attack yet
+		if(waitBeforeResend < attackSpeed)
+			return;
+		
+		
+		waitBeforeResend = 0;
 		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
 	}
 	
