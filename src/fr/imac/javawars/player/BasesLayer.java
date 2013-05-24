@@ -10,9 +10,6 @@ import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JPanel;
-
-import sun.swing.SwingUtilities2;
-
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
 

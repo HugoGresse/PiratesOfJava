@@ -135,13 +135,11 @@ public class Engine  implements Runnable{
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
 				playerChange = ihmChange = true;
-				
-				
+
 				playerChange =  actionProcessor.process(dispatcher.getAction());
 				
 				ihmChange = towerProcessor.process(towers);
 				
-				//test arthur
 				ihmChange = agentsProcessor.process(playersData);
 				
 				
@@ -159,7 +157,6 @@ public class Engine  implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	

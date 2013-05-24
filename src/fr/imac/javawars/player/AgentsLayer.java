@@ -1,9 +1,8 @@
 package fr.imac.javawars.player;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 
-import java.awt.Point;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -20,14 +19,7 @@ import fr.imac.javawars.dispatcher.ActionAgentSend;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
-import fr.imac.javawars.engine.TowerBombe;
-import fr.imac.javawars.engine.TowerBounce;
-import fr.imac.javawars.engine.TowerFreeze;
-import fr.imac.javawars.engine.TowerLaser;
-import fr.imac.javawars.engine.TowerMachinegun;
-import fr.imac.javawars.engine.TowerMissile;
-import fr.imac.javawars.engine.TowerPoison;
-import fr.imac.javawars.engine.TowerSniper;
+
 
 /**
  * Class AgentsLayer: manage & display agents 
@@ -66,7 +58,7 @@ public class AgentsLayer extends JPanel {
 			Iterator<Agent> it = agents.iterator();
 			while(it.hasNext()){
 				Agent agent = it.next();
-				AgentDisplay agentDisplay = new AgentDisplay(agent.getPosition());
+				AgentDisplay agentDisplay = new AgentDisplay(agent.getPosition(), agent.getPlayer().getPlayerNumber());
 				agentDisplay.paintComponent(g);
 			}
 		}

@@ -1,7 +1,6 @@
 package fr.imac.javawars.player;
 
 import java.awt.Point;
-import java.util.LinkedList;
 
 import fr.imac.javawars.engine.Agent;
 
