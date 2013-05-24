@@ -12,7 +12,7 @@ import fr.imac.javawars.player.Player;
  */
 public abstract class ActionAgent extends Action{
 	
-	private Agent agent;
+	//private Agent agent;
 	
 	/**
 	 * Create an action related to an agent
@@ -21,9 +21,18 @@ public abstract class ActionAgent extends Action{
 	 * @param agent
 	 * 				A given agent to act on
 	 */
-	public ActionAgent(Player player, Agent agent) {
-		super(player);
-		this.agent = agent;
-	}
 
+	public ActionAgent(Player player) {
+		super(player);
+		//this.agent = agent;
+		//player.addAgent(agent);
+	}
+	
+	/*public Agent getAgent() {
+		return this.agent;
+	}
+	
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}*/
 }

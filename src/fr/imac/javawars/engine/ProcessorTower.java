@@ -27,13 +27,6 @@ public class ProcessorTower {
 		
 	};
 	
-	public void testHugo(){
-		//TEST
-		JavaWars.getEngine().getPlayers().get(2).getAgents().addLast(new Agent(new Point(400,300), JavaWars.getEngine().getPlayers().get(2)));
-
-		//Projectile ptest = new Projectile(this, (Point)position.clone(), new Point(200,200));
-	}
-	
 	
 	/**
 	 * Process the given collections for moove projectiles 
@@ -53,31 +46,31 @@ public class ProcessorTower {
 			
 			checkAgentInRangeAndAttack(e);
 			
-			//if the tower have projectiles : mooves them
-			if( ! e.getProjectiles().isEmpty()) {
-				
-				Iterator<Projectile> itProj = e.getProjectiles().iterator();
-				Projectile projectile;
-				while(itProj.hasNext()){
-					projectile = itProj.next();
-					
-					//Update the position of the projectile, delete it if arrived and remove lfie to agent
-					if(projectile.updateProjectile()) {
-						projectile.getAgent().addLife(- e.getStrength());
-						itProj.remove();
-					}
-						
-				}
-
-				change = true;
-			}
+			//if no projectile, continue !
+			if(e.getProjectiles().isEmpty())
+				continue;
 			
-			//System.out.println("processTower : "+i);
+			//if the tower have projectiles : mooves them
+			Iterator<Projectile> itProj = e.getProjectiles().iterator();
+			Projectile projectile;
+			while(itProj.hasNext()){
+				projectile = itProj.next();
+				
+				//Update the position of the projectile, delete it if arrived and remove lfie to agent
+				if(projectile.updateProjectile()) {
+					projectile.getAgent().addLife(- e.getStrength());
+					itProj.remove();
+				}
+					
+			}
+
+			change = true;
+			
+			System.out.println("processTower : "+i);
 			i++;
 		}
 		return change;
 	}
-	
 	
 	/**
 	 * Check if there are any agents in the actionField of the tower
@@ -90,7 +83,7 @@ public class ProcessorTower {
         while (itPlayer.hasNext()) {
                 entry = itPlayer.next();
                 //Si le joueur est le même que celui de la tour
-                if(entry.getKey() == t.getPlayer().getPlayerNumber())
+                if(entry.getKey() != t.getPlayer().getPlayerNumber())
                 	continue;
                 
                 //On parcour les agents
@@ -106,7 +99,7 @@ public class ProcessorTower {
 					//	continue;
 					
 					//on ajoute un projectile
-					//t.attackAgent(agent);
+					t.attackAgent(agent);
 					
 					
 				} // end whilte agents
@@ -118,10 +111,6 @@ public class ProcessorTower {
         
 		
 	}
-	
-	
-	
-	
 	
 	
 	

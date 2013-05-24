@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
+import fr.imac.javawars.dispatcher.ActionAgentSend;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
@@ -41,6 +42,11 @@ public class ProcessorAction {
 				this.tryToAddTower((ActionTowerCreate)e);
 				actions.poll();
 			}
+			else if(e instanceof ActionAgentSend){
+				this.createAgent((ActionAgentSend)e);
+				//this.sendAgent((ActionAgentSend)e);
+				actions.poll();
+			}
 			
 			change = true;
 			System.out.println("processAction : "+i);
@@ -48,6 +54,55 @@ public class ProcessorAction {
 		}
 		return change;
 	}
+
+	private void createAgent(ActionAgentSend e){
+		//creation of the agent, it's in the agentsProcessor that his displacement is managed
+		e.getPlayer().addAgent(new Agent(100, new Point(e.getBaseStart().getPosition()), e.getPlayer(), 1, e.getBaseStart(), e.getBaseTarget()));
+		//the base which sends an agent loses a point of life (an agent)
+		e.getBaseStart().loseLife(1);
+	}
+	
+	/*private void sendAgent(ActionAgentSend e) {
+		if(e.getAgent() == null){
+			System.out.println("agent null");
+			return;
+		}
+		else{
+			//the base of start loses an agent
+			e.getBaseStart().loseLife(1);
+			//this agent is sent to the target base
+			e.getAgent().sendToBase(e.getBaseTarget());
+			//Now we manage lifes of bases in consequence of the agent displacement
+			// if the target base doesn't belong to the player
+			if(e.getBaseTarget().getPlayer() != e.getBaseStart().getPlayer()){
+				//if the base is neutral, the player takes it when his agent arrived
+				if(e.getBaseTarget().getPlayer() == null){
+					//if the base has more life than 0 we have to decrease it
+					if(e.getBaseTarget().getLife() > 0){
+						e.getBaseTarget().loseLife(1);
+					}
+					else{
+						//the base belongs now to the player of the starting base
+						e.getBaseTarget().setPlayer(e.getBaseStart().getPlayer());
+						e.getBaseTarget().addLife(1);
+					}
+				}
+				//else, it's an enemy base
+				else {
+					e.getBaseTarget().loseLife(1);
+					//if the life of the target becomes zero, base becomes neutral
+					if(e.getBaseTarget().getLife() == 0) {
+						e.getBaseTarget().setPlayer(null);
+					}
+				}
+			}
+			else {
+				e.getBaseTarget().addLife(1);
+			}
+		}
+		//once the agent is arrived to destination, we delete it (he exists on the base)
+		e.getBaseStart().getPlayer().deleteAgent(e.getAgent());
+	}*/
 
 	/**
 	 * Check if a player can crate a tower related to :
@@ -64,7 +119,7 @@ public class ProcessorAction {
 		Point newPoint = action.getTower().getPosition();
 		Point point;
 		
-		//check if anough money : 
+		//check if player has enough money : 
 		if( action.getTower().getPrice() >  action.getPlayer().getMoney() ) {
 			JavaWars.getEngine().setError("Pas assez d'argent pour créer la tour");
 			// TODO check object null to destroy it
@@ -114,7 +169,7 @@ public class ProcessorAction {
 	 */
 	private void tryToUpgradeTower(ActionTowerUpgrade action){
 		
-		//check if anough money : 
+		//check if player has enough money : 
 		if( action.getPrice() >  action.getPlayer().getMoney() ) {
 			JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la tour");
 			// TODO check object null to destroy it

@@ -18,9 +18,6 @@ public class JavaWars {
 	private static Engine engine; 
 	
 	public static void main(String[] args){
-		//Opening JavaWars
-		System.out.println("Opening JavaWars");
-		
 		//creation of engine et dispatcher
 		engine = new Engine();
 		dispatcher = new Dispatcher();
@@ -35,7 +32,7 @@ public class JavaWars {
 		engine.initializationOfTheGame(joueur1, joueur2, joueur3, joueur4);
 		
 		//create ihm
-		((Human)joueur1).initIhm("JavaWars");
+		((Human)joueur1).initIhm("Pirates of Java");
 		
 		//Engine Thread start when click on Jouer
 	}

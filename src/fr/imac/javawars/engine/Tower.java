@@ -117,8 +117,4 @@ public abstract class Tower extends AbstractTowerBase {
 		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
 	}
 	
-	
-	
-	
-	
 }

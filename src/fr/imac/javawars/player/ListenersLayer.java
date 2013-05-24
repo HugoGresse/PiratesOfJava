@@ -1,6 +1,5 @@
 package fr.imac.javawars.player;
 
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -22,6 +21,7 @@ public class ListenersLayer extends JPanel{
 	//swing needeed
 	private static final long serialVersionUID = 1L;
 	
+	//used to know which base of start and of target the player has choosen
 	Base currentHumanBaseSelected;
 	Base currentTargetBaseSelected;
 
@@ -93,6 +93,7 @@ public class ListenersLayer extends JPanel{
 					}
 					else{
 						System.out.println("neutral base positioned in : " + b.getPosition());
+						this.currentTargetBaseSelected = b;
 					}
 				}// end if
     		}// end while
@@ -132,4 +133,22 @@ public class ListenersLayer extends JPanel{
 			}
     	}
 	}
+
+	public Base getCurrentHumanBaseSelected() {
+		return currentHumanBaseSelected;
+	}
+
+	public void setCurrentHumanBaseSelected(Base currentHumanBaseSelected) {
+		this.currentHumanBaseSelected = currentHumanBaseSelected;
+	}
+
+	public Base getCurrentTargetBaseSelected() {
+		return currentTargetBaseSelected;
+	}
+
+	public void setCurrentTargetBaseSelected(Base currentTargetBaseSelected) {
+		this.currentTargetBaseSelected = currentTargetBaseSelected;
+	}
+	
+	
 }

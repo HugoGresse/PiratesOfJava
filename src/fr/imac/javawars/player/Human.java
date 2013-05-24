@@ -1,7 +1,6 @@
 package fr.imac.javawars.player;
 
 import java.awt.Point;
-import java.util.LinkedList;
 
 import fr.imac.javawars.engine.Agent;
 
@@ -19,7 +18,6 @@ public class Human extends Player{
 	
 	public Human(int pNum, String name) {
 		super(pNum, name, "human");
-		this.agents.addLast(new Agent(new Point(100,100), this));
 	}
 
 	/**

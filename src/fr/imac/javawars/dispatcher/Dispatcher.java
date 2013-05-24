@@ -86,12 +86,18 @@ public class Dispatcher {
 		return JavaWars.getEngine().getTowers();
 	}
 	
+	/**
+	 * Getting errors
+	 */
 	public String getError(){
 		String error = JavaWars.getEngine().getError();
 		JavaWars.getEngine().setError(null);
 		return error;
 	}
 	
+	/**
+	 *setting autoAddLife on bases
+	 */
 	public void setAutoAddLife(){
 		CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
 		Iterator<Base> it = bases.iterator();
@@ -102,7 +108,10 @@ public class Dispatcher {
 		}
 		
 	}
-
+	
+	/**
+	 * Getting players of the game
+	 */
 	public Map<Integer, Player> getPlayers(){
 		return JavaWars.getEngine().getPlayers();
 	}

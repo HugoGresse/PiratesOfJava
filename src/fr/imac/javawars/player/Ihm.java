@@ -2,13 +2,17 @@ package fr.imac.javawars.player;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 
 public class Ihm  extends JFrame {
 	private Player p;
@@ -96,7 +100,5 @@ public class Ihm  extends JFrame {
 	public Sidebar getSidebar(){
 		return sidebar;
 	}
-	
-
 	
 }
