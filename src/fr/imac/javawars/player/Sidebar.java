@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import javax.swing.ImageIcon;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Agent;
@@ -31,15 +34,19 @@ public class Sidebar extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private boolean mouseListenerActive = false;
 	
+	String htmlBefore = "<HTML><BODY style='text-align:center'>";
+	String htmlMiddle="<BR><p><span style='font-weight:bold; font-size:14px;'>";
+	String htmlAfter = "</span><img src='file:res/img/po.png'/></p></BODY></HTML>";
+	
 	//buttons
-	private JButton freezeTower = new JButton("Freeze");
-	private JButton laserTower = new JButton("Laser");
-	private JButton missileTower = new JButton("Missile");
-	private JButton gunTower = new JButton("Gun");
-	private JButton bombTower = new JButton("Bomb");
-	private JButton ricochetTower = new JButton("Ricochet");
-	private JButton sniperTower = new JButton("Sniper");
-	private JButton poisonTower = new JButton("Poison");
+	private JButton freezeTower = new JButton(htmlBefore+"Freeze"+htmlMiddle+"4"+htmlAfter);
+	private JButton laserTower = new JButton(htmlBefore+"Laser"+htmlMiddle+"6"+htmlAfter);
+	private JButton missileTower = new JButton(htmlBefore+"Missile"+htmlMiddle+"2"+htmlAfter);
+	private JButton gunTower = new JButton(htmlBefore+"Gun"+htmlMiddle+"3"+htmlAfter);
+	private JButton bombTower = new JButton(htmlBefore+"Bomb"+htmlMiddle+"4"+htmlAfter);
+	private JButton ricochetTower = new JButton(htmlBefore+"Bounce"+htmlMiddle+"4"+htmlAfter);
+	private JButton sniperTower = new JButton(htmlBefore+"Sniper"+htmlMiddle+"5"+htmlAfter);
+	private JButton poisonTower = new JButton(htmlBefore+"Poison"+htmlMiddle+"4"+htmlAfter);
 	private ArrayList<JButton> buttons = new ArrayList<JButton>();
 	
 	//slider+money
@@ -78,7 +85,7 @@ public class Sidebar extends JPanel implements ActionListener {
 	 */
 	public void addButtons(JPanel wrapperButtons){
 		wrapperButtons.setLayout(new GridLayout(4, 2));
-		wrapperButtons.setBorder(new TitledBorder("Créer des tours"));
+		wrapperButtons.setBorder(new TitledBorder("CrŽer des tours"));
 		buttons.add(freezeTower);
 		buttons.add(laserTower);
 		buttons.add(missileTower);
@@ -102,7 +109,7 @@ public class Sidebar extends JPanel implements ActionListener {
 	 */
 	public void addSlider(JPanel wrapperSlider){
 		slider.setPreferredSize(new Dimension(165,100));
-		wrapperSlider.setBorder(new TitledBorder("Pourcentage d'agents envoyés"));
+		wrapperSlider.setBorder(new TitledBorder("Pourcentage d'agents envoyŽs"));
 		labelSlider.setText("50");
 		//Display slider's value
 		slider.addChangeListener(new ChangeListener() {
