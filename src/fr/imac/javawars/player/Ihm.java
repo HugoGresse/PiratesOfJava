@@ -2,13 +2,17 @@ package fr.imac.javawars.player;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 
 public class Ihm  extends JFrame {
 	private Player p;
@@ -36,6 +40,14 @@ public class Ihm  extends JFrame {
 		this.setTitle(name);
 	    this.setSize(900, 600);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    Image icon = null;
+		try {
+			icon = ImageIO.read(new File("res/img/icone.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    this.setIconImage(icon);
 	    // TODO : change default listener and close thread before quit
 	    // http://stackoverflow.com/questions/6084039/create-custom-operation-for-setdefaultcloseoperation
 	    this.setLocationRelativeTo(null);
