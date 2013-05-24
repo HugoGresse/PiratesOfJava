@@ -1,13 +1,11 @@
 package fr.imac.javawars.player;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 
-import java.awt.Point;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
@@ -15,7 +13,6 @@ import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Agent;
-import fr.imac.javawars.engine.Base;
 
 /**
  * Class AgentsLayer: manage & display agents 

@@ -1,5 +1,6 @@
 package fr.imac.javawars.player;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -35,7 +36,7 @@ public class GroundLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
-
+		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( 
 				RenderingHints.KEY_ANTIALIASING, 
@@ -43,15 +44,18 @@ public class GroundLayer extends JPanel {
 		        
 		//Get the map with numbers
 		int[][] map = JavaWars.getDispatcher().getGround();
-			
-		//Drawing background (equal to path)
-		g.drawImage(background, 0, 0, 700, 500, null); 
 		
-		//Drawing wall (-2)
+		//Drawing paths(-1) & wall (-2)
 		for(int j=0; j<map[0].length;j++){
 			for(int i=0; i<map.length; i++){
+				//draw image only if it's a wall
 				if(map[i][j] == -2){
-					g.drawImage(wall, j,i, 1, 1, null);
+					//draw parts of the image(pixel by pixel)
+					g.drawImage(wall,j, i, j+1, i+1,j, i, j+1, i+1,null);
+				}
+				else{
+					//draw parts of the image(pixel by pixel)
+					g.drawImage(background,j, i, j+1, i+1,j, i, j+1, i+1,null);
 				}
 			}
 		}
