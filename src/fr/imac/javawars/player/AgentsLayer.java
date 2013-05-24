@@ -51,7 +51,7 @@ public class AgentsLayer extends JPanel {
 			Iterator<Agent> it = agents.iterator();
 			while(it.hasNext()){
 				Agent agent = it.next();
-				AgentDisplay agentDisplay = new AgentDisplay(agent.getPosition());
+				AgentDisplay agentDisplay = new AgentDisplay(agent.getPosition(), agent.getPlayer().getPlayerNumber());
 				agentDisplay.paintComponent(g);
 			}
 		}
