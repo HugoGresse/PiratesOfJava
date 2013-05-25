@@ -33,21 +33,6 @@ public class BasesLayer extends JPanel {
 		bufferedImage =  new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		isEmptyBufferedImage = true;
 	}
-
-	/**
-	 * Auto update label on base every 1s
-	 */
-	public void autoUpdate(){
-		TimerTask task = new TimerTask(){
-			@Override
-			public void run() {
-				repaint();
-			}	
-		};
-		
-		Timer timer = new Timer();
-		//timer.scheduleAtFixedRate(task, 0, 500);
-	}
 	
 	
 	/**

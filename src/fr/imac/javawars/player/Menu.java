@@ -52,8 +52,6 @@ public class Menu extends JPanel {
             		//display game
             		player.getIhm().CreatePanel();
             		//Auto-update bases life
-            		player.getIhm().getCenterPanel().getBasesLayer().autoUpdate();
-            		JavaWars.getDispatcher().setAutoAddLife();
             		JavaWars.getEngine().startThread();
             	}
             }

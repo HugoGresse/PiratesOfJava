@@ -36,6 +36,7 @@ public class Engine  implements Runnable{
 	private static ProcessorAction actionProcessor;
 	private static ProcessorTower towerProcessor;
 	private static ProcessorAgents agentsProcessor;
+	private static ProcessorBase baseProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -60,6 +61,7 @@ public class Engine  implements Runnable{
 		actionProcessor = new ProcessorAction();
 		towerProcessor = new ProcessorTower();
 		agentsProcessor = new ProcessorAgents();
+		baseProcessor = new ProcessorBase();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
@@ -131,8 +133,13 @@ public class Engine  implements Runnable{
 		boolean playerChange;
 		boolean towerChange;
 		boolean agentChange;
-		double beginTime;
-		double endTime;
+		boolean baseChange;
+		
+		//TIME and FPS STUF
+		int sleepTime;
+		long beginTime;
+		long endTime;
+		final long fpsTarget = 1000/30;
 		
 		while(running){
 			try {
@@ -148,20 +155,25 @@ public class Engine  implements Runnable{
 				
 				agentChange = agentsProcessor.process(playersData);
 				
-				//for(double i=0; i<50000; i += 0.02){}
-
-				if(agentChange) dispatcher.repaintAgents();
-				if(towerChange || playerChange) dispatcher.repaintTowers();
-				
-				//if something graphicial as been
-				if(playerChange || agentChange || towerChange)
-					dispatcher.updatePlayers();
+				baseChange = baseProcessor.process(bases, System.currentTimeMillis());
 								
+				if(towerChange || playerChange || baseChange) {
+					dispatcher.repaintBases();
+					dispatcher.repaintTowers();
+				}
+				if(agentChange) dispatcher.repaintAgents();
+				
+				//if any data change
+				if(playerChange || agentChange || towerChange || baseChange)
+					dispatcher.updatePlayers();
+				
 				endTime = System.currentTimeMillis() - beginTime;
+				//display fps if too bad
+				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ (endTime*30)/1000);
+				sleepTime = (int) (fpsTarget - endTime);
 				
-				if(endTime > 5) System.out.println("fps (ms) : "+endTime);
+				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
 				
-				Thread.sleep(29);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
