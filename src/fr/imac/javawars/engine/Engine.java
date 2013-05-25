@@ -182,6 +182,7 @@ public class Engine  implements Runnable{
 		this.ground = new Ground("map/mapCool_2.xml");
 		//this.ground.printGround();
 		
+		
 		// compute the map of distance for every map
 		Iterator<Base> itBases = this.bases.iterator();
 		while(itBases.hasNext()){
@@ -196,6 +197,7 @@ public class Engine  implements Runnable{
 		//initialization of and towers
 		towers = new CopyOnWriteArrayList<Tower>();
 		
+	
 		
 
 		// Stock dispatcher to avoid to call him every time

@@ -209,6 +209,11 @@ public class BasesManager {
 		}
 		return bitMapInfluenceArea;
 	}
+	
+	public int getPositionInfluenceArea(int x, int y){
+		int bitMap[][] = this.getInfluenceAreaBitMap();
+		return bitMap[x][y];
+	}
 
 	/**
 	 * Write in a file under the form of a tab2D of numbers the areas of influence of each base
