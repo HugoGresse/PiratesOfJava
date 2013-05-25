@@ -312,6 +312,6 @@ public class Base extends AbstractTowerBase {
 		};
 		
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 500);
+		//timer.scheduleAtFixedRate(task, 0, 500);
 	}
 }
