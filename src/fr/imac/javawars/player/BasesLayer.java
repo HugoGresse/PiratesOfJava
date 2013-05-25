@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,7 +20,8 @@ import fr.imac.javawars.engine.Base;
  */
 public class BasesLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+	private BufferedImage bufferedImage = null;
+	private boolean isEmptyBufferedImage;
 	/**
 	 * Constructor
 	 */
@@ -27,6 +29,9 @@ public class BasesLayer extends JPanel {
 		super();
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
+		
+		bufferedImage =  new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		isEmptyBufferedImage = true;
 	}
 
 	/**
@@ -41,15 +46,35 @@ public class BasesLayer extends JPanel {
 		};
 		
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 500);
+		//timer.scheduleAtFixedRate(task, 0, 500);
 	}
-
+	
+	
 	/**
 	 * Painting layer (display bases)
 	 */
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
+		
+		if(!isEmptyBufferedImage)
+			g.drawImage(bufferedImage, 0, 0, null);
+		else {
+			drawBufferedImage();
+			g.drawImage(bufferedImage, 0, 0, null);
+		}
+			
+		
+		
+	}
+	
+	/**
+	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 */
+	public void drawBufferedImage(){
+		//System.out.println("Draw BasesLayersBuffer");
+		bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics g = bufferedImage.createGraphics();
 		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -62,7 +87,13 @@ public class BasesLayer extends JPanel {
 			Base b = it.next();
 			drawBase(b, g);
 		}
+		isEmptyBufferedImage = false;
+		
+		//After the calculation of "new" image, we display it
+		repaint();
 	}
+	
+
 	
 	private void drawBase(Base b, Graphics g){
 		int radius = b.getRadius();

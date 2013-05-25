@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Dispatcher;
+import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 /*
@@ -128,7 +129,8 @@ public class Engine  implements Runnable{
 		
 		//check if the something change
 		boolean playerChange;
-		boolean ihmChange;
+		boolean towerChange;
+		boolean agentChange;
 		double beginTime;
 		double endTime;
 		
@@ -138,27 +140,26 @@ public class Engine  implements Runnable{
 				
 				//every 29ms minimum, we get actions from dispatcher and try to execute it
 				
-				playerChange = ihmChange = true;
+				playerChange = towerChange = agentChange = true;
 
 				playerChange =  actionProcessor.process(dispatcher.getAction());
 				
-				ihmChange = towerProcessor.process(towers);
+				towerChange = towerProcessor.process(towers);
 				
-				ihmChange = agentsProcessor.process(playersData);
+				agentChange = agentsProcessor.process(playersData);
 				
 				//for(double i=0; i<50000; i += 0.02){}
+
+				if(agentChange) dispatcher.repaintAgents();
+				if(towerChange || playerChange) dispatcher.repaintTowers();
 				
-				//when the action is processed, updatePlayers trough dispatcher
-				if(playerChange)
+				//if something graphicial as been
+				if(playerChange || agentChange || towerChange)
 					dispatcher.updatePlayers();
-				
-				//When something change on ihm : 
-				if(ihmChange)
-					dispatcher.repaintIhm();
-				
+								
 				endTime = System.currentTimeMillis() - beginTime;
 				
-				if(endTime > 15) System.out.println("fps (ms) : "+endTime);
+				if(endTime > 5) System.out.println("fps (ms) : "+endTime);
 				
 				Thread.sleep(29);
 			} catch (InterruptedException e) {

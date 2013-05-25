@@ -5,17 +5,25 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Base;
 
 
 public class GroundLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
+	private BufferedImage bufferedImage = null;
+	private boolean isEmptyBufferedImage;
+	
 	private Image background;
 	private Image wall;
 	
@@ -30,12 +38,32 @@ public class GroundLayer extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		bufferedImage =  new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		isEmptyBufferedImage = true;
 	}
-
+	
 	// painting the map
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);  
+		
+		if(!isEmptyBufferedImage)
+			g.drawImage(bufferedImage, 0, 0, null);
+		else {
+			drawBufferedImage();
+			g.drawImage(bufferedImage, 0, 0, null);
+		}
+		
+	}
+	
+	/**
+	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 */
+	public void drawBufferedImage(){
+		//System.out.println("Draw GroundLayersBuffer");
+		bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics g = bufferedImage.createGraphics();
 		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( 
@@ -58,7 +86,12 @@ public class GroundLayer extends JPanel {
 					g.drawImage(background,j, i, j+1, i+1,j, i, j+1, i+1,null);
 				}
 			}
-		}
+		} //end for
+		
+		isEmptyBufferedImage = false;
+		
+		//After the calculation of "new" image, we display it
+		repaint();
 	}
 
 }

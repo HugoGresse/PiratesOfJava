@@ -7,9 +7,11 @@ import java.util.Iterator;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -27,6 +29,9 @@ import fr.imac.javawars.engine.Base;
  */
 public class AgentsLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
+	private BufferedImage bufferedImage = null;
+	private boolean isEmptyBufferedImage;
 	
 	private Image imagePlayer1;
 	private Image imagePlayer2;
@@ -50,12 +55,33 @@ public class AgentsLayer extends JPanel {
 			e.printStackTrace();
 		}
 		
+		bufferedImage =  new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		isEmptyBufferedImage = true;
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		//double beginTime = System.currentTimeMillis();
+		
+		
+		if(!isEmptyBufferedImage)
+			g.drawImage(bufferedImage, 0, 0, null);
+		else {
+			drawBufferedImage();
+			g.drawImage(bufferedImage, 0, 0, null);
+		}
+	}
+	
+	
+	/**
+	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 */
+	public void drawBufferedImage(){
+		
+		//bufferedImage.setData( bufferedImageClear.getRaster()); -- fait chuté les fps
+		bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		//System.out.println("Draw AgentsLayersBuffer");
+		Graphics2D g = bufferedImage.createGraphics();
 		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -65,14 +91,20 @@ public class AgentsLayer extends JPanel {
 		Map<Integer, Player> players = JavaWars.getDispatcher().getPlayers();
 		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
 	
+		
+		
 		while(it.hasNext()){
 			drawAgentsOfPlayer(it.next().getValue(), g);
 		}
 		
 		
-		//double endTime = System.currentTimeMillis() - beginTime;
-		//System.out.println("endtime AgentsLayer "+endTime);
+		
+		isEmptyBufferedImage = false;
+		
+		//After the calculation of "new" image, we display it
+		repaint();
 	}
+
 		
 	public void drawAgentsOfPlayer(Player player, Graphics g){
 		Image icon = null;
@@ -100,6 +132,7 @@ public class AgentsLayer extends JPanel {
 		
 		Iterator<Agent> it = agents.iterator();
 		while(it.hasNext()){
+
 			Agent agent = it.next();
 			
 			int x = (int) agent.getPosition().getX();

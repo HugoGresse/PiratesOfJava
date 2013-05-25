@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Projectile;
 import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.engine.TowerBombe;
@@ -31,6 +33,10 @@ import fr.imac.javawars.engine.TowerSniper;
  */
 public class TowersLayer extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
+	private BufferedImage bufferedImage = null;
+	private boolean isEmptyBufferedImage;
+	
 	private Image freezeImg;
 	private Image laserImg;
 	private Image missileImg;
@@ -64,6 +70,9 @@ public class TowersLayer extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		bufferedImage =  new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		isEmptyBufferedImage = true;
 	}
 
 	/**
@@ -72,6 +81,25 @@ public class TowersLayer extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		
+		if(!isEmptyBufferedImage)
+			g.drawImage(bufferedImage, 0, 0, null);
+		else {
+			drawBufferedImage();
+			g.drawImage(bufferedImage, 0, 0, null);
+		}
+
+	}
+	
+
+	/**
+	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 */
+	public void drawBufferedImage(){
+		System.out.println("Draw TowersLayersBuffer");
+		bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics g = bufferedImage.createGraphics();
 		
 		//Antialiasing ON
 		((Graphics2D)  g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -111,6 +139,10 @@ public class TowersLayer extends JPanel {
 			
 			
 		} // end while tower
+		isEmptyBufferedImage = false;
+		
+		//After the calculation of "new" image, we display it
+		repaint();
 	}
 	
 	/**

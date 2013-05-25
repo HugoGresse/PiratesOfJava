@@ -58,11 +58,35 @@ public class Dispatcher {
 	}
 	
 	/**
-	 * Repaint the ihm
+	 * Repaint the AgentsLayers
 	 * Call it in Engine
 	 */
-	public void repaintIhm(){
-		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().repaint();
+	public void repaintAgents(){
+		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().getCenterPanel().getAgentsLayer().drawBufferedImage();
+	}
+	
+	/**
+	 * Repaint the TowersLayers
+	 * Call it in Engine
+	 */
+	public void repaintTowers(){
+		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().getCenterPanel().getTowersLayer().drawBufferedImage();
+	}
+	
+	/**
+	 * Repaint the GroundLayers
+	 * Call it in Engine
+	 */
+	public void repaintGround(){
+		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().getCenterPanel().getGroundLayer().drawBufferedImage();
+	}
+	
+	/**
+	 * Repaint the BaseLayers
+	 * Call it in Engine
+	 */
+	public void repaintBase(){
+		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().getCenterPanel().getBasesLayer().drawBufferedImage();
 	}
 	
 	/**
