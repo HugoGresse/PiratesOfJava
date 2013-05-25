@@ -29,8 +29,6 @@ public class BasesManager {
 	 * @see BasesManager#determineInfluenceAreaOfBases()
 	 */
 	private int[] influenceAreaMap;
-	private int widthOfMap;
-	private int heightOfMap;
 	/**
 	 * BasesManager constructor
 	 * <p>
@@ -54,8 +52,6 @@ public class BasesManager {
 		}
 		int height = bitMap.length;
 		int width = bitMap[0].length;
-		this.heightOfMap = height;
-		this.widthOfMap = width;
 		this.influenceAreaMap= new int[height * width];
 		// first we initialize every box to -1 (belongs to no bases)
 		for(int i=0; i < height * width; i++ ){
@@ -187,7 +183,7 @@ public class BasesManager {
 		}
 		System.out.println("determine influence of bases finished !");
 		//debug, create a xml map in the same format that the original to see if the algorithm works
-		//writeInXMLInfluenceMap(bitMap, this.influenceAreaMap, "map/influenceAreaOfBasesCalculated");
+		//writeInXMLInfluenceMap(bitMap, this.influenceAreaMap, "map/influenceAreaBasesCalculated");
 	}
 
 	/**
@@ -201,7 +197,7 @@ public class BasesManager {
 	}
 	
 	public int[][] getInfluenceAreaBitMap() {
-		int[][] bitMapInfluenceArea = new int[this.heightOfMap][this.widthOfMap];
+		int[][] bitMapInfluenceArea = new int[Ground.getWinHeight()][Ground.getWinWidth()];
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
 				bitMapInfluenceArea[i][j] = influenceAreaMap[j + i * bitMapInfluenceArea[0].length];
@@ -226,14 +222,14 @@ public class BasesManager {
 	 * 		the name we want to give to our file
 	 */
 	//used for debug
-	/*private void writeInXMLInfluenceMap(int[][] bitMap, int[] influenceAreaMap, String nameFile){
+	private void writeInXMLInfluenceMap(int[][] bitMap, int[] influenceAreaMap, String nameFile){
 		int[][] bitMapInfluenceArea = bitMap;
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
-				bitMapInfluenceArea[i][j] = influenceAreaMap[i + j * bitMapInfluenceArea[0].length];
+				bitMapInfluenceArea[i][j] = influenceAreaMap[j + i * bitMapInfluenceArea[0].length];
 			}
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
-	}*/
+	}
 	
 }
