@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
@@ -62,7 +63,6 @@ public class Engine  implements Runnable{
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
-		
 	}
 	
 	/* GETTERS // SETTERS */
@@ -241,6 +241,59 @@ public class Engine  implements Runnable{
 		//On démarre ENgine
 		running = true;
 		engineThread.start();
+	}
+	
+	/**
+	 *	End of game
+	 */
+	public void checkEndGame(){
+		boolean stillAgents = false;
+		
+		Map<Integer, Player> players = getPlayers();
+		
+		//check if there is still agents on paths
+		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Player p = it.next().getValue();
+			
+			//check if player has agents
+			if(p.getNumberOfAgents() != 0){
+				System.out.println("still agents");
+				stillAgents = true;
+				break;
+			}
+		}
+		
+		//if there isn't agents anymore
+		if(stillAgents == false){
+			System.out.println("no more agents");
+			CopyOnWriteArrayList<Base> bases = getBases();
+			Iterator<Base> it2 = bases.iterator();
+			
+			int playerBases = 0;
+			int neutralBases = 0;
+			
+			while(it2.hasNext()){
+				Base b = it2.next();
+				if(b.getPlayer() == null) 
+					neutralBases++;
+				else if(b.getPlayer().getPlayerNumber()==1){
+					playerBases++;
+				}
+			}
+			
+			//if player has all bases : he wins
+			if(playerBases == bases.size()){
+				System.out.println("Player wins!");
+			}
+			//if there are no neutral bases and player has no base
+			else if(playerBases == 0 && neutralBases == 0){
+				System.out.println("Player loose");
+			}
+		}
+		
+		
 	}
 		
 }
