@@ -25,9 +25,11 @@ public class Agent extends AbstractUnite {
 	}
 	
 	//METHODS
-	public void sendToBase(Base base) {
+	/*public void sendToBase(Base base) {
 		int[] distanceMap = base.getDistanceMap();
-		int width = 700;
+		JavaWars.getEngine().getGround();
+		int width = Ground.getWinWidth();
+		System.out.println(width);
 		// point of start of the agent
 		int currentAgentPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
 		// while the agent isn't on a case which value is zero (on the base)
@@ -41,16 +43,15 @@ public class Agent extends AbstractUnite {
 			
 			// if the box next to the agent is closer of the base, he moves on it
 			// we test every neigbor box
-			/*System.out.println("distanceMap[currentAgentPosition - 1]" + distanceMap[currentAgentPosition - 1]);
-			System.out.println("distanceMap[currentAgentPosition + 1]" + distanceMap[currentAgentPosition + 1]);
-			System.out.println("distanceMap[currentAgentPosition - width]" + distanceMap[currentAgentPosition - width]);
-			System.out.println("distanceMap[currentAgentPosition + width]" + distanceMap[currentAgentPosition + width]);
-			System.out.println("distanceMap[currentAgentPosition - width - 1]" + distanceMap[currentAgentPosition - width - 1]);
-			System.out.println("distanceMap[currentAgentPosition - width + 1]" + distanceMap[currentAgentPosition - width + 1]);
-			System.out.println("distanceMap[currentAgentPosition + width - 1]" + distanceMap[currentAgentPosition + width - 1]);
-			System.out.println("distanceMap[currentAgentPosition + width + 1]" + distanceMap[currentAgentPosition + width + 1]);
-			*/
-			/*used to access the ihm and update display*/
+//			System.out.println("distanceMap[currentAgentPosition - 1]" + distanceMap[currentAgentPosition - 1]);
+//			System.out.println("distanceMap[currentAgentPosition + 1]" + distanceMap[currentAgentPosition + 1]);
+//			System.out.println("distanceMap[currentAgentPosition - width]" + distanceMap[currentAgentPosition - width]);
+//			System.out.println("distanceMap[currentAgentPosition + width]" + distanceMap[currentAgentPosition + width]);
+//			System.out.println("distanceMap[currentAgentPosition - width - 1]" + distanceMap[currentAgentPosition - width - 1]);
+//			System.out.println("distanceMap[currentAgentPosition - width + 1]" + distanceMap[currentAgentPosition - width + 1]);
+//			System.out.println("distanceMap[currentAgentPosition + width - 1]" + distanceMap[currentAgentPosition + width - 1]);
+//			System.out.println("distanceMap[currentAgentPosition + width + 1]" + distanceMap[currentAgentPosition + width + 1]);
+			//used to access the ihm and update display
 			Human human =(Human)JavaWars.getDispatcher().getPlayers().get(1);
 			
 			if(distanceMap[currentAgentPosition - 1] < distanceMap[currentAgentPosition] && distanceMap[currentAgentPosition - 1] >= 0) {
@@ -113,7 +114,7 @@ public class Agent extends AbstractUnite {
 			human.getIhm().getCenterPanel().getAgentsLayer().repaint();
 			i++;
 		}
-	}
+	}*/
 	
 	/**
 	 * Update the position of the agent.
@@ -122,7 +123,7 @@ public class Agent extends AbstractUnite {
 	 */
 	public boolean updatePosition(){
 		int[] distanceMap = this.baseTarget.getDistanceMap();
-		int width = 700;
+		int width = Ground.getWinWidth();
 		// point of start of the agent
 		int currentAgentPosition = (int) (this.getPosition().getX() + this.getPosition().getY() * width);
 		// while the agent isn't on a case which value is zero (on the base)
