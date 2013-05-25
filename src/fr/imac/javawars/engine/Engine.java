@@ -47,7 +47,6 @@ public class Engine  implements Runnable{
 	private CopyOnWriteArrayList<Base> bases;
 	private CopyOnWriteArrayList<Tower> towers;
 	
-	//test arthur
 	private BasesManager basesManager;
 	private Ground ground;
 	
@@ -190,6 +189,9 @@ public class Engine  implements Runnable{
 			b.initializeDistanceMap(this.ground.getBitMap());
 			b.computeDistanceMap(this.ground.getBitMap());
 		}
+		
+		//compute the influence area of bases
+		this.basesManager = new BasesManager(this.ground.getBitMap());
 		
 		//initialization of and towers
 		towers = new CopyOnWriteArrayList<Tower>();

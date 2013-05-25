@@ -29,7 +29,8 @@ public class BasesManager {
 	 * @see BasesManager#determineInfluenceAreaOfBases()
 	 */
 	private int[] influenceAreaMap;
-	
+	private int widthOfMap;
+	private int heightOfMap;
 	/**
 	 * BasesManager constructor
 	 * <p>
@@ -47,13 +48,14 @@ public class BasesManager {
 	}
 	
 	private void initialiseInfluenceAreaMap(int[][] bitMap) {
-		System.out.println("change foreach bu iterator - BaseManager");
 		if(bitMap.length <= 0){
 			System.out.println("problem with the bitmap in initializeInfluenceAreaOfBases");
 			return;
 		}
 		int height = bitMap.length;
 		int width = bitMap[0].length;
+		this.heightOfMap = height;
+		this.widthOfMap = width;
 		this.influenceAreaMap= new int[height * width];
 		// first we initialize every box to -1 (belongs to no bases)
 		for(int i=0; i < height * width; i++ ){
@@ -77,15 +79,21 @@ public class BasesManager {
 		for(int i = (height * width) - width; i < (height * width) - 1 ; ++i){
 			this.influenceAreaMap[i] = -2;
 		}
+		
 		// we initialize the box which corresponds to a base position with the number of the player possessing the base
-		int k = 0;
-		for(Base b: JavaWars.getEngine().getBases()){
-			int basePosition1D = (int) (JavaWars.getEngine().getBases().get(k).getPosition().getX() + JavaWars.getEngine().getBases().get(k).getPosition().getY() * width);
-			this.influenceAreaMap[basePosition1D] = b.getPlayer().getPlayerNumber();
-			k++;
-			//debug
-			System.out.println("basePosition :" + basePosition1D);
-			System.out.println("player Number :" + this.influenceAreaMap[basePosition1D]);	
+		Iterator<Base> itBases = JavaWars.getEngine().getBases().iterator();
+		while(itBases.hasNext()){
+			Base b = itBases.next();
+			int basePosition1D = (int) (b.getPosition().getX() + b.getPosition().getY() * width);
+			//if the base is neutral
+			if(b.getPlayer() == null){
+				this.influenceAreaMap[basePosition1D] = 0;
+			}
+			//if the base isn't neutral
+			else {
+				this.influenceAreaMap[basePosition1D] = b.getPlayer().getPlayerNumber();
+				System.out.println("player number " + b.getPlayer().getPlayerNumber());
+			}
 		}
 		//debug, create a xml map in the same format that the original to see if the initialization works
 		//writeInXMLInfluenceMap(bitMap, this.influenceAreaMap, "map/influenceAreaOfBasesInitialized");
@@ -97,25 +105,24 @@ public class BasesManager {
 	 * @see BasesManager#influenceAreaMap
 	 */
 	public void determineInfluenceAreaOfBases(int[][] bitMap) {
-		System.out.println("change foreach bu iterator - BaseManager");
-		if(bitMap.length <= 0){
-			System.out.println("problem with the bitmap in determineInfluenceAreaOfBases");
-			return;
-		}
 		if(JavaWars.getEngine().getBases().isEmpty()){
 			System.out.println("list of bases is empty, can't calculate area influence");
 			return;
 		}
 		//initialization of the queue of the boxes (designed by a number calculated with their coordinates) (i,j) becomes in one dimension i + j*width
 		LinkedList<Integer> boxesQueue = new LinkedList<Integer>();
-		int width = bitMap.length;
+		int width = bitMap[0].length;
 		int basePosition1D = 0;
+		
 		//we add all bases positions to the queue
-		for (Base b : JavaWars.getEngine().getBases()){
+		Iterator<Base> itBases = JavaWars.getEngine().getBases().iterator();
+		while(itBases.hasNext()){
+			Base b = itBases.next();
 			//cast from double to integer, basePosition corresponds to an index int the tab1D
 			basePosition1D = (int) (b.getPosition().getX() + b.getPosition().getY() * width);
 			boxesQueue.addLast(basePosition1D);
 		}
+		
 		if(boxesQueue.isEmpty()){
 			return;
 		}
@@ -123,7 +130,7 @@ public class BasesManager {
 		int currentBoxTested = 0;
 		int testNotToManyLoop = 0;
 		// while the queue is not empty and not to many loop (uncontrolled), limit is 2 073 600 (1920 * 1080) pixels visited
-		while(!boxesQueue.isEmpty() && testNotToManyLoop < 2073600){
+		while(!boxesQueue.isEmpty() && testNotToManyLoop < 2073600 ) {
 			//we take one box of the queue and test all his neighbors
 			currentBoxTested = boxesQueue.removeFirst();
 			// test left box
@@ -174,7 +181,11 @@ public class BasesManager {
 				this.influenceAreaMap[currentBoxTested + width + 1] = influenceAreaMap[currentBoxTested];
 				boxesQueue.addLast(currentBoxTested + width + 1);
 			}
+			testNotToManyLoop++;
+			if(testNotToManyLoop >= 2073600)
+				System.out.println("boucle infinie dans determineInfluenceBase");
 		}
+		System.out.println("determine influence of bases finished !");
 		//debug, create a xml map in the same format that the original to see if the algorithm works
 		//writeInXMLInfluenceMap(bitMap, this.influenceAreaMap, "map/influenceAreaOfBasesCalculated");
 	}
@@ -187,6 +198,16 @@ public class BasesManager {
 	 */
 	public int[] getInfluenceAreaMap() {
 		return influenceAreaMap;
+	}
+	
+	public int[][] getInfluenceAreaBitMap() {
+		int[][] bitMapInfluenceArea = new int[this.heightOfMap][this.widthOfMap];
+		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
+			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
+				bitMapInfluenceArea[i][j] = influenceAreaMap[j + i * bitMapInfluenceArea[0].length];
+			}
+		}
+		return bitMapInfluenceArea;
 	}
 
 	/**
