@@ -1,5 +1,11 @@
 package fr.imac.javawars.player;
 
+import java.awt.Point;
+
+import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.engine.TowerBombe;
+
 public class IA extends Player implements Runnable{
 	
 	protected volatile boolean running = true;
@@ -33,7 +39,10 @@ public class IA extends Player implements Runnable{
 	}
 	
 	public void update(){
+		/*ActionTowerCreate myAction = null;
+		myAction = new ActionTowerCreate(this,new TowerBombe(new Point(600, 400), this));
 		
+		JavaWars.getDispatcher().addAction(myAction);*/
 	}
 
 }

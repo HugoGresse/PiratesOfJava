@@ -74,9 +74,9 @@ public class Ground {
     	
     	initGroundPath();
     	generateBasesPlayer();
-    	generateBasesNeutral(10);
+    	generateBasesNeutral(2);//(10);
     	generateWall();
-    	extendPathBases();
+    	//extendPathBases();
     	onePixelPerBase();
     	
     	saveAsXML(bitMap, "map/randomMap_1");
@@ -652,12 +652,15 @@ public class Ground {
 	public int getNumberOfPlayers() {
 		return this.numberOfPlayers;
 	}
+
+	public static int getWinHeight() {
+		return WIN_HEIGHT;
+	}
+
+	public static int getWinWidth() {
+		return WIN_WIDTH;
+	}
 	
-	
-	
-	
-	
-	 
 	 /**
 		 * @param args
 		 */

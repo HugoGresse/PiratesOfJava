@@ -48,7 +48,6 @@ public class Engine  implements Runnable{
 	private CopyOnWriteArrayList<Base> bases;
 	private CopyOnWriteArrayList<Tower> towers;
 	
-	//test arthur
 	private BasesManager basesManager;
 	private Ground ground;
 	
@@ -195,6 +194,7 @@ public class Engine  implements Runnable{
 		this.ground = new Ground("map/mapCool_2.xml");
 		//this.ground.printGround();
 		
+		
 		// compute the map of distance for every map
 		Iterator<Base> itBases = this.bases.iterator();
 		while(itBases.hasNext()){
@@ -203,9 +203,13 @@ public class Engine  implements Runnable{
 			b.computeDistanceMap(this.ground.getBitMap());
 		}
 		
+		//compute the influence area of bases
+		this.basesManager = new BasesManager(this.ground.getBitMap());
+		
 		//initialization of and towers
 		towers = new CopyOnWriteArrayList<Tower>();
 		
+	
 		
 
 		// Stock dispatcher to avoid to call him every time
