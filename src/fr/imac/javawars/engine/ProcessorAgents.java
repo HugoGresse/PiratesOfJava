@@ -64,6 +64,8 @@ public class ProcessorAgents {
 					
 					// if the target base doesn't belong to the player
 					if(a.getBaseTarget().getPlayer() != a.getBaseStart().getPlayer()){
+						//decomment this line to see if display of endScreen work
+						//JavaWars.getEngine().checkEndGame();
 						//if the base is neutral
 						if(a.getBaseTarget().getPlayer() == null){
 							//if the base has more life than 0 we have to decrease it

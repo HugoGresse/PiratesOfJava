@@ -285,7 +285,9 @@ public class Engine  implements Runnable{
 			CopyOnWriteArrayList<Base> bases = getBases();
 			Iterator<Base> it2 = bases.iterator();
 			
-			int playerBases = 11;
+			int playerBases = 0;
+			//decomment this line if you want to try if the display of the endScreen works
+			//int playerBases = 11
 			int neutralBases = 0;
 			
 			while(it2.hasNext()){
