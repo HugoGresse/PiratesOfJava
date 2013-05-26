@@ -96,7 +96,7 @@ public class TowersLayer extends JPanel {
 	 * Draw the new stuff on a buffered image insteed of the default graphics
 	 */
 	public void drawBufferedImage(){
-		System.out.println("Draw TowersLayersBuffer");
+		//System.out.println("Draw TowersLayersBuffer");
 		bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		
 		Graphics g = bufferedImage.createGraphics();

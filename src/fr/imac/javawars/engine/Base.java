@@ -300,18 +300,4 @@ public class Base extends AbstractTowerBase {
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
 	}
 	
-	/**
-	 * Auto add life to the base every 1s related to the speedRegeneration
-	 */
-	public void autoAddLife(){
-		TimerTask task = new TimerTask(){
-			@Override
-			public void run() {
-				addLife( (int) (getSpeedRegeneration() ) );
-			}	
-		};
-		
-		Timer timer = new Timer();
-		//timer.scheduleAtFixedRate(task, 0, 500);
-	}
 }

@@ -58,6 +58,18 @@ public class Dispatcher {
 	}
 	
 	/**
+	 * Repaint all Layers
+	 */
+//	public void repaintAll(){
+//
+//		repaintGround();
+//		repaintBases();
+//		repaintTowers();
+//		repaintAgents();
+//		
+//	}
+	
+	/**
 	 * Repaint the AgentsLayers
 	 * Call it in Engine
 	 */
@@ -85,7 +97,7 @@ public class Dispatcher {
 	 * Repaint the BaseLayers
 	 * Call it in Engine
 	 */
-	public void repaintBase(){
+	public void repaintBases(){
 		((Human) JavaWars.getEngine().getPlayers().get(1)).getIhm().getCenterPanel().getBasesLayer().drawBufferedImage();
 	}
 	
@@ -117,19 +129,6 @@ public class Dispatcher {
 		String error = JavaWars.getEngine().getError();
 		JavaWars.getEngine().setError(null);
 		return error;
-	}
-	
-	/**
-	 *setting autoAddLife on bases
-	 */
-	public void setAutoAddLife(){
-		CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
-		Iterator<Base> it = bases.iterator();
-		
-		while(it.hasNext()){
-			Base b = it.next();
-			b.autoAddLife();
-		}
 	}
 	
 	/**
