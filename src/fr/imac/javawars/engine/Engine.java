@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
@@ -249,7 +248,7 @@ public class Engine  implements Runnable{
 	 */
 	public void checkEndGame(){
 		boolean stillAgents = false;
-		
+
 		Map<Integer, Player> players = getPlayers();
 		
 		//check if there is still agents on paths
@@ -260,7 +259,6 @@ public class Engine  implements Runnable{
 			
 			//check if player has agents
 			if(p.getNumberOfAgents() != 0){
-				System.out.println("still agents");
 				stillAgents = true;
 				break;
 			}
@@ -268,11 +266,10 @@ public class Engine  implements Runnable{
 		
 		//if there isn't agents anymore
 		if(stillAgents == false){
-			System.out.println("no more agents");
 			CopyOnWriteArrayList<Base> bases = getBases();
 			Iterator<Base> it2 = bases.iterator();
 			
-			int playerBases = 0;
+			int playerBases = 11;
 			int neutralBases = 0;
 			
 			while(it2.hasNext()){
@@ -287,11 +284,14 @@ public class Engine  implements Runnable{
 			//if player has all bases : he wins
 			if(playerBases == bases.size()){
 				System.out.println("Player wins!");
+				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
 			}
 			//if there are no neutral bases and player has no base
 			else if(playerBases == 0 && neutralBases == 0){
 				System.out.println("Player loose");
+				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(false);
 			}
+			((Human)players.get(1)).getIhm().setContentPane(((Human)players.get(1)).getIhm().getMenu());
 		}
 		
 		

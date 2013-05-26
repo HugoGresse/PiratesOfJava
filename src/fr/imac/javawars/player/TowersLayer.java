@@ -127,8 +127,6 @@ public class TowersLayer extends JPanel {
 			
 			g.drawImage(icon, (int)(t.getPosition().getX()-12.5),(int)(t.getPosition().getY()-12.5), 25,25, null);
 			
-			
-			
 			// draw projectiles if any
 			
 			itProjec = t.getProjectiles().iterator();
@@ -179,5 +177,12 @@ public class TowersLayer extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * setter
+	 * @param img : img to put instead of the current one
+	 */
+	public void setBufferedImage(BufferedImage img){
+		this.bufferedImage = img;
+	}
 
 }
