@@ -8,6 +8,7 @@ import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
 import fr.imac.javawars.dispatcher.ActionAgentSend;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
+import fr.imac.javawars.dispatcher.ActionTowerDelete;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 
 /**
@@ -40,6 +41,10 @@ public class ProcessorAction {
 			} 
 			else if(e instanceof ActionTowerCreate){
 				this.tryToAddTower((ActionTowerCreate)e);
+				actions.poll();
+			}
+			else if(e instanceof ActionTowerDelete){
+				this.deleteTower((ActionTowerDelete)e);
 				actions.poll();
 			}
 			else if(e instanceof ActionAgentSend){
@@ -124,6 +129,19 @@ public class ProcessorAction {
 		//If all OK : 
 		JavaWars.getEngine().addTower(action.getTower());
 		action.getPlayer().changeMoney( - action.getTower().getPrice());
+		
+	}
+	
+	/**
+	 * Delete a tower and change money of player
+	 * 	
+	 * @param action
+	 * 				An ActionTowerDelete 
+	 */
+	private void deleteTower(ActionTowerDelete action){
+		JavaWars.getEngine().removeTower(action.getTower());
+		double price = action.getTower().getPrice() + action.getTower().getUpgradeRange() + action.getTower().getUpgradeStrength()*2;
+		action.getPlayer().changeMoney(price);
 		
 	}
 	

@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionTowerDelete;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 import fr.imac.javawars.engine.Tower;
 
@@ -31,7 +32,7 @@ public class BottomBar extends JPanel{
 	private JButton speed = new JButton(">>");
 	private JPanel wrapperButtons = new JPanel();
 	private JPanel wrapperInfos = new JPanel();
-	private JTextArea dialogue = new JTextArea(3,22);
+	private JTextArea dialogue = new JTextArea(3,20);
 	
 	
 	//tower panel
@@ -41,6 +42,12 @@ public class BottomBar extends JPanel{
 	private JButton upStrength = new JButton("+");
 	private JButton upActionField = new JButton("+");
 	
+	//button appearance (sell tower)
+	String htmlBefore = "<HTML><BODY style='text-align:center'>";
+	String htmlMiddle="<BR><p><span style='font-weight:bold; font-size:14px;'>";
+	String htmlAfter = "</span><img src='file:res/img/po.png'/></p></BODY></HTML>";
+	
+	private JButton sellTower = new JButton (htmlBefore+"Vendre"+htmlMiddle+""+htmlAfter);
 	private Tower currentTower;
 	
 	
@@ -99,25 +106,31 @@ public class BottomBar extends JPanel{
 	 * Filling JPanel towerInfos
 	 */
 	public void manageTowerInfos(){
-		towerStrength.setBorder(new TitledBorder("Puissance de la tour"));
-		towerActionField.setBorder(new TitledBorder("Champs d'action de la tour"));
-		towerStrength.setPreferredSize(new Dimension(150,65));
-		towerActionField.setPreferredSize(new Dimension(180,65));
+		//upgrades buttons/labels
+		towerStrength.setBorder(new TitledBorder("Puissance "));
+		towerActionField.setBorder(new TitledBorder("Champs d'action "));
+		towerStrength.setPreferredSize(new Dimension(120,65));
+		towerActionField.setPreferredSize(new Dimension(130,65));
 		towerInfos.add(towerStrength);
 		towerInfos.add(upStrength);
 		towerInfos.add(towerActionField);
 		towerInfos.add(upActionField);
-		//hidding the panel at first
+		
+		//sell button
+		sellTower.setPreferredSize(new Dimension(100,50));
+		towerInfos.add(sellTower);
+		
+		//hidding panel at first
 		towerInfos.setVisible(false);
 		
-		//add listeners on buttons (improve strength & actionField)
+		//add listeners on buttons (improve strength & actionField + sell tower)
 		upStrength.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	System.out.println("+strength");
 	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 	        	Tower t = currentTower; 
 	        	
-	        	if(t.getUpgradeStrengh()<5){
+	        	if(t.getUpgradeStrength()<5){
 		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
 		    		JavaWars.getDispatcher().addAction(myAction);
 	        	}
@@ -143,8 +156,19 @@ public class BottomBar extends JPanel{
 	        }
 	    });
 		
+		sellTower.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
+				ActionTowerDelete myAction = new ActionTowerDelete(player,currentTower);
+	    		JavaWars.getDispatcher().addAction(myAction);
+	        }
+		});
+		
 	}
 	
+	/**
+	 * Update infos on tower
+	 */
 	public void updateTowersLabel(){
 		if(currentTower==null) return;
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
@@ -155,13 +179,19 @@ public class BottomBar extends JPanel{
 			Tower t = it.next();
 			if(t.getPosition().getX() == currentTower.getPosition().getX() && t.getPosition().getY() == currentTower.getPosition().getY()){
 				currentTower = t;
+				
+				double price = t.getPrice()+ t.getUpgradeRange() + t.getUpgradeStrength()*2; 
 				towerStrength.setText(String.valueOf(t.getStrength()));
 				towerActionField.setText(String.valueOf(t.getActionField()));
+				sellTower.setText(htmlBefore+"Vendre"+htmlMiddle+price+htmlAfter);
 				break;
 			}
 		}
 	}
 	
+	/**
+	 *Update error textarea
+	 */
 	public void updateError(){
 		String error = JavaWars.getDispatcher().getError();
 		
@@ -204,8 +234,7 @@ public class BottomBar extends JPanel{
 	public JButton getUpActionField() {
 		return upActionField;
 	}
-	
-	/** getters **/
+
 	public Tower getCurrentTower(){
 		return currentTower;
 	}

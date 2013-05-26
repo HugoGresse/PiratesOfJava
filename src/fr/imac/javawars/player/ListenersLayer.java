@@ -81,22 +81,15 @@ public class ListenersLayer extends JPanel{
 				if (oval.contains(e.getX(), e.getY())) {
 					//if the base selected belongs to the player
 					if(b.getPlayer() == human){
-						System.out.println("one of my bases positioned in : " + b.getPosition());
 						this.currentHumanBaseSelected = b;
-						// update the display, sert à qqch????
-						human.getIhm().getCenterPanel().repaint();
-		            	//System.out.println("currentHumanBase : " + this.currentHumanBaseSelected.getPlayer().getName());
 					}
 					else{
 						//if the base selected belongs to an enemy
 						if(b.getPlayer() != null){
-							System.out.println("base " + b.getPlayer().getName() + " positioned in : " + b.getPosition());
 							this.currentTargetBaseSelected = b;
-			            	//System.out.println("currentTargetBase : " + this.currentTargetBaseSelected.getPlayer().getName());
 						}
 						//if the base selected belongs to no one (neutral)
 						else{
-							System.out.println("neutral base positioned in : " + b.getPosition());
 							this.currentTargetBaseSelected = b;
 						}
 						// when one of our base is selected and that we have a target selected, we send an agent at every click

@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.Dispatcher;
 
 /**
  * Class Menu : display menu
@@ -21,7 +20,6 @@ import fr.imac.javawars.dispatcher.Dispatcher;
 public class Menu extends JPanel {
 	Image backgroundMenu;
 	Rectangle2D boutonPlay;
-	Rectangle2D boutonReplay;
 	
 	/**
 	 * CONSTRUCTOR
@@ -38,7 +36,6 @@ public class Menu extends JPanel {
 		}
 		
 		boutonPlay = new Rectangle2D.Double(650,0,250,115);
-		boutonReplay = new Rectangle2D.Double(255,385,350,100);
 		
 		addPlayListener();
 	}
@@ -64,22 +61,19 @@ public class Menu extends JPanel {
 		});
 	}
 	
-	
 	/**
 	 * setting background for the end of the game
 	 * @param gagne : boolean true = win/false = loose
 	 */
 	public void setBackgroundEnd(boolean gagne){
 		//resetting btn with new coordinates
-		boutonPlay = null;
+		boutonPlay = new Rectangle2D.Double(0,0,0,0);
 		Human player =(Human)JavaWars.getEngine().getPlayers().get(1);
-		
-		System.out.println("setBackgroundEnd");
 		
 		player.getIhm().getCenterPanel().getGroundLayer().setVisible(false);
 		player.getIhm().getCenterPanel().getBasesLayer().setVisible(false);
 		player.getIhm().getCenterPanel().getTowersLayer().setVisible(false);
-		
+		player.getIhm().getCenterPanel().getAgentsLayer().setVisible(false);
 		
 		try {
 			//display img
@@ -92,10 +86,13 @@ public class Menu extends JPanel {
 			e.printStackTrace();
 		}
 		
+		
 		//setting ihm content to this screen
 		Ihm ihm = player.getIhm();
 		ihm.setContentPane(this);
 	}
+	
+	
 	
 	/**
 	 * Paint layer

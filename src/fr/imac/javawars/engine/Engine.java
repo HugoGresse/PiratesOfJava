@@ -128,6 +128,21 @@ public class Engine  implements Runnable{
 	}
 	
 	/**
+	 * remove a tower
+	 * @param tower to remove
+	 */
+	public void removeTower(Tower t){
+		Iterator<Tower> it = towers.iterator();
+		while(it.hasNext()){
+			Tower tower = it.next();
+			
+			if(t.equals(tower)){
+				towers.remove(tower);
+			}
+		}
+	}
+	
+	/**
 	 * Run method of the thread
 	 */
 	@Override
@@ -333,15 +348,11 @@ public class Engine  implements Runnable{
 		
 		//if player has bases and mechant not one 
 		if(isHuman &&  !isMechant){
-			System.out.println("Player wins!");
-
 			stopGame();
 			((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
 		}
 		//if there are no more human base
 		else if(!isHuman){
-			System.out.println("Player loose");
-
 			stopGame();
 			((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(false);
 		}

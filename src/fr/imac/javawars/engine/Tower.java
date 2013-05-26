@@ -25,7 +25,7 @@ public abstract class Tower extends AbstractTowerBase {
 	/**
 	 * The upgrade of strengh the tower have
 	 */
-	private int upgradeStrengh;
+	private int upgradeStrength;
 	/**
 	 * The upgrade of range/actionfield the tower have
 	 */
@@ -52,7 +52,7 @@ public abstract class Tower extends AbstractTowerBase {
 		super(life, position, player, actionField);
 		this.price = price;
 		this.strength = strength;
-		this.upgradeStrengh = 0;
+		this.upgradeStrength = 0;
 		this.upgradeRange = 0;
 		this.attackSpeed = attackSpeed;
 		this.projectileSpeed = projectileSpeed;
@@ -75,16 +75,16 @@ public abstract class Tower extends AbstractTowerBase {
 		System.out.println("implement this method increaseStrengh TOwer");
 	}
 		
-	public int getUpgradeStrengh() {
-		return upgradeStrengh;
+	public int getUpgradeStrength() {
+		return upgradeStrength;
 	}
 
 	public int getUpgradeRange() {
 		return upgradeRange;
 	}
 
-	public void setUpgradeStrengh(int upgradeStrengh) {
-		this.upgradeStrengh = upgradeStrengh;
+	public void setUpgradeStrength(int upgradeStrengh) {
+		this.upgradeStrength = upgradeStrengh;
 	}
 
 	public void setUpgradeRange(int upgradeRange) {
@@ -120,7 +120,7 @@ public abstract class Tower extends AbstractTowerBase {
 
 	public void changeStrength(int strength) {
 		this.strength += strength;
-		this.upgradeStrengh++;
+		this.upgradeStrength++;
 	}
 	
 	@Override
@@ -154,6 +154,17 @@ public abstract class Tower extends AbstractTowerBase {
 		lastTimeSent = System.currentTimeMillis();
 		
 		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(getClass()== o.getClass()){
+			if(getPosition().getX() == ((Tower)o).getPosition().getX() && getPosition().getY() == ((Tower)o).getPosition().getY() ){
+				return true;
+			}
+			else return false;
+		}
+		else return false;
 	}
 	
 }

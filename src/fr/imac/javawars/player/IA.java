@@ -199,7 +199,7 @@ public class IA extends Player implements Runnable{
 				return;
 		}
 		if (typeUp == 2) {
-			if(towerToUp.getUpgradeStrengh()>5)
+			if(towerToUp.getUpgradeStrength()>5)
 				return;
 		}
 

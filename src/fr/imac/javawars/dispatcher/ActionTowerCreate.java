@@ -1,7 +1,5 @@
 package fr.imac.javawars.dispatcher;
 
-import java.awt.Point;
-
 import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.player.Player;
 
