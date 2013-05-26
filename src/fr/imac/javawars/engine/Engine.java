@@ -177,7 +177,6 @@ public class Engine  implements Runnable{
 				sleepTime = (int) (fpsTarget - endTime);
 				
 				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
-				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -268,6 +267,10 @@ public class Engine  implements Runnable{
 	 * stop IA&Engine threads
 	 */
 	public void stopGame(){
+
+		//stop Engine
+		running = false;
+		
 		//stop IA
 		Iterator<Map.Entry<Integer, Player>> it = playersData.entrySet().iterator();
 		while(it.hasNext()){
@@ -276,8 +279,6 @@ public class Engine  implements Runnable{
 				((IA)p).stopThread();
 		}
 		
-		//stop Engine
-		running = false;
 	}
 	
 	/**
@@ -325,8 +326,9 @@ public class Engine  implements Runnable{
 			//if player has all bases : he wins
 			if(playerBases == bases.size()){
 				System.out.println("Player wins!");
-				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
+
 				stopGame();
+				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
 			}
 			//if there are no neutral bases and player has no base
 			else if(playerBases == 0 && neutralBases == 0){

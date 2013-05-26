@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Dispatcher;
 
 /**
  * Class Menu : display menu
@@ -71,12 +72,12 @@ public class Menu extends JPanel {
 		boutonPlay = null;
 		Human player =(Human)JavaWars.getEngine().getPlayers().get(1);
 		
-		//erasing game's layers
-		//works
-		player.getIhm().getCenterPanel().getGroundLayer().setBufferedImage(null);
-		//doesn't work
-		player.getIhm().getCenterPanel().getBasesLayer().setBufferedImage(null);
-		player.getIhm().getCenterPanel().getTowersLayer().setBufferedImage(null);
+		System.out.println("setBackgroundEnd");
+		
+		player.getIhm().getCenterPanel().getGroundLayer().setVisible(false);
+		player.getIhm().getCenterPanel().getBasesLayer().setVisible(false);
+		player.getIhm().getCenterPanel().getTowersLayer().setVisible(false);
+		
 		
 		try {
 			//display img
