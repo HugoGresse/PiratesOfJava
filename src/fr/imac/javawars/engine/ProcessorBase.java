@@ -8,7 +8,10 @@ import fr.imac.javawars.dispatcher.Action;
 
 public class ProcessorBase {
 	
-	private double beginTime = 0; 
+	/**
+	 * Used to detecte if we some life Base change
+	 */
+	boolean change = false;
 	
 	public ProcessorBase(){
 		
@@ -20,24 +23,14 @@ public class ProcessorBase {
 	 * 					the bases
 	 */
 	public boolean process(CopyOnWriteArrayList<Base> bases, double newTime){
-		if(beginTime == 0)
-			beginTime = newTime;
 		
 		Iterator<Base> itr = bases.iterator();
-		boolean change = false;
 		while(itr.hasNext()){
 			Base base = itr.next();
 			
-			//if(base.getPlayer() == null) return false;
-			
-			//If time to short before previous addLife
-			if(newTime - beginTime < base.getSpeedRegeneration())
-				return false;
-			
-			base.addLife(1);
+			change = base.checkAndAddLife(newTime);
 			
 		}
-		beginTime = newTime;
 		
 		return true;
 		

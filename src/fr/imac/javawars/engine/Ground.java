@@ -106,7 +106,7 @@ public class Ground {
 		
 		// IF it is a text file (xml)
 		else {
-			System.err.println("Fichier image de la map invalide, utiliser .gif, .png, .xml ou rien pour une gŽnŽration alŽatoire" );
+			System.err.println("Fichier image de la map invalide, utiliser .gif, .png, .xml ou rien pour une génération aléatoire" );
 		}
 		
 		
@@ -181,7 +181,7 @@ public class Ground {
 		}
 		catch (FileNotFoundException exception)
 		{
-		    System.out.println ("Le fichier n'a pas ŽtŽ trouvŽ");
+		    System.out.println ("Le fichier n'a pas été trouvé");
 		}
 				 
 		
@@ -591,7 +591,9 @@ public class Ground {
 	  * 		return the speedRegeneration in ms
 	  */
 	 private int getSpeed(int radius){
-		 int result = (int) ( (1 / (Math.sqrt(radius + 4) ))*3500 );
+		 int x = radius -10;
+		 if(x<1)x=1;
+		 int result = (int) ( (1 / (Math.sqrt(x) ))*1500 );
 		 return result;
 	 }
 	 /** Create a circle in BitMap with origin, radius

@@ -88,7 +88,7 @@ public class BasesManager {
 			//if the base isn't neutral
 			else {
 				this.influenceAreaMap[basePosition1D] = b.getPlayer().getPlayerNumber();
-				System.out.println("player number " + b.getPlayer().getPlayerNumber());
+				//System.out.println("player number " + b.getPlayer().getPlayerNumber());
 			}
 		}
 		//debug, create a xml map in the same format that the original to see if the initialization works

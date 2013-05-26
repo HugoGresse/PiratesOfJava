@@ -13,24 +13,49 @@ import fr.imac.javawars.player.Player;
  */
 
 public class Base extends AbstractTowerBase {
-	private int capacity;
-	private double speedRegeneration; //if = 1 means 1 agent produce by second ?
-	private LinkedList<Tower> towers;
-	private Power power;
-	/* table containing distances of the base
- 	imagine a map of boxes but here stocked in a tab 1d
- 	every element represents the distance of the box to the base */
-	private int[] distanceMap;
 	/**
-	 * Rayon de la base
+	 * Capacity of the Base, not used
 	 */
-	private int radius;
+	private int capacity;
+	
+	/**
+	 * Speed regen is the time in ms when we add life to the base
+	 */
+	private double speedRegeneration;
+	
+	/**
+	 * The last time in ms when we add life to the tower
+	 */
+	private double lastTimeAddLife = 0;
+	
+	/**
+	 * The towers associated to the base
+	 */
+	private LinkedList<Tower> towers;
+	/**
+	 * the special power of the base
+	 */
+	private Power power;
 	public enum Power{
 		NORMAL,
 		SPEED_UP,
 		LIFE_UP,
 		RESISTANCE;
 	}
+	
+	
+	
+	/* table containing distances of the base
+ 	imagine a map of boxes but here stocked in a tab 1d
+ 	every element represents the distance of the box to the base */
+	private int[] distanceMap;
+	
+	/**
+	 * Rayon de la base
+	 */
+	private int radius;
+	
+
 	
 	// CONSTRUCTORS
 
@@ -209,8 +234,27 @@ public class Base extends AbstractTowerBase {
 		//writeInXMLInfluenceMap(bitMap, distanceMap, "map/distanceBaseTest");
 	}
 	
-	public void regeneration(){
-		// A REMPLIR
+	/**
+	 * Check if we have to add a life to a player base (not neutral) and if so, add it
+	 * @param currentTime
+	 * 					the time in ms when call this method
+	 * @return
+	 * 			return true if the life of the base change
+	 */
+	public boolean checkAndAddLife(double currentTime){
+		if(lastTimeAddLife == 0)
+			lastTimeAddLife = currentTime;
+		
+		if(this.player == null)
+			return false;
+		
+		if(currentTime - lastTimeAddLife < this.getSpeedRegeneration())
+			return false;
+		
+		this.addLife(1);
+		lastTimeAddLife = currentTime;
+		
+		return true;
 	}
 	
 	public void increaseCapacity(){
