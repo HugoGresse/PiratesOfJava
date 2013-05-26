@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JPanel;
@@ -50,7 +48,7 @@ public class BasesLayer extends JPanel {
 	}
 	
 	/**
-	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 * Draw the new stuff on a buffered image instead of the default graphics
 	 */
 	public void drawBufferedImage(){
 		//System.out.println("Draw BasesLayersBuffer");
@@ -75,7 +73,11 @@ public class BasesLayer extends JPanel {
 	}
 	
 
-	
+	/**
+	 * Draw one Base
+	 * @param b : base to draw
+	 * @param g : graphics to draw on
+	 */
 	private void drawBase(Base b, Graphics g){
 		int radius = b.getRadius();
 		Player player = b.getPlayer();
