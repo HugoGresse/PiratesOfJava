@@ -81,13 +81,12 @@ public abstract class Player {
 		numberOfAgents++;
 	}
 	
-	public void deleteAgent(Agent agent){
-		agents.remove(agent);
-		numberOfAgents--;
-	}
-	
 	public int getNumberOfAgents(){
 		return this.numberOfAgents;
+	}
+	
+	public void setNumberOfAgents(int num){
+		this.numberOfAgents = num;
 	}
 	
 	public abstract void update();

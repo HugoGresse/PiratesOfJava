@@ -56,10 +56,16 @@ public class ProcessorAgents {
 				if(a.updatePosition()){
 					// We enter in this loop just when the agent is arrived to destination
 					
+					//once the agent is arrived to destination, we delete it
+					itAgent.remove();
+					p.setNumberOfAgents(p.getNumberOfAgents()-1);
+					
 					//we manage lifes of target base in function of his type
 					
 					// if the target base doesn't belong to the player
 					if(a.getBaseTarget().getPlayer() != a.getBaseStart().getPlayer()){
+						//decomment this line to see if display of endScreen work
+						//JavaWars.getEngine().checkEndGame();
 						//if the base is neutral
 						if(a.getBaseTarget().getPlayer() == null){
 							//if the base has more life than 0 we have to decrease it
@@ -69,6 +75,8 @@ public class ProcessorAgents {
 							else{
 								//the base belongs now to the player of the starting base
 								a.getBaseTarget().setPlayer(a.getBaseStart().getPlayer());
+								JavaWars.getEngine().checkEndGame();
+								
 								/*a.getBaseTarget().setSpeedRegeneration((int)0.04 * a.getBaseTarget().getRadius());
 								a.getBaseTarget().autoAddLife();
 								a.getBaseTarget().addLife(1);*/
@@ -87,8 +95,7 @@ public class ProcessorAgents {
 					else {
 						a.getBaseTarget().addLife(1);
 					}
-					//once the agent is arrived to destination, we delete it
-					itAgent.remove();
+					
 				}
 			}
 			change = true;

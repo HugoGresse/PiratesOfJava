@@ -2,6 +2,7 @@ package fr.imac.javawars.player;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -56,6 +57,32 @@ public class Menu extends JPanel {
             	}
             }
 		});
+	}
+	
+	/**
+	 * setting background for the end of the game
+	 * @param gagne : boolean true = win/false = loose
+	 */
+	public void setBackgroundEnd(boolean gagne){
+		//resetting btn with new coordinates
+		boutonPlay = null;
+		Human player =(Human)JavaWars.getEngine().getPlayers().get(1);
+		
+		//erasing game's layers
+		player.getIhm().getCenterPanel().getBasesLayer().setBufferedImage(null);
+		player.getIhm().getCenterPanel().getTowersLayer().setBufferedImage(null);
+		player.getIhm().getCenterPanel().getGroundLayer().setBufferedImage(null);
+		
+		try {
+			//display img
+			if(gagne)
+				this.backgroundMenu =  ImageIO.read(new File("res/img/win.png"));
+			else
+				this.backgroundMenu =  ImageIO.read(new File("res/img/loose.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 	/**

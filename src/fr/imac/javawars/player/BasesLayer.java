@@ -34,7 +34,6 @@ public class BasesLayer extends JPanel {
 		isEmptyBufferedImage = true;
 	}
 	
-	
 	/**
 	 * Painting layer (display bases)
 	 */
@@ -48,9 +47,6 @@ public class BasesLayer extends JPanel {
 			drawBufferedImage();
 			g.drawImage(bufferedImage, 0, 0, null);
 		}
-			
-		
-		
 	}
 	
 	/**
@@ -124,6 +120,14 @@ public class BasesLayer extends JPanel {
 		if(player == null)g.setColor(Color.gray);
 		else g.setColor(Color.white);
 		g.drawString(String.valueOf(b.getLife()), (int)(b.getPosition().getX()-6), (int)(b.getPosition().getY()+4));
+	}
+	
+	/**
+	 * setter
+	 * @param img : img to put instead of the current one
+	 */
+	public void setBufferedImage(BufferedImage img){
+		this.bufferedImage = img;
 	}
 
 }

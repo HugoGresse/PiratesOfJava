@@ -53,7 +53,7 @@ public class Ihm  extends JFrame {
 	}
 	
 	/**
-	 * Create panels, juliette's code should go here
+	 * Create panels for the interface
 	 */
 	public void CreatePanel(){
 		centerPanel = new CenterPanel(this.getLayeredPane());
@@ -69,6 +69,7 @@ public class Ihm  extends JFrame {
 		
 		this.setContentPane(this.conteneur);
 	}
+
 	
 	/**
 	 * 
@@ -84,6 +85,10 @@ public class Ihm  extends JFrame {
 	
 	public Sidebar getSidebar(){
 		return sidebar;
+	}
+	
+	public Menu getMenu(){
+		return menu;
 	}
 	
 }
