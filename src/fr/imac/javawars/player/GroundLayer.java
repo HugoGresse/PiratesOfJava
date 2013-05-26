@@ -1,6 +1,5 @@
 package fr.imac.javawars.player;
 
-import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,14 +7,10 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.engine.Base;
+
 
 
 public class GroundLayer extends JPanel {

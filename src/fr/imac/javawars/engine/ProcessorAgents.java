@@ -1,9 +1,7 @@
 package fr.imac.javawars.engine;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.player.Player;
@@ -28,7 +26,6 @@ public class ProcessorAgents {
 	 * 			return true if position changes for any agent
 	 */
 	public boolean process(Map<Integer, Player> players){
-		int i = 1;
 		boolean change = false;
 		//for all agents
 		
@@ -51,6 +48,15 @@ public class ProcessorAgents {
 					return false;
 				}
 				
+				//check life of the agent
+				if(! a.isInLife()) {
+					System.out.println("rmeove this agent");
+					itAgent.remove();
+					continue;
+				}
+					
+				
+				
 				//
 				//Update the position of the agent, delete if he is arrived
 				if(a.updatePosition()){
@@ -64,8 +70,6 @@ public class ProcessorAgents {
 					
 					// if the target base doesn't belong to the player
 					if(a.getBaseTarget().getPlayer() != a.getBaseStart().getPlayer()){
-						//decomment this line to see if display of endScreen work
-						//JavaWars.getEngine().checkEndGame();
 						//if the base is neutral
 						if(a.getBaseTarget().getPlayer() == null){
 							//if the base has more life than 0 we have to decrease it
@@ -94,6 +98,7 @@ public class ProcessorAgents {
 					//if the base belongs to the player
 					else {
 						a.getBaseTarget().addLife(1);
+						JavaWars.getEngine().checkEndGame();
 					}
 					
 				}
@@ -101,10 +106,8 @@ public class ProcessorAgents {
 			change = true;
 		} //end while
 		
-		
-		//System.out.println("processAgents : "+i);
-		i++;
 		return change;
 	}
 	
+
 }

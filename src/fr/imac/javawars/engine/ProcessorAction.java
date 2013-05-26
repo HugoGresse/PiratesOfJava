@@ -49,7 +49,7 @@ public class ProcessorAction {
 			}
 			
 			change = true;
-			System.out.println("processAction : "+i);
+			//System.out.println("processAction : "+i);
 			i++;
 		}
 		return change;
@@ -85,7 +85,8 @@ public class ProcessorAction {
 		
 		//check if player has enough money : 
 		if( action.getTower().getPrice() >  action.getPlayer().getMoney() ) {
-			JavaWars.getEngine().setError("Pas assez d'argent pour créer la tour");
+			if(action.getPlayer().getPlayerNumber() == 1)
+				JavaWars.getEngine().setError("Pas assez d'argent pour créer la tour");
 			// TODO check object null to destroy it
 			return;
 		}
@@ -97,7 +98,8 @@ public class ProcessorAction {
 			
 			if(point.getX() + sizeTower > newPoint.getX() - sizeTower && point.getX() - sizeTower < newPoint.getX() + sizeTower){
 				if(point.getY() + sizeTower > newPoint.getY() - sizeTower && point.getY() - sizeTower < newPoint.getY() + sizeTower){
-					JavaWars.getEngine().setError("Impossible de créer la tour ici.");
+					if(action.getPlayer().getPlayerNumber() == 1)
+						JavaWars.getEngine().setError("Impossible de créer la tour ici.");
 					return;
 				}
 			}
@@ -109,8 +111,10 @@ public class ProcessorAction {
 		for(int x = (int) (newPoint.getX()-sizeTower); x <= (int) (newPoint.getX() + sizeTower); x++){
 
 			for(int y = (int) (newPoint.getY()-sizeTower); y <= (int) (newPoint.getY() + sizeTower); y++){
+
 				if(JavaWars.getEngine().getGround().getGroundPosition(y, x) != -2 || JavaWars.getEngine().getBasesManager().getPositionInfluenceArea(y, x) != action.getPlayer().getPlayerNumber()) {
-					JavaWars.getEngine().setError("Vous devez créer la tour sur un contrefort autour de votre base principale");
+						if(action.getPlayer().getPlayerNumber() == 1)
+						JavaWars.getEngine().setError("Vous devez créer la tour sur un contrefort autour de votre base principale");
 					return;
 				}
 				
@@ -134,13 +138,14 @@ public class ProcessorAction {
 		
 		//check if player has enough money : 
 		if( action.getPrice() >  action.getPlayer().getMoney() ) {
-			JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la tour");
+			if(action.getPlayer().getPlayerNumber() == 1)
+				JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la tour");
 			// TODO check object null to destroy it
 			return;
 		}
 		
-		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(2);
-		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(2);
+		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(20);
+		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(1);
 		
 		action.getPlayer().changeMoney( - action.getPrice());
 			

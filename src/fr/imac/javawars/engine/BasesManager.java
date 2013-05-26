@@ -192,7 +192,7 @@ public class BasesManager {
 			if(testNotToManyLoop >= 2073600)
 				System.out.println("boucle infinie dans determineInfluenceBase");
 		}
-		System.out.println("determine influence of bases finished !");
+		//System.out.println("determine influence of bases finished !");
 		//debug, create a xml map in the same format that the original to see if the algorithm works
 		//writeInXMLInfluenceMap(bitMap, this.influenceAreaMap, "map/influenceAreaBasesCalculated");
 	}

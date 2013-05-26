@@ -33,8 +33,6 @@ public class JavaWars {
 		
 		//create ihm
 		((Human)joueur1).initIhm("Pirates of Java");
-		
-		//Engine Thread start when click on Jouer
 	}
 	
 	

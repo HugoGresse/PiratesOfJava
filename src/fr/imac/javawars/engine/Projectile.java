@@ -32,7 +32,7 @@ public class Projectile {
 		t.addProjectiles(this);
 		this.position = origin;
 		this.target = target;
-		this.speed = 1;
+		this.speed = t.getProjectileSpeed();
 		
 		//Calculate the variables used (y=ax+b)
 		calcDestination();
@@ -94,7 +94,7 @@ public class Projectile {
 		}
 		// If the projectile is arrived at it's destination : 
 		if(this.position.distance(this.target.getPosition()) <= 10){
-			System.out.println("Should delete this projectile now - id " + numPro);
+			//System.out.println("Should delete this projectile now - id " + numPro);
 			return true;
 		}
 		

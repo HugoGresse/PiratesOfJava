@@ -2,7 +2,6 @@ package fr.imac.javawars.player;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -13,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.Dispatcher;
 
 /**
  * Class Menu : display menu
@@ -21,6 +21,7 @@ import fr.imac.javawars.JavaWars;
 public class Menu extends JPanel {
 	Image backgroundMenu;
 	Rectangle2D boutonPlay;
+	Rectangle2D boutonReplay;
 	
 	/**
 	 * CONSTRUCTOR
@@ -37,14 +38,15 @@ public class Menu extends JPanel {
 		}
 		
 		boutonPlay = new Rectangle2D.Double(650,0,250,115);
+		boutonReplay = new Rectangle2D.Double(255,385,350,100);
 		
-		addBoutonListener();
+		addPlayListener();
 	}
 	
 	/**
-	 * Adding listener on bouton, if pressed : game begins
+	 * Adding listener on playBouton, if pressed : game begins
 	 */
-	public void addBoutonListener(){
+	public void addPlayListener(){
 		this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
             	if ((e.getButton() == 1) && boutonPlay.contains(e.getX(), e.getY()) ) {
@@ -52,7 +54,8 @@ public class Menu extends JPanel {
             		Human player =(Human)JavaWars.getEngine().getPlayers().get(1);
             		//display game
             		player.getIhm().CreatePanel();
-            		//Auto-update bases life
+            		
+            		// Starting engine
             		JavaWars.getEngine().startThread();
             		
             		JavaWars.getEngine().startThreadIA();
@@ -60,6 +63,7 @@ public class Menu extends JPanel {
             }
 		});
 	}
+	
 	
 	/**
 	 * setting background for the end of the game
@@ -70,10 +74,12 @@ public class Menu extends JPanel {
 		boutonPlay = null;
 		Human player =(Human)JavaWars.getEngine().getPlayers().get(1);
 		
-		//erasing game's layers
-		player.getIhm().getCenterPanel().getBasesLayer().setBufferedImage(null);
-		player.getIhm().getCenterPanel().getTowersLayer().setBufferedImage(null);
-		player.getIhm().getCenterPanel().getGroundLayer().setBufferedImage(null);
+		System.out.println("setBackgroundEnd");
+		
+		player.getIhm().getCenterPanel().getGroundLayer().setVisible(false);
+		player.getIhm().getCenterPanel().getBasesLayer().setVisible(false);
+		player.getIhm().getCenterPanel().getTowersLayer().setVisible(false);
+		
 		
 		try {
 			//display img
@@ -84,7 +90,11 @@ public class Menu extends JPanel {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		
+		//setting ihm content to this screen
+		Ihm ihm = player.getIhm();
+		ihm.setContentPane(this);
 	}
 	
 	/**

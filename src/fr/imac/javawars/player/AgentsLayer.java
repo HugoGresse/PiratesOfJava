@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -92,12 +91,9 @@ public class AgentsLayer extends JPanel {
 		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
 	
 		
-		
 		while(it.hasNext()){
 			drawAgentsOfPlayer(it.next().getValue(), g);
 		}
-		
-		
 		
 		isEmptyBufferedImage = false;
 		
@@ -105,7 +101,9 @@ public class AgentsLayer extends JPanel {
 		repaint();
 	}
 
-		
+	/**
+	 * Draw agents of one player
+	 */
 	public void drawAgentsOfPlayer(Player player, Graphics g){
 		Image icon = null;
 		switch (player.getPlayerNumber()) {
@@ -144,12 +142,7 @@ public class AgentsLayer extends JPanel {
 	}
 	
 	public void createAndSendAgent(Player player, Base start, Base target){	
-		//Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-		
 		ActionAgentSend myAction = new ActionAgentSend(player, start, target);
-
 		JavaWars.getDispatcher().addAction(myAction);
-		
-		//repaint();
 	}
 }

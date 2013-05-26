@@ -11,7 +11,7 @@ import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
-/*
+/**
 	 * Variables
 	 * - Map
 	 * - Distances de déplacement
@@ -32,7 +32,7 @@ public class Engine  implements Runnable{
 	
 	protected Dispatcher dispatcher;
 	
-	//Processor
+	//Processors
 	private static ProcessorAction actionProcessor;
 	private static ProcessorTower towerProcessor;
 	private static ProcessorAgents agentsProcessor;
@@ -51,10 +51,12 @@ public class Engine  implements Runnable{
 	private BasesManager basesManager;
 	private Ground ground;
 	
-	//stock erreurs ‡ envoyer ‡ l'IHM
+	//stock error to send to ihm
 	private String error = null;
 	
-	/* CONSTRUCTOR */
+	/**
+	 * Constructor
+	 */
 	public Engine() {
 	
 		actionProcessor = new ProcessorAction();
@@ -66,7 +68,9 @@ public class Engine  implements Runnable{
 		engineThread = new Thread(this);
 	}
 	
-	/* GETTERS // SETTERS */
+	/**
+	 * Getters/setters
+	 */
 	public BasesManager getBasesManager() {
 		return basesManager;
 	}
@@ -123,11 +127,13 @@ public class Engine  implements Runnable{
 		return playersData;
 	}
 	
-	
+	/**
+	 * Run method of the thread
+	 */
 	@Override
 	public void run() {
 		
-		//check if the something change
+		//check if something change
 		boolean playerChange;
 		boolean towerChange;
 		boolean agentChange;
@@ -171,7 +177,6 @@ public class Engine  implements Runnable{
 				sleepTime = (int) (fpsTarget - endTime);
 				
 				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
-				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -189,10 +194,8 @@ public class Engine  implements Runnable{
 		initializationOfPlayers(p1,p2,p3,p4);
 		
 
-		/*initialisation of the ground*/
+		//initialisation of the ground
 		this.ground = new Ground("map/mapCool_2.xml");
-		//this.ground.printGround();
-		
 		
 		// compute the map of distance for every map
 		Iterator<Base> itBases = this.bases.iterator();
@@ -212,7 +215,7 @@ public class Engine  implements Runnable{
 	
 		//getGround().saveAsXML(this.basesManager.getInfluenceAreaBitMap(), "map/test");
 
-		// Stock dispatcher to avoid to call him every time
+		// Stock dispatcher to avoid to call it every time
 		dispatcher = JavaWars.getDispatcher();
 		
 	}
@@ -266,6 +269,23 @@ public class Engine  implements Runnable{
 		for(Thread t : threadsPlayers)
 			t.start();
 	}
+	/**
+	 * stop IA&Engine threads
+	 */
+	public void stopGame(){
+
+		//stop Engine
+		running = false;
+		
+		//stop IA
+		Iterator<Map.Entry<Integer, Player>> it = playersData.entrySet().iterator();
+		while(it.hasNext()){
+			Player p = it.next().getValue();
+			if(p.getClass() != Human.class)
+				((IA)p).stopThread();
+		}
+
+	}
 	
 	/**
 	 *	End of game
@@ -273,7 +293,7 @@ public class Engine  implements Runnable{
 	public void checkEndGame(){
 		boolean stillAgents = false;
 
-		Map<Integer, Player> players = getPlayers();
+		Map<Integer, Player> players = playersData;
 		
 		//check if there is still agents on paths
 		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
@@ -281,7 +301,7 @@ public class Engine  implements Runnable{
 		while(it.hasNext()){
 			Player p = it.next().getValue();
 			
-			//check if player has agents
+			//check if players have agents
 			if(p.getNumberOfAgents() != 0){
 				stillAgents = true;
 				break;
@@ -293,31 +313,36 @@ public class Engine  implements Runnable{
 			CopyOnWriteArrayList<Base> bases = getBases();
 			Iterator<Base> it2 = bases.iterator();
 			
-			int playerBases = 0;
-			//decomment this line if you want to try if the display of the endScreen works
-			//int playerBases = 11
+			int playerBases = 12;
 			int neutralBases = 0;
 			
-			while(it2.hasNext()){
+			//decomment this line if you want to try if the display of the endScreen works
+			//int playerBases = 12
+			
+			//and comment this while
+			/*while(it2.hasNext()){
 				Base b = it2.next();
 				if(b.getPlayer() == null) 
 					neutralBases++;
 				else if(b.getPlayer().getPlayerNumber()==1){
 					playerBases++;
 				}
-			}
+			}*/
 			
 			//if player has all bases : he wins
 			if(playerBases == bases.size()){
 				System.out.println("Player wins!");
+
+				stopGame();
 				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
 			}
 			//if there are no neutral bases and player has no base
 			else if(playerBases == 0 && neutralBases == 0){
 				System.out.println("Player loose");
 				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(false);
+				stopGame();
 			}
-			((Human)players.get(1)).getIhm().setContentPane(((Human)players.get(1)).getIhm().getMenu());
+
 		}
 		
 		
