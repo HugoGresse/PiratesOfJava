@@ -26,8 +26,8 @@ public class TowerBounce extends Tower{
 	 */
 	
 	public TowerBounce(Point position, Player player) {
-		///// player, pos,      life, prix, actionField, strengh, attackspeed
-		super(player, position, 20,   4,    80,          8,       12);
+		///// player, pos,      life, prix, actionField, strengh, attackspeed, projectilespeed
+		super(player, position, 20,   4,    80,          8,       400,          2);
 		this.bounce = 4;
 		
 	}

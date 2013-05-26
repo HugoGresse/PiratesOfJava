@@ -13,37 +13,55 @@ import fr.imac.javawars.player.Player;
  * @see AbstractTowerBase
  */
 public abstract class Tower extends AbstractTowerBase {
+	
+	/*
+	 * The price of the tower
+	 */
 	private int price;
+	/**
+	 * The damage/strengh of the tower (per projectile)
+	 */
 	private int strength;
+	/**
+	 * The upgrade of strengh the tower have
+	 */
 	private int upgradeStrengh;
+	/**
+	 * The upgrade of range/actionfield the tower have
+	 */
 	private int upgradeRange;
+	/**
+	 * how much rapidly the tower can send projectile (in ms)
+	 */
 	private int attackSpeed;
-	private int waitBeforeResend;
+	/**
+	 * The speed of the projectile
+	 */
+	private double projectileSpeed;
+	/**
+	 * The last time the tower attack !
+	 */
+	private double lastTimeSent;
 	
 	private ArrayList<Projectile> projectiles;
 	
 
 
 	//constructor
-	public Tower(Player player,  Point position, int life, int price, double actionField , int strength, int attackSpeed) {
+	public Tower(Player player,  Point position, int life, int price, double actionField , int strength, int attackSpeed, double projectileSpeed) {
 		super(life, position, player, actionField);
 		this.price = price;
 		this.strength = strength;
 		this.upgradeStrengh = 0;
 		this.upgradeRange = 0;
 		this.attackSpeed = attackSpeed;
+		this.projectileSpeed = projectileSpeed;
 		this.projectiles = new ArrayList<Projectile>();
 		
-		this.waitBeforeResend = attackSpeed;
+		this.lastTimeSent = System.currentTimeMillis();
 	}
 	
-	public double getAttackSpeed() {
-		return attackSpeed;
-	}
 
-	public void setAttackSpeed(int attackSpeed) {
-		this.attackSpeed = attackSpeed;
-	}
 
 	//methods
 	public double sellTower(){
@@ -52,7 +70,6 @@ public abstract class Tower extends AbstractTowerBase {
 		projectiles.clear();
 		return price;
 	}
-	
 	
 	public void increaseStrength(int val){
 		System.out.println("implement this method increaseStrengh TOwer");
@@ -75,6 +92,20 @@ public abstract class Tower extends AbstractTowerBase {
 	}
 
 	//getters/setters
+	
+	
+	public double getAttackSpeed() {
+		return attackSpeed;
+	}
+
+	public double getProjectileSpeed() {
+		return projectileSpeed;
+	}
+	
+	public void setAttackSpeed(int attackSpeed) {
+		this.attackSpeed = attackSpeed;
+	}
+	
 	public double getPrice() {
 		return price;
 	}
@@ -106,14 +137,6 @@ public abstract class Tower extends AbstractTowerBase {
 		this.projectiles.add(p);
 	}
 	
-	public int getWaitBeforeResend() {
-		return waitBeforeResend;
-	}
-
-	public void setWaitBeforeResend(int waitBeforeResend) {
-		this.waitBeforeResend = waitBeforeResend;
-	}
-
 	/**
 	 * Order tower to send projectiles on the specified Point
 	 * 
@@ -122,13 +145,14 @@ public abstract class Tower extends AbstractTowerBase {
 	 */
 	public void attackAgent(Agent target){
 		
-		waitBeforeResend++;
+		
 		//if the tower cannot attack yet
-		if(waitBeforeResend < attackSpeed)
+		if(System.currentTimeMillis() - lastTimeSent < attackSpeed)
 			return;
 		
+		System.out.println("attack ");
+		lastTimeSent = System.currentTimeMillis();
 		
-		waitBeforeResend = 0;
 		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
 	}
 	

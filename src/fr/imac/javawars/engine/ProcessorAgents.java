@@ -51,6 +51,15 @@ public class ProcessorAgents {
 					return false;
 				}
 				
+				//check life of the agent
+				if(! a.isInLife()) {
+					System.out.println("rmeove this agent");
+					itAgent.remove();
+					continue;
+				}
+					
+				
+				
 				//
 				//Update the position of the agent, delete if he is arrived
 				if(a.updatePosition()){
@@ -107,4 +116,5 @@ public class ProcessorAgents {
 		return change;
 	}
 	
+
 }

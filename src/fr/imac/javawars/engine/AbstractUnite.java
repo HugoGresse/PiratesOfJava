@@ -35,7 +35,17 @@ public abstract class AbstractUnite implements Unite {
 	public void setLife(int life) {
 		this.life = life;
 	}
-
+	
+	/**
+	 * Check if the life of unite
+	 */
+	public boolean isInLife(){
+		if(this.life <= 0)
+			return false;
+		else return true;
+	}
+	
+	
 	public Point getPosition() {
 		return position;
 	}

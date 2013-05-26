@@ -49,7 +49,7 @@ public class ProcessorAction {
 			}
 			
 			change = true;
-			System.out.println("processAction : "+i);
+			//System.out.println("processAction : "+i);
 			i++;
 		}
 		return change;
@@ -139,8 +139,8 @@ public class ProcessorAction {
 			return;
 		}
 		
-		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(2);
-		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(2);
+		if(action.getTowerUpgrade() == 1) action.getTower().changeActionField(20);
+		else if( action.getTowerUpgrade() == 2) action.getTower().changeStrength(1);
 		
 		action.getPlayer().changeMoney( - action.getPrice());
 			
