@@ -204,12 +204,13 @@ public class Engine  implements Runnable{
 		
 		//compute the influence area of bases
 		this.basesManager = new BasesManager(this.ground.getBitMap());
+		JavaWars.getEngine().getBasesManager().createInfluenceList();
 		
 		//initialization of and towers
 		towers = new CopyOnWriteArrayList<Tower>();
 		
 	
-		
+		//getGround().saveAsXML(this.basesManager.getInfluenceAreaBitMap(), "map/test");
 
 		// Stock dispatcher to avoid to call him every time
 		dispatcher = JavaWars.getDispatcher();

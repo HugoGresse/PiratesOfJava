@@ -44,8 +44,6 @@ import fr.imac.javawars.player.Player;
  * 
  */
 
-// TODO make a real map with swing
-
 public class Ground {
 
 	
@@ -323,6 +321,18 @@ public class Ground {
 	      e.printStackTrace();
 	    }
 	  }
+	
+	
+	public boolean checkSpaceTower(int x, int y){
+
+		for (int i = x-13; i<= x+13; ++i){
+			for (int j = y-13; j<= y+13; ++j){
+				if (bitMap[j][i]!=-2)
+					return false;
+			}
+		}
+		return true;
+	}
 	
 	/** Convert Color in "Wall", "Path", "Player's Bases" or "Neutral Bases"
 	 * 
