@@ -97,6 +97,13 @@ public class Dispatcher {
 	}
 	
 	/**
+	 *  Getting the map of influence of bases
+	 */
+	public int[][] getBasesManager(){
+		return JavaWars.getEngine().getBasesManager().getInfluenceAreaBitMap();
+	}
+	
+	/**
 	 * Getting bases of the game
 	 */
 	public CopyOnWriteArrayList<Base> getBases(){

@@ -105,11 +105,11 @@ public class ProcessorAction {
 		}
 		itr = null;
 		
-		//check if the tower is on a fort
+		//check if the tower is on a fort AND on his influence area
 		for(int x = (int) (newPoint.getX()-sizeTower); x <= (int) (newPoint.getX() + sizeTower); x++){
 
 			for(int y = (int) (newPoint.getY()-sizeTower); y <= (int) (newPoint.getY() + sizeTower); y++){
-				if(JavaWars.getEngine().getGround().getGroundPosition(y, x) != -2 || JavaWars.getEngine().getBasesManager().getPositionInfluenceArea(y, x) != 1) {
+				if(JavaWars.getEngine().getGround().getGroundPosition(y, x) != -2 /*|| JavaWars.getEngine().getBasesManager().getPositionInfluenceArea(y, x) != 1*/) {
 					JavaWars.getEngine().setError("Vous devez créer la tour sur un contrefort autour de votre base principale");
 					return;
 				}

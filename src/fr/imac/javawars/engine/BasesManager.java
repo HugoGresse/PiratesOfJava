@@ -1,5 +1,7 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -29,6 +31,10 @@ public class BasesManager {
 	 * @see BasesManager#determineInfluenceAreaOfBases()
 	 */
 	private int[] influenceAreaMap;
+	
+	private ArrayList<Point> influenceJ2;
+	private ArrayList<Point> influenceJ3;
+	private ArrayList<Point> influenceJ4;
 	/**
 	 * BasesManager constructor
 	 * <p>
@@ -43,6 +49,9 @@ public class BasesManager {
 	public BasesManager(int[][] bitMap) {
 		this.initialiseInfluenceAreaMap(bitMap);
 		this.determineInfluenceAreaOfBases(bitMap);
+		this.influenceJ2 = new ArrayList<Point>();
+		this.influenceJ3 = new ArrayList<Point>();
+		this.influenceJ4 = new ArrayList<Point>();
 	}
 	
 	private void initialiseInfluenceAreaMap(int[][] bitMap) {
@@ -231,5 +240,64 @@ public class BasesManager {
 		}
 		Ground.saveAsXML(bitMapInfluenceArea, nameFile);
 	}
+	
+	/**
+	 * Create List for IA 2, 3 and 4 with point who can create a tower ( used for action of the IA)
+	 */
+	public void createInfluenceList(){
+		int[][] bitMap = this.getInfluenceAreaBitMap();
+		
+		for(int i = 13; i < bitMap.length-13; ++i){
+			for(int j = 13; j < bitMap[0].length-13; ++j){
+				
+				int currentBitMap = bitMap[i][j];
+				
+				// If its borders of map or influence of neutral bases
+				if (currentBitMap == -2 || currentBitMap == 0)
+					continue;
+				
+				// If no enought space to make a tower
+				if (!JavaWars.getEngine().getGround().checkSpaceTower(j, i))
+					continue;
+				
+				Point influencePoint = new Point(j, i);
+				
+				// Not do this for player 1 because its the human
+				
+				// IA 2
+				if (currentBitMap == 2){
+					influenceJ2.add(influencePoint);
+					continue;
+				}
+				
+				// IA 3
+				if (currentBitMap == 3){
+					influenceJ3.add(influencePoint);
+					continue;
+				}
+				
+				//IA 4
+				if (currentBitMap == 4){
+					influenceJ4.add(influencePoint);
+					continue;
+				}
+			}
+			
+		}
+			
+	}
+
+	public ArrayList<Point> getInfluenceJ2() {
+		return influenceJ2;
+	}
+
+	public ArrayList<Point> getInfluenceJ3() {
+		return influenceJ3;
+	}
+
+	public ArrayList<Point> getInfluenceJ4() {
+		return influenceJ4;
+	}
+	
 	
 }
