@@ -45,21 +45,6 @@ public class Ihm  extends JFrame {
 	    this.setLocationRelativeTo(null);
 	    this.setResizable(false);           
 	    
-//	    menu = new JMenuBar();
-//	    towerTest = new JMenu("TowerTest");
-//	    towerTest.setMnemonic('l');
-//	    createTower = new JMenuItem("Buid tower (virtual)");
-//	    createTower.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
-//	    createTower.addActionListener(new ActionListener(){
-//			public void actionPerformed(ActionEvent arg0){
-//			
-//			}    	
-//	    });
-//	    
-//	    towerTest.add(createTower);
-//	    menu.add(towerTest);
-//	    this.setJMenuBar(menu);
-	    
 	    
 	    this.setContentPane(this.menu);
 	    this.setVisible(true);
@@ -68,7 +53,7 @@ public class Ihm  extends JFrame {
 	}
 	
 	/**
-	 * Create panels, juliette's code should go here
+	 * Create panels for the interface
 	 */
 	public void CreatePanel(){
 		centerPanel = new CenterPanel(this.getLayeredPane());
@@ -84,6 +69,7 @@ public class Ihm  extends JFrame {
 		
 		this.setContentPane(this.conteneur);
 	}
+
 	
 	/**
 	 * 
@@ -99,6 +85,10 @@ public class Ihm  extends JFrame {
 	
 	public Sidebar getSidebar(){
 		return sidebar;
+	}
+	
+	public Menu getMenu(){
+		return menu;
 	}
 	
 }

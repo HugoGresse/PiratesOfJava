@@ -58,7 +58,6 @@ public class Ground {
     private static final int WIN_HEIGHT=500;
     private static final int WIN_WIDTH=700;
     private static final int RADIUS=25;
-	private final double coefSpeedRegen = 0.04;
 	//test arthur
 	//nbPlayers calculated from the number of bases for players at the beginning.
 	private int numberOfPlayers;
@@ -105,7 +104,7 @@ public class Ground {
 		
 		// IF it is a text file (xml)
 		else {
-			System.err.println("Fichier image de la map invalide, utiliser .gif, .png, .xml ou rien pour une gŽnŽration alŽatoire" );
+			System.err.println("Fichier image de la map invalide, utiliser .gif, .png, .xml ou rien pour une génération aléatoire" );
 		}
 		
 		
@@ -180,7 +179,7 @@ public class Ground {
 		}
 		catch (FileNotFoundException exception)
 		{
-		    System.out.println ("Le fichier n'a pas ŽtŽ trouvŽ");
+		    System.out.println ("Le fichier n'a pas été trouvé");
 		}
 				 
 		
@@ -290,7 +289,8 @@ public class Ground {
 			Map.Entry<Integer, Player> entry = itTemp.next();
 			
 			Point p = centerBases.get(entry.getKey()-1);
-			Base b = new Base(p, entry.getValue(), coefSpeedRegen*RADIUS, RADIUS);
+			Base b = createBases(p, RADIUS, entry.getValue());
+			
 			
 			listBases.add(b);
 
@@ -359,7 +359,7 @@ public class Ground {
 			 else if (r == WHITE ) // PATH
 				 return -1;
 			 else { // NEUTRAL BASES
-				 Base base = new Base(rnd.nextInt(100)+1, p, coefSpeedRegen*rayon, rayon);
+				 Base base = createBases(p, rayon);
 				 listBases.add(base);
 				 return 0;
 			 }
@@ -585,15 +585,27 @@ public class Ground {
 	 }
 	 
 	 public Base createBases(Point p, int radius, Player pl){
-		 Base b = new Base(p, pl, coefSpeedRegen*radius, radius);
+		 Base b = new Base(p, pl, getSpeed(radius), radius);
 		 return b;
 	 }
 	 public Base createBases(Point p, int radius){
-		 Random rnd = new Random();
-		 Base b = new Base(rnd.nextInt(100)+1,p,coefSpeedRegen*radius, radius);
+		 Base b = new Base(radius*2,p, getSpeed(radius), radius);
 		 return b;
 	 }
 	 
+	 /**
+	  * Return the speedRegeneration of a bases
+	  * @param radius
+	  * 				the radius of the base
+	  * @return
+	  * 		return the speedRegeneration in ms
+	  */
+	 private int getSpeed(int radius){
+		 int x = radius -10;
+		 if(x<1)x=1;
+		 int result = (int) ( (1 / (Math.sqrt(x) ))*1500 );
+		 return result;
+	 }
 	 /** Create a circle in BitMap with origin, radius
 	  * 
 	  * @param rayon

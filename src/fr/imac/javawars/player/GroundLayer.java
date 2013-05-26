@@ -93,5 +93,13 @@ public class GroundLayer extends JPanel {
 		//After the calculation of "new" image, we display it
 		repaint();
 	}
+	
+	/**
+	 * setter
+	 * @param img : img to put instead of the current one
+	 */
+	public void setBufferedImage(BufferedImage img){
+		this.bufferedImage = img;
+	}
 
 }

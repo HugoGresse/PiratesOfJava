@@ -36,6 +36,7 @@ public class Engine  implements Runnable{
 	private static ProcessorAction actionProcessor;
 	private static ProcessorTower towerProcessor;
 	private static ProcessorAgents agentsProcessor;
+	private static ProcessorBase baseProcessor;
 	
 	//Game data, replace by a class 
 	private Map<Integer, Player> playersData;
@@ -59,10 +60,10 @@ public class Engine  implements Runnable{
 		actionProcessor = new ProcessorAction();
 		towerProcessor = new ProcessorTower();
 		agentsProcessor = new ProcessorAgents();
+		baseProcessor = new ProcessorBase();
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
-		
 	}
 	
 	/* GETTERS // SETTERS */
@@ -130,8 +131,13 @@ public class Engine  implements Runnable{
 		boolean playerChange;
 		boolean towerChange;
 		boolean agentChange;
-		double beginTime;
-		double endTime;
+		boolean baseChange;
+		
+		//TIME and FPS STUF
+		int sleepTime;
+		long beginTime;
+		long endTime;
+		final long fpsTarget = 1000/30;
 		
 		while(running){
 			try {
@@ -147,20 +153,25 @@ public class Engine  implements Runnable{
 				
 				agentChange = agentsProcessor.process(playersData);
 				
-				//for(double i=0; i<50000; i += 0.02){}
-
-				if(agentChange) dispatcher.repaintAgents();
-				if(towerChange || playerChange) dispatcher.repaintTowers();
-				
-				//if something graphicial as been
-				if(playerChange || agentChange || towerChange)
-					dispatcher.updatePlayers();
+				baseChange = baseProcessor.process(bases, System.currentTimeMillis());
 								
+				if(towerChange || playerChange || baseChange) {
+					dispatcher.repaintBases();
+					dispatcher.repaintTowers();
+				}
+				if(agentChange) dispatcher.repaintAgents();
+				
+				//if any data change
+				if(playerChange || agentChange || towerChange || baseChange)
+					dispatcher.updatePlayers();
+				
 				endTime = System.currentTimeMillis() - beginTime;
+				//display fps if too bad
+				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ (endTime*30)/1000);
+				sleepTime = (int) (fpsTarget - endTime);
 				
-				if(endTime > 5) System.out.println("fps (ms) : "+endTime);
+				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
 				
-				Thread.sleep(29);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -247,6 +258,62 @@ public class Engine  implements Runnable{
 		//On démarre ENgine
 		running = true;
 		engineThread.start();
+	}
+	
+	/**
+	 *	End of game
+	 */
+	public void checkEndGame(){
+		boolean stillAgents = false;
+
+		Map<Integer, Player> players = getPlayers();
+		
+		//check if there is still agents on paths
+		Iterator<Map.Entry<Integer, Player>> it = players.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Player p = it.next().getValue();
+			
+			//check if player has agents
+			if(p.getNumberOfAgents() != 0){
+				stillAgents = true;
+				break;
+			}
+		}
+		
+		//if there isn't agents anymore
+		if(stillAgents == false){
+			CopyOnWriteArrayList<Base> bases = getBases();
+			Iterator<Base> it2 = bases.iterator();
+			
+			int playerBases = 0;
+			//decomment this line if you want to try if the display of the endScreen works
+			//int playerBases = 11
+			int neutralBases = 0;
+			
+			while(it2.hasNext()){
+				Base b = it2.next();
+				if(b.getPlayer() == null) 
+					neutralBases++;
+				else if(b.getPlayer().getPlayerNumber()==1){
+					playerBases++;
+				}
+			}
+			
+			//if player has all bases : he wins
+			if(playerBases == bases.size()){
+				System.out.println("Player wins!");
+				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
+			}
+			//if there are no neutral bases and player has no base
+			else if(playerBases == 0 && neutralBases == 0){
+				System.out.println("Player loose");
+				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(false);
+			}
+			((Human)players.get(1)).getIhm().setContentPane(((Human)players.get(1)).getIhm().getMenu());
+		}
+		
+		
 	}
 		
 }
