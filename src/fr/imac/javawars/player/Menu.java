@@ -57,6 +57,8 @@ public class Menu extends JPanel {
             		
             		// Starting engine
             		JavaWars.getEngine().startThread();
+            		
+            		JavaWars.getEngine().startThreadIA();
             	}
             }
 		});

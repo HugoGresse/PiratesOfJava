@@ -323,6 +323,11 @@ public class Base extends AbstractTowerBase {
 		this.distanceMap = distanceMap;
 	}
 
+	
+	public LinkedList<Tower> getTowers() {
+		return towers;
+	}
+
 	/**
 	 * Write in a file under the form of a tab2D of numbers the map of distances  
 	 * 

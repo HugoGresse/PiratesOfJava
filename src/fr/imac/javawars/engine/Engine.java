@@ -247,9 +247,7 @@ public class Engine  implements Runnable{
 				  threadsPlayers.add(new Thread(  (IA)entry.getValue() ));
 		}
 		
-		//Start threads
-		for(Thread t : threadsPlayers)
-			t.start();
+		
 		
 	}
 	
@@ -263,6 +261,14 @@ public class Engine  implements Runnable{
 		engineThread.start();
 	}
 	
+	/**
+	 * Start Thread of IA
+	 */
+	public void startThreadIA(){
+		//Start threads
+		for(Thread t : threadsPlayers)
+			t.start();
+	}
 	/**
 	 * stop IA&Engine threads
 	 */
@@ -278,7 +284,7 @@ public class Engine  implements Runnable{
 			if(p.getClass() != Human.class)
 				((IA)p).stopThread();
 		}
-		
+
 	}
 	
 	/**
