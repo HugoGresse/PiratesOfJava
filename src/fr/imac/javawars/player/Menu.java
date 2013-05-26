@@ -54,6 +54,8 @@ public class Menu extends JPanel {
             		player.getIhm().CreatePanel();
             		//Auto-update bases life
             		JavaWars.getEngine().startThread();
+            		
+            		JavaWars.getEngine().startThreadIA();
             	}
             }
 		});

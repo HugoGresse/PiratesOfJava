@@ -244,9 +244,7 @@ public class Engine  implements Runnable{
 				  threadsPlayers.add(new Thread(  (IA)entry.getValue() ));
 		}
 		
-		//Start threads
-		for(Thread t : threadsPlayers)
-			t.start();
+		
 		
 	}
 	
@@ -258,6 +256,15 @@ public class Engine  implements Runnable{
 		//On démarre ENgine
 		running = true;
 		engineThread.start();
+	}
+	
+	/**
+	 * Start Thread of IA
+	 */
+	public void startThreadIA(){
+		//Start threads
+		for(Thread t : threadsPlayers)
+			t.start();
 	}
 	
 	/**

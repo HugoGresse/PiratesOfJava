@@ -32,6 +32,7 @@ public class BasesManager {
 	 */
 	private int[] influenceAreaMap;
 	
+	private ArrayList<Point> influenceJ1;
 	private ArrayList<Point> influenceJ2;
 	private ArrayList<Point> influenceJ3;
 	private ArrayList<Point> influenceJ4;
@@ -49,6 +50,7 @@ public class BasesManager {
 	public BasesManager(int[][] bitMap) {
 		this.initialiseInfluenceAreaMap(bitMap);
 		this.determineInfluenceAreaOfBases(bitMap);
+		this.influenceJ1 = new ArrayList<Point>();
 		this.influenceJ2 = new ArrayList<Point>();
 		this.influenceJ3 = new ArrayList<Point>();
 		this.influenceJ4 = new ArrayList<Point>();
@@ -262,7 +264,12 @@ public class BasesManager {
 				
 				Point influencePoint = new Point(j, i);
 				
-				// Not do this for player 1 because its the human
+				
+				// Human 1
+				if (currentBitMap == 1){
+					influenceJ1.add(influencePoint);
+					continue;
+				}
 				
 				// IA 2
 				if (currentBitMap == 2){
@@ -287,6 +294,10 @@ public class BasesManager {
 			
 	}
 
+	public ArrayList<Point> getInfluenceJ1() {
+		return influenceJ1;
+	}
+	
 	public ArrayList<Point> getInfluenceJ2() {
 		return influenceJ2;
 	}
