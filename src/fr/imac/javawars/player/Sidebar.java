@@ -107,7 +107,7 @@ public class Sidebar extends JPanel implements ActionListener {
 	 */
 	public void addSlider(JPanel wrapperSlider){
 		slider.setPreferredSize(new Dimension(165,100));
-		wrapperSlider.setBorder(new TitledBorder("Pourcentage d'agents envoyŽs"));
+		wrapperSlider.setBorder(new TitledBorder("Pourcentage d'agents envoyés"));
 		labelSlider.setText("50");
 		//Display slider's value
 		slider.addChangeListener(new ChangeListener() {
@@ -201,7 +201,7 @@ public class Sidebar extends JPanel implements ActionListener {
 		});
 
 		//TEST ARTHUR
-		if(e.getSource() == freezeTower){
+		/*if(e.getSource() == freezeTower){
 			money.setText("G");
 			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
 			Base baseStart = listenersLayer.getCurrentHumanBaseSelected();
@@ -212,6 +212,16 @@ public class Sidebar extends JPanel implements ActionListener {
 					agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
 				}
 			}
-		}
+		}*/
+		
+		
+	}
+
+	public JLabel getLabelSlider() {
+		return labelSlider;
+	}
+
+	public void setLabelSlider(JLabel labelSlider) {
+		this.labelSlider = labelSlider;
 	}
 }

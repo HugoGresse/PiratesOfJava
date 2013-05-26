@@ -79,6 +79,7 @@ public class ListenersLayer extends JPanel{
     		Ellipse2D oval = new Ellipse2D.Double((int)b.getPosition().getX()- radius, (int)b.getPosition().getY()-radius, radius*2, radius*2);
     		if(e.getButton() == 1){
 				if (oval.contains(e.getX(), e.getY())) {
+					//if the base selected belongs to the player
 					if(b.getPlayer() == human){
 						System.out.println("one of my bases positioned in : " + b.getPosition());
 						this.currentHumanBaseSelected = b;
@@ -86,14 +87,29 @@ public class ListenersLayer extends JPanel{
 						human.getIhm().getCenterPanel().repaint();
 		            	//System.out.println("currentHumanBase : " + this.currentHumanBaseSelected.getPlayer().getName());
 					}
-					else if(b.getPlayer() != null){
-						System.out.println("base " + b.getPlayer().getName() + " positioned in : " + b.getPosition());
-						this.currentTargetBaseSelected = b;
-		            	//System.out.println("currentTargetBase : " + this.currentTargetBaseSelected.getPlayer().getName());
-					}
 					else{
-						System.out.println("neutral base positioned in : " + b.getPosition());
-						this.currentTargetBaseSelected = b;
+						//if the base selected belongs to an enemy
+						if(b.getPlayer() != null){
+							System.out.println("base " + b.getPlayer().getName() + " positioned in : " + b.getPosition());
+							this.currentTargetBaseSelected = b;
+			            	//System.out.println("currentTargetBase : " + this.currentTargetBaseSelected.getPlayer().getName());
+						}
+						//if the base selected belongs to no one (neutral)
+						else{
+							System.out.println("neutral base positioned in : " + b.getPosition());
+							this.currentTargetBaseSelected = b;
+						}
+						// when one of our base is selected and that we have a target selected, we send an agent at every click
+						if( this.currentHumanBaseSelected != null && this.currentTargetBaseSelected != null){
+							//if there are enough agents :
+							if(this.currentHumanBaseSelected.getLife() > 1){
+								/*int percentageOfAgents = Integer.parseInt(human.getIhm().getSidebar().getLabelSlider().getText());
+								System.out.println("percentage sent : " + percentageOfAgents);*/
+								//for(int i = 0; i < (int)(percentageOfAgents * this.currentHumanBaseSelected.getLife()/100); ++i) {
+									human.getIhm().getCenterPanel().getAgentsLayer().createAndSendAgent(human, this.currentHumanBaseSelected, this.currentTargetBaseSelected);
+								//}
+							}
+						}
 					}
 				}// end if
     		}// end while
