@@ -302,42 +302,44 @@ public class Engine  implements Runnable{
 			}
 		}
 		
-		//if there isn't agents anymore
-		if(stillAgents == false){
-			CopyOnWriteArrayList<Base> bases = getBases();
-			Iterator<Base> it2 = bases.iterator();
+		//if there is agents, return
+		if(stillAgents)
+			return;
+		
+		// ======= no agent anymore, check bases
+		
+		Iterator<Base> itBase = bases.iterator();
+		boolean isMechant = false;
+		boolean isHuman = false;
+		
+		//check mechant and human base
+		while(itBase.hasNext()){
+			Base b = itBase.next();
 			
-			int playerBases = 12;
-			int neutralBases = 0;
+			//neutral base, next !
+			if(b.getPlayer() == null) continue;
 			
-			//decomment this line if you want to try if the display of the endScreen works
-			//int playerBases = 12
-			
-			//and comment this while
-			/*while(it2.hasNext()){
-				Base b = it2.next();
-				if(b.getPlayer() == null) 
-					neutralBases++;
-				else if(b.getPlayer().getPlayerNumber()==1){
-					playerBases++;
-				}
-			}*/
-			
-			//if player has all bases : he wins
-			if(playerBases == bases.size()){
-				System.out.println("Player wins!");
-
-				stopGame();
-				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
-			}
-			//if there are no neutral bases and player has no base
-			else if(playerBases == 0 && neutralBases == 0){
-				System.out.println("Player loose");
-				((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(false);
-				stopGame();
-			}
-
+			if(b.getPlayer().getPlayerNumber() == 1 ){
+				isHuman = true;
+			} else if(b.getPlayer().getPlayerNumber() >1)
+				isMechant = true;
 		}
+		
+		//if player has bases and mechant not one 
+		if(isHuman &&  !isMechant){
+			System.out.println("Player wins!");
+
+			stopGame();
+			((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(true);
+		}
+		//if there are no more human base
+		else if(!isHuman){
+			System.out.println("Player loose");
+
+			stopGame();
+			((Human)players.get(1)).getIhm().getMenu().setBackgroundEnd(false);
+		}
+		
 		
 		
 	}
