@@ -56,10 +56,12 @@ public class ProcessorTower {
 			while(itProj.hasNext()){
 				projectile = itProj.next();
 				
-				//Update the position of the projectile, delete it if arrived and remove lfie to agent
+				if(projectile.getAgent() == null)
+					System.out.println("Agent supprime : projectile ?");
+				
+				//Update the position of the projectile, delete it if arrived and remove life to agent
 				if(projectile.updateProjectile()) {
 					projectile.getAgent().addLife(- e.getStrength());
-					e.setWaitBeforeResend(0);
 					//System.out.println(projectile.getAgent().getLife());
 					itProj.remove();
 				}
@@ -85,6 +87,7 @@ public class ProcessorTower {
         while (itPlayer.hasNext()) {
                 entry = itPlayer.next();
                 //Si le joueur est le même que celui de la tour
+                //TODO : change sign
                 if(entry.getKey() != t.getPlayer().getPlayerNumber())
                 	continue;
                 
