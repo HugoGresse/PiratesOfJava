@@ -30,6 +30,7 @@ public class Engine  implements Runnable{
 	protected volatile boolean running = false;
 	private volatile boolean threadSuspended = false;
 	protected Thread engineThread;
+	private long fpsTarget = 1000/30;
 	
 	protected Dispatcher dispatcher;
 	
@@ -120,6 +121,10 @@ public class Engine  implements Runnable{
 		running = false;
 	}
 	
+	public void setFpsTarget(long num){
+		fpsTarget = num;
+	}
+	
 	/**
 	 * Get the list of players
 	 * @return a map/hashtable with the playerNumber and the Player
@@ -159,7 +164,6 @@ public class Engine  implements Runnable{
 		int sleepTime;
 		long beginTime;
 		long endTime;
-		final long fpsTarget = 1000/30;
 		
 		while(running){
 			try {
