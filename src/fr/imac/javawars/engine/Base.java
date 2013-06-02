@@ -1,6 +1,7 @@
 package fr.imac.javawars.engine;
 
 import java.awt.Point;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import fr.imac.javawars.player.Player;
@@ -322,6 +323,54 @@ public class Base extends AbstractTowerBase {
 	
 	public LinkedList<Tower> getTowers() {
 		return towers;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + capacity;
+		result = prime * result + Arrays.hashCode(distanceMap);
+		long temp;
+		temp = Double.doubleToLongBits(lastTimeAddLife);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((power == null) ? 0 : power.hashCode());
+		result = prime * result + radius;
+		temp = Double.doubleToLongBits(speedRegeneration);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((towers == null) ? 0 : towers.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Base))
+			return false;
+		Base other = (Base) obj;
+		if (capacity != other.capacity)
+			return false;
+		if (!Arrays.equals(distanceMap, other.distanceMap))
+			return false;
+		if (Double.doubleToLongBits(lastTimeAddLife) != Double
+				.doubleToLongBits(other.lastTimeAddLife))
+			return false;
+		if (power != other.power)
+			return false;
+		if (radius != other.radius)
+			return false;
+		if (Double.doubleToLongBits(speedRegeneration) != Double
+				.doubleToLongBits(other.speedRegeneration))
+			return false;
+		if (towers == null) {
+			if (other.towers != null)
+				return false;
+		} else if (!towers.equals(other.towers))
+			return false;
+		return true;
 	}
 
 	/**

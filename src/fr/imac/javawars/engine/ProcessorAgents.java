@@ -54,8 +54,8 @@ public class ProcessorAgents {
 				
 				//check life of the agent
 				if(! a.isInLife()) {
-					System.out.println("remove this agent");
 					itAgent.remove();
+					a = null;
 					continue;
 				}
 				

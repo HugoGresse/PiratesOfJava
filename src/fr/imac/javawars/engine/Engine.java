@@ -164,6 +164,7 @@ public class Engine  implements Runnable{
 		int sleepTime;
 		long beginTime;
 		long endTime;
+		final long FPS_TARGET = 1000/30;
 		
 		while(running){
 			try {
@@ -193,8 +194,8 @@ public class Engine  implements Runnable{
 				
 				endTime = System.currentTimeMillis() - beginTime;
 				//display fps if too bad
-				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ (endTime*30)/1000);
-				sleepTime = (int) (fpsTarget - endTime);
+				if(endTime > FPS_TARGET) System.out.println("fps (ms) : "+ endTime);
+				sleepTime = (int) (FPS_TARGET - endTime);
 				
 				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
 				

@@ -2,6 +2,7 @@ package fr.imac.javawars.engine;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
@@ -40,31 +41,15 @@ public class ProcessorTower {
 		boolean change = false;
 		//for all towers
 		while(itr.hasNext()){
-			Tower e = itr.next();
+			Tower tower = itr.next();
 			
-			checkAgentInRangeAndAttack(e);
+			checkAgentInRangeAndAttack(tower);
 			
 			//if no projectile, continue !
-			if(e.getProjectiles().isEmpty())
+			if(tower.getProjectiles().isEmpty())
 				continue;
 			
-			//if the tower have projectiles : moves them
-			Iterator<Projectile> itProj = e.getProjectiles().iterator();
-			Projectile projectile;
-			while(itProj.hasNext()){
-				projectile = itProj.next();
-				
-				if(projectile.getAgent() == null)
-					System.out.println("Agent supprime : projectile ?");
-				
-				//Update the position of the projectile, delete it if arrived and remove life to agent
-				if(projectile.updateProjectile()) {
-					projectile.getAgent().addLife(- e.getStrength());
-					//System.out.println(projectile.getAgent().getLife());
-					itProj.remove();
-				}
-					
-			}
+			processProjectile(tower);
 
 			change = true;
 			
@@ -106,5 +91,85 @@ public class ProcessorTower {
 				} // end whilte agents  
         }
 	}
-
+	
+	/**
+	 * Process projectiles (moove it, delet it, etc)
+	 * @param tower
+	 * 				the tower who should have projectiles
+	 */
+	private void processProjectile(Tower tower){
+		// ======= PROJECTILE
+		//if the tower have projectiles : mooves them
+		Iterator<Map.Entry<Integer, Projectile>> itProj = tower.getProjectiles().entrySet().iterator();
+		Projectile projectile;
+		
+		while(itProj.hasNext()){
+			Map.Entry<Integer, Projectile> entryProj = itProj.next();
+			projectile = entryProj.getValue();
+			if(projectile.getAgent() == null)
+				System.out.println("Agent supprime : projectile ? should correct this");
+			
+			//Update the position of the projectile, delete it if arrived and remove life to agent
+			if(! projectile.updateProjectile())
+				continue;
+			
+			//PROJECTILE ARRIVED !
+			projectile.getAgent().addLife(- tower.getStrength());
+			
+			//process end effect on projectil, if true, delet it
+			if(processProjectileWhenArriveToDestination(tower, projectile))
+				itProj.remove();	
+			
+			
+				
+		}
+		
+	}
+	
+	/**
+	 *  Process the projectile and the effect to it (bounce for example) for the given projectile
+	 * @param tower
+	 * 				the tower who owns the projectiles
+	 * @param projectile
+	 * 				the specified projectile (for create the dummie effect)
+	 * @return true if the agent should be remove
+	 */
+	private boolean processProjectileWhenArriveToDestination(Tower tower, Projectile projectile){
+		if(tower instanceof TowerBounce){
+			boolean atackNextAgent = false;
+			
+			ConcurrentLinkedQueue<Agent> agents = tower.getPlayer().getAgents();
+			Iterator<Agent> itAgent = agents.iterator();
+			//iterate on all agent to find the destination of the last projectile and send a new one to the next agent
+			while(itAgent.hasNext()){
+				Agent agent = itAgent.next();
+				
+				//If whe have found 
+				if(agent.equals(projectile.getAgent())){
+					atackNextAgent = true;
+					
+					//if there are no other agent
+					if(!itAgent.hasNext()){
+						projectile = null;
+						return true;
+					}
+						
+					continue;
+				}
+				
+				// If we have to bounce the projectile, to set a new target
+				if(atackNextAgent && !projectile.getAgent().equals(agent) && projectile.getOptionInt() <= 4){
+					projectile.addOptionInt();
+					projectile.setAgent(agent);
+					return false;
+				}
+			}//end while agents
+			return true;
+		} else {
+			projectile = null;
+			return true;
+		}
+		
+	}
+	
 }
