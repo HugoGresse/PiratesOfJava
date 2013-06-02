@@ -71,6 +71,71 @@ public class Engine  implements Runnable{
 	}
 	
 	/**
+	 * Run method of the thread
+	 */
+	@Override
+	public void run() {
+		
+		//check if something change
+		boolean playerChange;
+		boolean towerChange;
+		boolean agentChange;
+		boolean baseChange;
+		
+		//TIME and FPS STUF
+		int sleepTime;
+		long beginTime;
+		long endTime;
+		
+		while(running){
+			try {
+				beginTime = System.currentTimeMillis();
+				
+				//every 29ms minimum, we get actions from dispatcher and try to execute it
+				
+				playerChange = towerChange = agentChange = true;
+
+				playerChange =  actionProcessor.process(dispatcher.getAction());
+				
+				towerChange = towerProcessor.process(towers);
+				
+				agentChange = agentsProcessor.process(playersData);
+				
+				baseChange = baseProcessor.process(bases, System.currentTimeMillis());
+								
+				if(towerChange || playerChange || baseChange) {
+					dispatcher.repaintBases();
+					dispatcher.repaintTowers();
+				}
+				if(agentChange) dispatcher.repaintAgents();
+				
+				//if any data change
+				if(playerChange || agentChange || towerChange || baseChange)
+					dispatcher.updatePlayers();
+				
+				endTime = System.currentTimeMillis() - beginTime;
+				//display fps if too bad
+				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ (endTime*30)/1000);
+				sleepTime = (int) (fpsTarget - endTime);
+				
+				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
+				
+				//if game is in pause
+				if (threadSuspended) {
+                    synchronized(this) {
+                        while (threadSuspended)
+                            wait();
+                    }
+                }
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
 	 * Getters/setters
 	 */
 	public BasesManager getBasesManager() {
@@ -144,71 +209,6 @@ public class Engine  implements Runnable{
 			
 			if(t.equals(tower)){
 				towers.remove(tower);
-			}
-		}
-	}
-	
-	/**
-	 * Run method of the thread
-	 */
-	@Override
-	public void run() {
-		
-		//check if something change
-		boolean playerChange;
-		boolean towerChange;
-		boolean agentChange;
-		boolean baseChange;
-		
-		//TIME and FPS STUF
-		int sleepTime;
-		long beginTime;
-		long endTime;
-		
-		while(running){
-			try {
-				beginTime = System.currentTimeMillis();
-				
-				//every 29ms minimum, we get actions from dispatcher and try to execute it
-				
-				playerChange = towerChange = agentChange = true;
-
-				playerChange =  actionProcessor.process(dispatcher.getAction());
-				
-				towerChange = towerProcessor.process(towers);
-				
-				agentChange = agentsProcessor.process(playersData);
-				
-				baseChange = baseProcessor.process(bases, System.currentTimeMillis());
-								
-				if(towerChange || playerChange || baseChange) {
-					dispatcher.repaintBases();
-					dispatcher.repaintTowers();
-				}
-				if(agentChange) dispatcher.repaintAgents();
-				
-				//if any data change
-				if(playerChange || agentChange || towerChange || baseChange)
-					dispatcher.updatePlayers();
-				
-				endTime = System.currentTimeMillis() - beginTime;
-				//display fps if too bad
-				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ (endTime*30)/1000);
-				sleepTime = (int) (fpsTarget - endTime);
-				
-				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
-				
-				//if game is in pause
-				if (threadSuspended) {
-                    synchronized(this) {
-                        while (threadSuspended)
-                            wait();
-                    }
-                }
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 	}

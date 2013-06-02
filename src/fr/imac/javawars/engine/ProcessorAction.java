@@ -169,48 +169,4 @@ public class ProcessorAction {
 			
 	}
 	
-	
-	
-	/*private void sendAgent(ActionAgentSend e) {
-		if(e.getAgent() == null){
-			System.out.println("agent null");
-			return;
-		}
-		else{
-			//the base of start loses an agent
-			e.getBaseStart().loseLife(1);
-			//this agent is sent to the target base
-			e.getAgent().sendToBase(e.getBaseTarget());
-			//Now we manage lifes of bases in consequence of the agent displacement
-			// if the target base doesn't belong to the player
-			if(e.getBaseTarget().getPlayer() != e.getBaseStart().getPlayer()){
-				//if the base is neutral, the player takes it when his agent arrived
-				if(e.getBaseTarget().getPlayer() == null){
-					//if the base has more life than 0 we have to decrease it
-					if(e.getBaseTarget().getLife() > 0){
-						e.getBaseTarget().loseLife(1);
-					}
-					else{
-						//the base belongs now to the player of the starting base
-						e.getBaseTarget().setPlayer(e.getBaseStart().getPlayer());
-						e.getBaseTarget().addLife(1);
-					}
-				}
-				//else, it's an enemy base
-				else {
-					e.getBaseTarget().loseLife(1);
-					//if the life of the target becomes zero, base becomes neutral
-					if(e.getBaseTarget().getLife() == 0) {
-						e.getBaseTarget().setPlayer(null);
-					}
-				}
-			}
-			else {
-				e.getBaseTarget().addLife(1);
-			}
-		}
-		//once the agent is arrived to destination, we delete it (he exists on the base)
-		e.getBaseStart().getPlayer().deleteAgent(e.getAgent());
-	}*/
-	
 }
