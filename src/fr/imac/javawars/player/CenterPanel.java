@@ -32,7 +32,7 @@ public class CenterPanel extends JPanel {
         this.basesLayer = new BasesLayer();
         this.agentsLayer = new AgentsLayer();
         this.listenersLayer = new ListenersLayer();
-        this.groundLayer = new GroundLayer("res/img/ground.jpg","res/img/sand.png");
+        this.groundLayer = new GroundLayer("res/img/ground.jpg","res/img/sand.jpg");
         
         //add panels to the layeredPane
         this.layers.add(groundLayer,new Integer(-10));
