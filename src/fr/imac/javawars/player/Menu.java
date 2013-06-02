@@ -18,6 +18,8 @@ import fr.imac.javawars.JavaWars;
  *  
  */
 public class Menu extends JPanel {
+	//swing needed
+	private static final long serialVersionUID = 1L;
 	Image backgroundMenu;
 	Rectangle2D boutonPlay;
 	

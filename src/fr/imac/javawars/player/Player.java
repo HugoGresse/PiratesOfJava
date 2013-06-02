@@ -1,8 +1,6 @@
 package fr.imac.javawars.player;
 
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import fr.imac.javawars.engine.Agent;
 
 public abstract class Player {

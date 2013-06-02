@@ -1,6 +1,5 @@
 package fr.imac.javawars.engine;
 
-import java.awt.Point;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,7 +16,6 @@ import fr.imac.javawars.player.Player;
  *
  */
 public class ProcessorTower {
-	
 	Map.Entry<Integer, Player> entry;
 	Iterator<Map.Entry<Integer, Player>> itPlayer;
 	Iterator<Agent> itAg;
@@ -80,9 +78,7 @@ public class ProcessorTower {
 	 * Check if there are any agents in the actionField of the tower
 	 */
 	private void checkAgentInRangeAndAttack(Tower t){
-		
 		itPlayer = JavaWars.getEngine().getPlayers().entrySet().iterator();
-		
 		
         while (itPlayer.hasNext()) {
                 entry = itPlayer.next();
@@ -107,16 +103,8 @@ public class ProcessorTower {
 					t.attackAgent(agent);
 					
 					
-				} // end whilte agents
-                
+				} // end whilte agents  
         }
-        
-        
-        
-        
-		
 	}
-	
-	
-	
+
 }

@@ -4,10 +4,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.Action;
+
 
 /**
  * <b>BasesManager is a class which manage bases.</b>

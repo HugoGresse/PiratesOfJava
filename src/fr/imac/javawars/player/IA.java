@@ -281,7 +281,6 @@ public class IA extends Player implements Runnable{
 	
 	private Base getBaseIA(){
 		Iterator<Base> itBase = JavaWars.getDispatcher().getBases().iterator();
-		int playerNumber = 0;
 		while (itBase.hasNext()) {
 			Base base = itBase.next();
 			if (base.getPlayer() != null && base.getPlayer().getPlayerNumber() == this.getPlayerNumber()){

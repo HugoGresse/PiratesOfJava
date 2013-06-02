@@ -1,4 +1,5 @@
 package fr.imac.javawars.player;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -7,8 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,11 +15,8 @@ import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import javax.swing.ImageIcon;
-
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.engine.Base;
+
 
 /**
  * Class Sidebar: create sidebar of the interface
