@@ -117,10 +117,10 @@ public class ProcessorTower {
 			projectile.getAgent().addLife(- tower.getStrength());
 			
 			//process end effect on projectil, if true, delet it
-			if(processProjectileWhenArriveToDestination(tower, projectile))
+			if(processProjectile(tower, projectile))
 				itProj.remove();	
 			
-			
+			System.out.println("ee");
 				
 		}
 		
@@ -134,42 +134,14 @@ public class ProcessorTower {
 	 * 				the specified projectile (for create the dummie effect)
 	 * @return true if the agent should be remove
 	 */
-	private boolean processProjectileWhenArriveToDestination(Tower tower, Projectile projectile){
-		if(tower instanceof TowerBounce){
-			boolean atackNextAgent = false;
-			
-			ConcurrentLinkedQueue<Agent> agents = tower.getPlayer().getAgents();
-			Iterator<Agent> itAgent = agents.iterator();
-			//iterate on all agent to find the destination of the last projectile and send a new one to the next agent
-			while(itAgent.hasNext()){
-				Agent agent = itAgent.next();
-				
-				//If whe have found 
-				if(agent.equals(projectile.getAgent())){
-					atackNextAgent = true;
-					
-					//if there are no other agent
-					if(!itAgent.hasNext()){
-						projectile = null;
-						return true;
-					}
-						
-					continue;
-				}
-				
-				// If we have to bounce the projectile, to set a new target
-				if(atackNextAgent && !projectile.getAgent().equals(agent) && projectile.getOptionInt() <= 4){
-					projectile.addOptionInt();
-					projectile.setAgent(agent);
-					return false;
-				}
-			}//end while agents
-			return true;
-		} else {
-			projectile = null;
-			return true;
+	private boolean processProjectile(Tower tower, Projectile projectile){
+		if(tower instanceof TowerBombe){
+			return ((TowerBombe)tower).processProjectileArrived(tower, projectile);
+		} else if (tower instanceof TowerBounce){
+			return ((TowerBounce)tower).processProjectileArrived(tower, projectile);
 		}
 		
+		return true;
 	}
 	
 }

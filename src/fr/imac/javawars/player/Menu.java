@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.io.File;
 import java.io.IOException;
 
@@ -59,52 +60,94 @@ public class Menu extends JPanel {
 	}
 	
 	/**
-	 * Interface to choose what type of map we want (random or from a file)
+	 * Interface to choose what type of map we want (random or from a file or level)
 	 */
 	public void addChoiceTypeGame(){
-		randomChoice.setPreferredSize(new Dimension(450,600));
-		fileChoice.setPreferredSize(new Dimension(450,600));
 		randomChoice.setOpaque(false);
 		fileChoice.setOpaque(false);
 		randomChoice.setVisible(false);
 		fileChoice.setVisible(false);
 		
 		this.setLayout(new BorderLayout());
-		this.add(BorderLayout.CENTER,fileChoice);
-		this.add(BorderLayout.EAST,randomChoice);
 		
+		JPanel south = new JPanel();
+		south.setOpaque(false);
+		south.setPreferredSize(new Dimension(900,150));
+		this.add(BorderLayout.SOUTH,south);
+		
+		south.setLayout(new BorderLayout());
+		fileChoice.setPreferredSize(new Dimension(450,150));
+		south.add(BorderLayout.WEST,fileChoice);
+		randomChoice.setPreferredSize(new Dimension(450,150));
+		south.add(BorderLayout.CENTER,randomChoice);
+		
+		displayFileChoice();
+		displayRandomChoice();	
+	}
+	
+	/**
+	 * Listener for the level choice
+	 */
+	public void displayLevelChoice(){
+		this.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+            	boolean fireGame = false;
+            	String map = null;
+            	
+            	Rectangle2D rect1 = new Rectangle2D.Double(100,80,200,150);
+            	Rectangle2D rect2 = new Rectangle2D.Double(350,80,200,150);
+            	Rectangle2D rect3 = new Rectangle2D.Double(600,80,200,150);
+            	Rectangle2D rect4 = new Rectangle2D.Double(100,250,200,150);
+            	Rectangle2D rect5 = new Rectangle2D.Double(350,250,200,150);
+            	Rectangle2D rect6 = new Rectangle2D.Double(600,250,200,150);
+            	
+            	if ((e.getButton() == 1) && rect1.contains(e.getX(), e.getY()) ) {
+            		fireGame=true;
+            		map = "map/mapCool.png";
+            	}
+            	else if((e.getButton() == 1) && rect2.contains(e.getX(), e.getY()) ) {
+            		fireGame=true;
+            		map = "map/mapCool.png";
+            	}
+            	else if((e.getButton() == 1) && rect3.contains(e.getX(), e.getY()) ) {
+            		fireGame=true;
+            		map = "map/mapCool.png";
+            	}
+            	else if((e.getButton() == 1) && rect4.contains(e.getX(), e.getY()) ) {
+            		fireGame=true;
+            		map = "map/mapCool.png";
+            	}
+            	else if((e.getButton() == 1) && rect5.contains(e.getX(), e.getY()) ) {
+            		fireGame=true;
+            		map = "map/mapCool.png";
+            	}
+            	else if((e.getButton() == 1) && rect6.contains(e.getX(), e.getY()) ) {
+            		fireGame=true;
+            		map = "map/mapCool.png";
+            	}
+            	
+            	if(fireGame){
+            		JavaWars.getEngine().initializationOfTheGame(JavaWars.getHuman(),new IA(2, "IA 1") , new IA(3, "IA 2") ,new IA(4, "IA 3") ,false, new File(map));
+    	        	JavaWars.getHuman().getIhm().CreatePanel();
+    	        	JavaWars.getEngine().startThread();
+            		JavaWars.getEngine().startThreadIA();
+            	}
+            }
+		});
+	}
+	
+	/**
+	 * Interface for random choice
+	 */
+	public void displayRandomChoice(){
 		//random choice
 		JButton boutonRandom = new JButton("Jouer");
 		randomChoice.setLayout(null);
-		boutonRandom.setBounds(170,350,150,50);
+		boutonRandom.setBounds(100,60,150,50);
 		boutonRandom.setBorderPainted(false);
-		boutonRandom.setBackground(Color.black);
+		boutonRandom.setBackground(new Color(148,20,20));
 		boutonRandom.setForeground(Color.white);
 		randomChoice.add(boutonRandom);
-		
-		//file choice
-		fileChoice.setLayout(null);
-		
-		JButton open = new JButton("Choisir un fichier");
-		open.setBorderPainted(false);
-		open.setBackground(Color.white);
-		open.setBounds(150,350,150,50);
-		final JFileChooser fc = new JFileChooser();
-		fileChoice.add(open);
-		
-		JButton boutonFile = new JButton("Jouer");
-		boutonFile.setBorderPainted(false);
-		boutonFile.setBackground(new Color(148,20,20));
-		boutonFile.setForeground(Color.white);
-		boutonFile.setBounds(150,450,150,50);
-		fileChoice.add(boutonFile);
-		
-		open.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e){
-	        	fc.showOpenDialog(JavaWars.getHuman().getIhm());
-	        	map = fc.getSelectedFile();
-	        }
-	    });
 
 		//addingListener to begin game
 		boutonRandom.addActionListener(new ActionListener() {
@@ -115,7 +158,37 @@ public class Menu extends JPanel {
         		JavaWars.getEngine().startThreadIA();
 	        }
 	    });
+	}
+	
+	/**
+	 * Interface for file choice
+	 */
+	public void displayFileChoice(){
+		//file choice
+		fileChoice.setLayout(null);
 		
+		JButton open = new JButton("Choisir un fichier");
+		open.setBorderPainted(false);
+		open.setBackground(Color.white);
+		open.setBounds(150,40,150,30);
+		final JFileChooser fc = new JFileChooser();
+		fileChoice.add(open);
+		
+		JButton boutonFile = new JButton("Jouer");
+		boutonFile.setBorderPainted(false);
+		boutonFile.setBackground(new Color(148,20,20));
+		boutonFile.setForeground(Color.white);
+		boutonFile.setBounds(150,80,150,50);
+		fileChoice.add(boutonFile);
+		
+		open.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	fc.showOpenDialog(JavaWars.getHuman().getIhm());
+	        	map = fc.getSelectedFile();
+	        }
+	    });
+		
+		//when the play bouton is clicked
 		boutonFile.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	JavaWars.getEngine().initializationOfTheGame(JavaWars.getHuman(),new IA(2, "IA 1") , new IA(3, "IA 2") ,new IA(4, "IA 3") ,false,map);
@@ -135,6 +208,7 @@ public class Menu extends JPanel {
             public void mouseClicked(MouseEvent e) {
             	if ((e.getButton() == 1) && boutonPlay.contains(e.getX(), e.getY()) ) {
             		chooseTypeOfGame();
+            		displayLevelChoice();
             	}
             }
 		});
@@ -144,6 +218,7 @@ public class Menu extends JPanel {
 	 * Choosing type of map we want (random or from a file)
 	 */
 	public void chooseTypeOfGame(){
+		boutonPlay = new Rectangle2D.Double(0,0,0,0);
 		randomChoice.setVisible(true);
 		fileChoice.setVisible(true);
 		try {
@@ -160,7 +235,6 @@ public class Menu extends JPanel {
 	 */
 	public void setBackgroundEnd(boolean gagne){
 		//resetting btn with new coordinates
-		boutonPlay = new Rectangle2D.Double(0,0,0,0);
 		randomChoice.setVisible(false);
 		fileChoice.setVisible(false);
 		Human player =(Human)JavaWars.getEngine().getPlayers().get(1);
