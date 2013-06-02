@@ -28,6 +28,7 @@ public class Human extends Player{
 	public void update(){
 		ihm.getSidebar().updateMoney(this.getMoney());
 		ihm.getBottomBar().updateTowersLabel();
+		ihm.getBottomBar().updateBasesLabel();
 		ihm.getBottomBar().updateError();
 	}
 	

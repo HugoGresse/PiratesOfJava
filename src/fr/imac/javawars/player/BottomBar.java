@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
@@ -18,6 +19,7 @@ import javax.swing.border.TitledBorder;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerDelete;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
+import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
 
 /**
@@ -32,8 +34,9 @@ public class BottomBar extends JPanel{
 	private JButton speed = new JButton(">>");
 	private JPanel wrapperButtons = new JPanel();
 	private JPanel wrapperInfos = new JPanel();
-	private JTextArea dialogue = new JTextArea(3,20);
+	private JTextArea dialogue = new JTextArea(3,14);
 	
+	private JPanel towerBaseInfos = new JPanel();
 	//tower panel
 	private JPanel towerInfos = new JPanel();
 	private JLabel towerStrength = new JLabel();
@@ -47,9 +50,20 @@ public class BottomBar extends JPanel{
 	
 	private JButton sellTower = new JButton (htmlBefore+"Vendre"+htmlMiddle+""+htmlAfter);
 	private Tower currentTower;
+	private Base currentBase;
+	
+	//base panel
+	private JPanel baseInfos = new JPanel();
+	private JLabel baseRegenSpeed = new JLabel();
+	private JButton upRegenSpeed = new JButton("+");
+	private JButton speedBase = new JButton(htmlBefore+"Speed"+htmlMiddle+"15"+htmlAfter);
+	private JButton strengthBase = new JButton(htmlBefore+"Strength"+htmlMiddle+"15"+htmlAfter);
+	private JButton regenBase = new JButton(htmlBefore+"Medicale"+htmlMiddle+"15"+htmlAfter);
+	private JButton multBase = new JButton(htmlBefore+"Mult"+htmlMiddle+"15"+htmlAfter);
 	
 	/** constructor */
 	public BottomBar(){
+		
 		//organizing content
 		this.setLayout(new BorderLayout());
 		this.add(BorderLayout.WEST,wrapperInfos);
@@ -59,12 +73,17 @@ public class BottomBar extends JPanel{
 		dialogue.setLineWrap(true);
 		dialogue.setWrapStyleWord(true);
 		
+		
 		wrapperInfos.setLayout(new BorderLayout());
-		wrapperInfos.add(BorderLayout.WEST,towerInfos);
+		wrapperInfos.add(BorderLayout.WEST,towerBaseInfos);
 		wrapperInfos.add(BorderLayout.EAST,dialogue);
+		
+		towerBaseInfos.add(baseInfos);
+		towerBaseInfos.add(towerInfos);
 		
 		manageWrapperButtons();
 		manageTowerInfos();
+		manageBaseInfos();
 	}
 	
 	/**
@@ -108,6 +127,59 @@ public class BottomBar extends JPanel{
 	}
 	
 	/**
+	 * Filling JPanel baseInfos
+	 */
+	public void manageBaseInfos(){
+		baseRegenSpeed.setBorder(new TitledBorder("Vitesse régénération "));
+		baseRegenSpeed.setPreferredSize(new Dimension(120,65));
+		baseInfos.add(baseRegenSpeed);
+		baseInfos.add(upRegenSpeed);
+		
+		speedBase.setPreferredSize(new Dimension(80,50));
+		strengthBase.setPreferredSize(new Dimension(80,50));
+		regenBase.setPreferredSize(new Dimension(80,50));
+		multBase.setPreferredSize(new Dimension(80,50));
+		
+		baseInfos.add(speedBase);
+		baseInfos.add(strengthBase);
+		baseInfos.add(regenBase);
+		baseInfos.add(multBase);
+		
+		baseInfos.setVisible(false);
+		
+		//add listeners on buttons
+		upRegenSpeed.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	//code goes here
+	        }
+	    });
+		
+		speedBase.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	//code goes here
+	        }
+	    });
+		
+		strengthBase.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	//code goes here
+	        }
+	    });
+		
+		regenBase.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	//code goes here
+	        }
+	    });
+		
+		multBase.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	//code goes here
+	        }
+	    });
+	}
+	
+	/**
 	 * Filling JPanel towerInfos
 	 */
 	public void manageTowerInfos(){
@@ -128,15 +200,13 @@ public class BottomBar extends JPanel{
 		//hidding panel at first
 		towerInfos.setVisible(false);
 		
+		final Human player = JavaWars.getHuman();
+    	
 		//add listeners on buttons (improve strength & actionField + sell tower)
 		upStrength.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	System.out.println("+strength");
-	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-	        	Tower t = currentTower; 
-	        	
-	        	if(t.getUpgradeStrength()<5){
-		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  2);
+	        	if(currentTower.getUpgradeStrength()<5){
+		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, currentTower,  2);
 		    		JavaWars.getDispatcher().addAction(myAction);
 	        	}
 	        	else{
@@ -147,12 +217,8 @@ public class BottomBar extends JPanel{
 		
 		upActionField.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	System.out.println("+actionField");
-	        	final Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
-	        	Tower t = currentTower;
-	        	
-	        	if(t.getUpgradeRange()<5){
-		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, t,  1);
+	        	if(currentTower.getUpgradeRange()<5){
+		    		ActionTowerUpgrade myAction = new ActionTowerUpgrade(player, currentTower,  1);
 		    		JavaWars.getDispatcher().addAction(myAction);
 	        	}
 	        	else{
@@ -163,7 +229,6 @@ public class BottomBar extends JPanel{
 		
 		sellTower.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Human player = (Human)JavaWars.getEngine().getPlayers().get(1);
 				ActionTowerDelete myAction = new ActionTowerDelete(player,currentTower);
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
@@ -176,22 +241,20 @@ public class BottomBar extends JPanel{
 	 */
 	public void updateTowersLabel(){
 		if(currentTower==null) return;
-		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
-		Iterator<Tower> it = towers.iterator();
-		
-		
-		while(it.hasNext()){
-			Tower t = it.next();
-			if(t.getPosition().getX() == currentTower.getPosition().getX() && t.getPosition().getY() == currentTower.getPosition().getY()){
-				currentTower = t;
-				
-				double price = t.getPrice()+ t.getUpgradeRange() + t.getUpgradeStrength()*2; 
-				towerStrength.setText(String.valueOf(t.getStrength()));
-				towerActionField.setText(String.valueOf(t.getActionField()));
-				sellTower.setText(htmlBefore+"Vendre"+htmlMiddle+price+htmlAfter);
-				break;
-			}
-		}
+		Tower t= currentTower;	
+		double price = t.getPrice()+ t.getUpgradeRange() + t.getUpgradeStrength()*2; 
+		towerStrength.setText(String.valueOf(t.getStrength()));
+		towerActionField.setText(String.valueOf(t.getActionField()));
+		sellTower.setText(htmlBefore+"Vendre"+htmlMiddle+price+htmlAfter);
+	}
+	
+	/**
+	 * Update infos on base
+	 */
+	public void updateBasesLabel(){
+		if(currentBase == null) return;
+		Base b = currentBase;
+		baseRegenSpeed.setText(String.valueOf(b.getSpeedRegeneration()));
 	}
 	
 	/**
@@ -223,6 +286,10 @@ public class BottomBar extends JPanel{
 	public JPanel getTowerInfos(){
 		return towerInfos;
 	}
+	
+	public JPanel getBaseInfos(){
+		return baseInfos;
+	}
 
 	public JLabel getTowerStrength() {
 		return towerStrength;
@@ -230,6 +297,10 @@ public class BottomBar extends JPanel{
 
 	public JLabel getTowerActionField() {
 		return towerActionField;
+	}
+	
+	public JLabel getBaseRegenSpeed(){
+		return baseRegenSpeed;
 	}
 
 	public JButton getUpStrength() {
@@ -246,5 +317,9 @@ public class BottomBar extends JPanel{
 	
 	public void setCurrentTower(Tower t){
 		this.currentTower = t;
+	}
+	
+	public void setCurrentBase(Base b){
+		this.currentBase = b;
 	}
 }
