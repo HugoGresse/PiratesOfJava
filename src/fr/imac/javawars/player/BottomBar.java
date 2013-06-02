@@ -34,14 +34,12 @@ public class BottomBar extends JPanel{
 	private JPanel wrapperInfos = new JPanel();
 	private JTextArea dialogue = new JTextArea(3,20);
 	
-	
 	//tower panel
 	private JPanel towerInfos = new JPanel();
 	private JLabel towerStrength = new JLabel();
 	private JLabel towerActionField = new JLabel();
 	private JButton upStrength = new JButton("+");
 	private JButton upActionField = new JButton("+");
-	
 	//button appearance (sell tower)
 	String htmlBefore = "<HTML><BODY style='text-align:center'>";
 	String htmlMiddle="<BR><p><span style='font-weight:bold; font-size:14px;'>";
@@ -49,7 +47,6 @@ public class BottomBar extends JPanel{
 	
 	private JButton sellTower = new JButton (htmlBefore+"Vendre"+htmlMiddle+""+htmlAfter);
 	private Tower currentTower;
-	
 	
 	/** constructor */
 	public BottomBar(){

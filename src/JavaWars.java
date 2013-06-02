@@ -1,4 +1,4 @@
-package fr.imac.javawars;
+
 
 import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.engine.Engine;
