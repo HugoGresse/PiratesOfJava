@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -218,14 +219,14 @@ public class Engine  implements Runnable{
 	/**
 	 *	Initialize the game, the ground, towers and bases
 	 */
-	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
-		
+	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4,boolean random, File file){
 		initializationOfPlayers(p1,p2,p3,p4);
-		
 
-		//initialisation of the ground
-		this.ground = new Ground("map/mapCool_2.xml");
-		//this.ground = new Ground();
+		//initialization of the ground
+		if(random)
+			this.ground = new Ground();
+		else
+			this.ground = new Ground(file);
 		
 		// compute the map of distance for every map
 		Iterator<Base> itBases = this.bases.iterator();

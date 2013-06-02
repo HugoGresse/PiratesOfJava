@@ -84,11 +84,11 @@ public class Ground {
      * 
      * @param file
      */
-	public Ground(String file) {
+	public Ground(File file) {
 		
-		
+		String name = file.getName();
 		// Search extension of file
-		String[] ext = file.split("\\.");
+		String[] ext = name.split("\\.");
 		
 		// IF it is an image (gif or png)
 		if (ext[1].toString().equals("gif") || ext[1].toString().equals("png") ){
@@ -144,16 +144,14 @@ public class Ground {
 	 * 
 	 * @param file
 	 */
-	public void generateGroundByXML(String file){
+	public void generateGroundByXML(File file){
 
 		String chaine ="";
-		
-		File f = new File (file);
 		
 		// Open file xml
 		try
 		{
-		    FileReader fr = new FileReader (f);
+		    FileReader fr = new FileReader (file);
 		    BufferedReader br = new BufferedReader (fr);
 		    
 		    // Read line per line and save in "Chaine"
@@ -248,14 +246,14 @@ public class Ground {
 	 * 
 	 * @param file
 	 */
-	public void generateGroundByImg(String file){
+	public void generateGroundByImg(File file){
 		
 		LinkedList<Color> playerColor = new LinkedList<Color>();
 		
 		// Read the image
 		BufferedImage mapImg;
 		try {
-			mapImg = ImageIO.read(new File(file));
+			mapImg = ImageIO.read(file);
 			bitMap = new int[mapImg.getHeight()][mapImg.getWidth()];
 		}
 		catch (IOException e) {
