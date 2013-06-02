@@ -26,8 +26,6 @@ public class CenterPanel extends JPanel {
 	 * 
 	 */
 	public CenterPanel(JLayeredPane layers) {
-
-        
         this.layers  = layers;
         this.layers.setOpaque(false);
         this.towersLayer = new TowersLayer();
@@ -35,13 +33,12 @@ public class CenterPanel extends JPanel {
         this.agentsLayer = new AgentsLayer();
         this.listenersLayer = new ListenersLayer();
         this.groundLayer = new GroundLayer("res/img/ground.jpg","res/img/sand.png");
-
         
         //add panels to the layeredPane
         this.layers.add(groundLayer,new Integer(-10));
-		this.layers.add(basesLayer,new Integer(8));
+		this.layers.add(basesLayer,new Integer(10));
 		this.layers.add(towersLayer,new Integer(9));
-		this.layers.add(agentsLayer,new Integer(10));
+		this.layers.add(agentsLayer,new Integer(8));
 		this.layers.add(listenersLayer,new Integer(11));
     }
 

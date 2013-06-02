@@ -153,9 +153,14 @@ public class Sidebar extends JPanel implements ActionListener {
 		mouseListenerActive = true;
 		Human human =(Human)JavaWars.getEngine().getPlayers().get(1);
 		Ihm ihm = human.getIhm();
-		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
+		
 		final ListenersLayer listenersLayer = ihm.getCenterPanel().getListenersLayer();
-		final AgentsLayer agentsLayer = ihm.getCenterPanel().getAgentsLayer();
+		final GroundLayer groundLayer = ihm.getCenterPanel().getGroundLayer();
+		final TowersLayer towersLayer = ihm.getCenterPanel().getTowersLayer();
+		
+		//activate showInfluence + forcing repaint
+		groundLayer.setShowInfluence(true);
+		groundLayer.drawBufferedImage();
 		
 		//Save the type of tower, used in TowersLayer
 		if(e.getSource() == freezeTower){
@@ -183,8 +188,6 @@ public class Sidebar extends JPanel implements ActionListener {
 			type = "poison";
 		} else 
 			type= "undefined";
-		
-		
 
 		//adding a listener on listeners panel
 		listenersLayer.addMouseListener(new MouseAdapter() {
@@ -194,8 +197,10 @@ public class Sidebar extends JPanel implements ActionListener {
             		//create tower
             		towersLayer.createTower(e.getX(), e.getY(), Sidebar.getType());
             		
-            		//remove Listener
+            		//remove Listener + remove drawing of the influence zone
             		mouseListenerActive = false;
+            		groundLayer.setShowInfluence(false);
+            		groundLayer.drawBufferedImage();
             	}
             }
 		});		
