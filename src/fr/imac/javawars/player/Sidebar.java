@@ -198,22 +198,7 @@ public class Sidebar extends JPanel implements ActionListener {
             		mouseListenerActive = false;
             	}
             }
-		});
-
-		//TEST ARTHUR
-		/*if(e.getSource() == freezeTower){
-			money.setText("G");
-			//JavaWars.getDispatcher().addAction(new ActionTowerCreate(p, new Tower(10, new Point(10,10), "img.png", super.get, 20, 20, 5)));
-			Base baseStart = listenersLayer.getCurrentHumanBaseSelected();
-			Base baseTarget = listenersLayer.getCurrentTargetBaseSelected();
-			if( baseStart != null && baseTarget != null){
-				//if there are enough agents :
-				if(baseStart.getLife() > 1){
-					agentsLayer.createAndSendAgent(human, baseStart, baseTarget);
-				}
-			}
-		}*/
-		
+		});		
 		
 	}
 

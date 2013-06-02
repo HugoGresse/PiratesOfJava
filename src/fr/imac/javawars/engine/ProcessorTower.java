@@ -50,7 +50,7 @@ public class ProcessorTower {
 			if(e.getProjectiles().isEmpty())
 				continue;
 			
-			//if the tower have projectiles : mooves them
+			//if the tower have projectiles : moves them
 			Iterator<Projectile> itProj = e.getProjectiles().iterator();
 			Projectile projectile;
 			while(itProj.hasNext()){
