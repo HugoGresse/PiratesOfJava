@@ -2,7 +2,6 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.player.Player;
 
@@ -177,6 +176,18 @@ public abstract class Tower extends AbstractTowerBase {
 		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
 	}
 	
-
+	
+	/**
+	 *  Process the projectile and the effect to it (bounce for example) for the given projectile
+	 * @param tower
+	 * 				the tower who owns the projectiles
+	 * @param projectile
+	 * 				the specified projectile (for create the dummie effect)
+	 * @return true if the agent should be remove
+	 */
+	public boolean processProjectileArrived(Tower tower, Projectile projectile){
+		projectile = null;
+		return true;
+	}
 	
 }
