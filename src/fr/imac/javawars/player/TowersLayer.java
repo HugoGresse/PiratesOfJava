@@ -13,10 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
-import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Projectile;
 import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.engine.TowerBombe;

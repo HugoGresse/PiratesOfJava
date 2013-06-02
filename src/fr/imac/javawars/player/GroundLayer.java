@@ -1,12 +1,16 @@
 package fr.imac.javawars.player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import fr.imac.javawars.JavaWars;
@@ -21,6 +25,7 @@ public class GroundLayer extends JPanel {
 	
 	private Image background;
 	private Image wall;
+	private boolean showInfluence = false;
 	
 	//constructor 
 	GroundLayer(String background,String wall){
@@ -53,7 +58,7 @@ public class GroundLayer extends JPanel {
 	}
 	
 	/**
-	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 * Draw the new stuff on a buffered image instead of the default graphics
 	 */
 	public void drawBufferedImage(){
 		//System.out.println("Draw GroundLayersBuffer");
@@ -67,6 +72,9 @@ public class GroundLayer extends JPanel {
 		        
 		//Get the map with numbers
 		int[][] map = JavaWars.getDispatcher().getGround();
+		
+		//drawing influence zone
+		ArrayList<Point> influenceJ = JavaWars.getEngine().getBasesManager().getInfluenceJ1();
 		
 		//Drawing paths(-1) & wall (-2)
 		for(int j=0; j<map[0].length;j++){
@@ -83,6 +91,14 @@ public class GroundLayer extends JPanel {
 			}
 		} //end for
 		
+		//drawing influence zone when creating a tower
+		if(showInfluence){
+			for(Point p : influenceJ){
+				g.setColor(new Color(197,54,59,170));
+				g.fillRect((int)p.getX(),(int)p.getY(), 1, 1);
+			}
+		}
+		
 		isEmptyBufferedImage = false;
 		
 		//After the calculation of "new" image, we display it
@@ -95,6 +111,14 @@ public class GroundLayer extends JPanel {
 	 */
 	public void setBufferedImage(BufferedImage img){
 		this.bufferedImage = img;
+	}
+	
+	public void setShowInfluence(Boolean show){
+		this.showInfluence = show;
+	}
+	
+	public boolean getShowInfluence(){
+		return showInfluence;
 	}
 
 }

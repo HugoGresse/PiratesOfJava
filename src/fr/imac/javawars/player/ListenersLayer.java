@@ -98,7 +98,6 @@ public class ListenersLayer extends JPanel{
 							if(this.currentHumanBaseSelected.getLife() > 1){
 								//we send the number of agents corresponding to the percentage on the sidebar
 								int percentageOfAgents = Integer.parseInt(human.getIhm().getSidebar().getLabelSlider().getText());
-								System.out.println("percentage sent : " + percentageOfAgents);
 								for(int i = 0; i < (int)(percentageOfAgents * this.currentHumanBaseSelected.getLife()/100); ++i) {
 									human.getIhm().getCenterPanel().getAgentsLayer().createAndSendAgent(human, this.currentHumanBaseSelected, this.currentTargetBaseSelected);
 								}

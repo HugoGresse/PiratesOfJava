@@ -2,8 +2,6 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import fr.imac.javawars.player.Player;
 /**
@@ -42,9 +40,7 @@ public class Base extends AbstractTowerBase {
 		LIFE_UP,
 		RESISTANCE;
 	}
-	
-	
-	
+
 	/* table containing distances of the base
  	imagine a map of boxes but here stocked in a tab 1d
  	every element represents the distance of the box to the base */

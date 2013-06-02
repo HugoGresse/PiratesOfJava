@@ -100,13 +100,13 @@ public class ProcessorAgents {
 						}
 						//else, it's an enemy base
 						else {
-							a.getBaseTarget().loseLife(1);
+							if(a.getBaseTarget().getLife() > 0)
+								a.getBaseTarget().loseLife(1);
 							
 
 							//if the life of the target becomes zero, base becomes neutral
-							if(a.getBaseTarget().getLife() == 0) {
+							if(a.getBaseTarget().getLife() == 0)
 								a.getBaseTarget().setPlayer(null);
-							}
 							
 							// If the player is not an IA
 							if(!(a.getBaseTarget().getPlayer() instanceof IA)) 
