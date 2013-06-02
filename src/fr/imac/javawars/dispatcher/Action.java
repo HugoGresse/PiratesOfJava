@@ -19,6 +19,4 @@ public abstract class Action {
 	public Player getPlayer() {
 		return player;
 	}
-	
-	
 }

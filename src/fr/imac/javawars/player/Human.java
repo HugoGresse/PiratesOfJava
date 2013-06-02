@@ -1,10 +1,5 @@
 package fr.imac.javawars.player;
 
-import java.awt.Point;
-
-import fr.imac.javawars.engine.Agent;
-
-
 public class Human extends Player{
 	
 	protected Ihm ihm;

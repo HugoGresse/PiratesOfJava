@@ -8,9 +8,9 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionAgentSend;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
-import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
 import fr.imac.javawars.engine.TowerBombe;
@@ -22,20 +22,27 @@ import fr.imac.javawars.engine.TowerMissile;
 import fr.imac.javawars.engine.TowerPoison;
 import fr.imac.javawars.engine.TowerSniper;
 
-
-
-
+/**
+ * class creating and managing IA for the game
+ * 
+ */
 public class IA extends Player implements Runnable{
-	
 	protected volatile boolean running = true;
+	private volatile boolean threadSuspended = false;
 	private double beginTime = 0;
 
-	
+	/**
+	 * constructor
+	 * @param pNum : number of the player
+	 * @param name : name of the player
+	 */
 	public IA(int pNum, String name) {
 		super(pNum, name, "ia");
-		
 	}
 	
+	/**
+	 * Getters / setters
+	 */
 	public String getPlayerType(){
 		return "ia";
 	}
@@ -44,15 +51,32 @@ public class IA extends Player implements Runnable{
 		running = false;
 	}
 	
+	public void resumeThread(){
+		running = true;
+	}
 	
+	public void setThreadSuspended(boolean bool){
+		threadSuspended = bool;
+	}
+	
+	/**
+	 * Run method
+	 */
 	@Override
 	public void run() {
 		while(running){
 			try {
 				Random rnd = new Random();
 				createAction(System.currentTimeMillis(), rnd);
-				//System.out.println(this.pInfos);
 				Thread.sleep(100);
+				
+				//if game is in pause
+				if (threadSuspended) {
+                    synchronized(this) {
+                        while (threadSuspended)
+                            wait();
+                    }
+                }
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -63,7 +87,12 @@ public class IA extends Player implements Runnable{
 	
 	public void update(){
 	}
-
+	
+	/**
+	 * Creating an action
+	 * @param currentTime : 
+	 * @param rnd : 
+	 */
 	private void createAction(double currentTime, Random rnd){
 		if (beginTime == 0)
 			beginTime = currentTime;
@@ -72,30 +101,32 @@ public class IA extends Player implements Runnable{
 		double numRnd = rnd.nextDouble()+1;
 		if (currentTime - beginTime < 6000*numRnd)
 			return;
-		
-		
+
 		// Calculate random type of action to not all AI create same action in the same times
 		int type = rnd.nextInt(10)+1;
 		//int type = 4;
 		if(type>0 && type <4)
-			sendAgent(rnd);
+			sendIaAgent(rnd);
 		else if (type>3 && type<6)
 			createTowers(rnd);
 		else if (type>5 && type<8)
 			updateTower(rnd);
 		else
 			System.out.println("no action");
-			
-		
 
-		//System.out.println(this);
 		beginTime = currentTime;
 	}
 	
+	/**
+	 * Creating towers
+	 * @param rnd : 
+	 */
 	private void createTowers(Random rnd){
 		
 		// Find number of current AI and Bases
 		Base base = getBaseIA();
+		if (base == null)
+			return;
 		int playerNumber = base.getPlayer().getPlayerNumber();
 		
 		// Select ArrayList associate the player
@@ -114,20 +145,19 @@ public class IA extends Player implements Runnable{
 				break;
 		}
 		
-		//System.out.println("Size of Player "+ playerNumber +" : "+currentListTower.size());
 		int locationTower = rnd.nextInt(currentListTower.size());
 		
 		int typeTower = rnd.nextInt(8);
 		createTower(typeTower, currentListTower.get(locationTower));
-		
-		
-	
-		
-	
+
 	}
 	
+	/**
+	 * Creating a tower
+	 * @param typeTower : type of the tower
+	 * @param locationTower : where the tower is going to be built 
+	 */
 	private void createTower(int typeTower, Point locationTower){
-		
 		ActionTowerCreate myAction = null;
 		
 		switch (typeTower) {
@@ -159,39 +189,67 @@ public class IA extends Player implements Runnable{
 		default:
 			break;
 		}
-		
 		JavaWars.getDispatcher().addAction(myAction);
 	}
 	
-	
-	private void sendAgent(Random rnd){
+	/**
+	 * Sending agents
+	 * @param rnd : 
+	 */
+	private void sendIaAgent(Random rnd){
 		
 		Base base = getBaseIA();
+		if (base == null)
+			return;
 		int playerNumber = base.getPlayer().getPlayerNumber();
-		
 		
 		Base baseTarget = getRndBase(playerNumber, rnd);
 		
 		// For send several agent
-		//int numAgentSend = rnd.nextInt(25)+1;
-		//for(int i = 0; i< numAgentSend; ++i) {
-			base.getPlayer().addAgent(new Agent(100, (Point)base.getPosition().clone(), base.getPlayer(), 1, base, baseTarget));
-			base.loseLife(1);
-		//}
+		int numAgentSend = rnd.nextInt(base.getCapacity()/2)+1;
+		for(int i = 0; i< numAgentSend; ++i) {
+			ActionAgentSend myAction = new ActionAgentSend( base.getPlayer(), base, baseTarget);
+			JavaWars.getDispatcher().addAction(myAction);
+		}
 		
 	}
 	
+
+	/**
+	 * Sending agents
+	 * @param start : starting base
+	 * @param target : target base
+	 */
+	public void sendIaAgent(Base start, Base target){
+		Random rnd = new Random();
+		if(rnd.nextInt(10)>2)
+			return;
+		ActionAgentSend myAction = new ActionAgentSend( start.getPlayer(), start, target);
+		JavaWars.getDispatcher().addAction(myAction);
+		
+	}
+	
+
+	/**
+	 * Updating a tower
+	 * @param rnd
+	 */
 	private void updateTower(Random rnd){
+		// Find current Base of the AI player
 		Base base = getBaseIA();
+		if (base == null)
+			return;
 		int playerNumber = base.getPlayer().getPlayerNumber();
 		
 		LinkedList<Tower> towersCurrentPlayer = towersCurrentPlayer(playerNumber);
 		
-		
+
+		// If AI player hasn't got tower --> quit the method
 		if (towersCurrentPlayer.size()==0)
 			return;
 		
-		
+		// Else, select with random a tower and type of update
+
 		Tower towerToUp = towersCurrentPlayer.get(rnd.nextInt(towersCurrentPlayer.size()));
 		int typeUp = rnd.nextInt(2)+1;
 		if (typeUp == 1) {
@@ -204,12 +262,15 @@ public class IA extends Player implements Runnable{
 		}
 
 		ActionTowerUpgrade myAction = new ActionTowerUpgrade(base.getPlayer(), towerToUp,  typeUp);
-		JavaWars.getDispatcher().addAction(myAction);
-		
-		//System.out.println("Range / Strengh "+towerToUp.getUpgradeRange() + " " + towerToUp.getUpgradeStrengh());
-    	
+		JavaWars.getDispatcher().addAction(myAction);    	
 	}
 	
+
+	/**
+	 * Create a list of Tower belong to current AI player
+	 * @param playerNumber
+	 * @return
+	 */
 	private LinkedList<Tower> towersCurrentPlayer(int playerNumber){
 		LinkedList<Tower> towersCurrentPlayer = new LinkedList<Tower>();
 		
@@ -223,11 +284,19 @@ public class IA extends Player implements Runnable{
 		
 	}
 	
+	/**
+	 * Find a random Base
+	 * @param playerNumber : number of the current AI player
+	 * @param rnd
+	 * @return Base
+	 */
 	private Base getRndBase(int playerNumber, Random rnd){
 		CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
+		
+		// Random "location" in the list to select just 1 base
 		int locationBase=rnd.nextInt(bases.size());
 		
-		
+		// Check if the base select is not the base of the current AI
 		if (bases.get(locationBase).getPlayer() != null && bases.get(locationBase).getPlayer().getPlayerNumber() == playerNumber)
 			return bases.get(locationBase+1);
 		
@@ -236,9 +305,12 @@ public class IA extends Player implements Runnable{
 		
 	}
 	
+	/**
+	 * Find the base of the current IA
+	 * @return Base
+	 */
 	private Base getBaseIA(){
 		Iterator<Base> itBase = JavaWars.getDispatcher().getBases().iterator();
-		int playerNumber = 0;
 		while (itBase.hasNext()) {
 			Base base = itBase.next();
 			if (base.getPlayer() != null && base.getPlayer().getPlayerNumber() == this.getPlayerNumber()){

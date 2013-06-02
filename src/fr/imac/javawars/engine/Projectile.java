@@ -43,6 +43,9 @@ public class Projectile {
 		numPro++;
 	}
 	
+	/**
+	 * Getters/setters
+	 */
 	public double getSpeed() {
 		return speed;
 	}
@@ -60,7 +63,6 @@ public class Projectile {
 	}
 
 	
-
 	public void setPosition(int x, int y) {
 		this.position.setLocation(x, y);
 	}
@@ -92,8 +94,6 @@ public class Projectile {
 		if(target.getPosition().getX() - this.position.getX() >=0)
 			this.direction  = 1;
 		else this.direction = -1;
-		
-		
 	}
 	
 	/**
@@ -129,10 +129,5 @@ public class Projectile {
 		this.setPosition(x, y);
 		
 		return false;
-		
-	
 	}
-	
-	
-	
 }

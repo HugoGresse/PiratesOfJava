@@ -17,7 +17,6 @@ import fr.imac.javawars.player.Player;
  *
  */
 public class ProcessorTower {
-	
 	Map.Entry<Integer, Player> entry;
 	Iterator<Map.Entry<Integer, Player>> itPlayer;
 	Iterator<Agent> itAg;
@@ -64,9 +63,7 @@ public class ProcessorTower {
 	 * Check if there are any agents in the actionField of the tower
 	 */
 	private void checkAgentInRangeAndAttack(Tower t){
-		
 		itPlayer = JavaWars.getEngine().getPlayers().entrySet().iterator();
-		
 		
         while (itPlayer.hasNext()) {
                 entry = itPlayer.next();
@@ -91,16 +88,9 @@ public class ProcessorTower {
 					t.attackAgent(agent);
 					
 					
-				} // end whilte agents
-                
+				} // end whilte agents  
         }
-        
-        
-        
-        
-		
 	}
-	
 	
 	/**
 	 * Process projectiles (moove it, delet it, etc)
@@ -181,4 +171,5 @@ public class ProcessorTower {
 		}
 		
 	}
+	
 }

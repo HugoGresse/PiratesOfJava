@@ -41,9 +41,7 @@ public class Base extends AbstractTowerBase {
 		LIFE_UP,
 		RESISTANCE;
 	}
-	
-	
-	
+
 	/* table containing distances of the base
  	imagine a map of boxes but here stocked in a tab 1d
  	every element represents the distance of the box to the base */

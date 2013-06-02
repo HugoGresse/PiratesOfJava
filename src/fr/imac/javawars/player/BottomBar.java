@@ -86,8 +86,12 @@ public class BottomBar extends JPanel{
 	        	//appearance of the button
 	        	if(pause.getText()=="||"){
 	        		pause.setText(">");
+	        		JavaWars.getEngine().pausingGame();
 	        	}
-	        	else pause.setText("||");
+	        	else{
+	        		pause.setText("||");
+	        		JavaWars.getEngine().resumingGame();
+	        	}
 	        }
 	    });
 		
@@ -96,8 +100,12 @@ public class BottomBar extends JPanel{
 	        	//appearance of the button
 	        	if(speed.getText()==">>"){
 	        		speed.setText(">");
+	        		JavaWars.getEngine().setFpsTarget(500/30);
 	        	}
-	        	else speed.setText(">>");
+	        	else {
+	        		speed.setText(">>");
+	        		JavaWars.getEngine().setFpsTarget(1000/30);
+	        	}
 	        }
 	    });	
 	}
