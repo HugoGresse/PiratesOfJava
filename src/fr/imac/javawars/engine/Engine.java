@@ -224,6 +224,7 @@ public class Engine  implements Runnable{
 
 		//initialisation of the ground
 		this.ground = new Ground("map/mapCool_2.xml");
+		//this.ground = new Ground();
 		
 		// compute the map of distance for every map
 		Iterator<Base> itBases = this.bases.iterator();

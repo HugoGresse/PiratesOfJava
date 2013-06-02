@@ -105,8 +105,11 @@ public class ProcessorAgents {
 							
 
 							//if the life of the target becomes zero, base becomes neutral
-							if(a.getBaseTarget().getLife() == 0)
+							if(a.getBaseTarget().getLife() <= 0){
 								a.getBaseTarget().setPlayer(null);
+								a.getBaseTarget().setLife(0);
+							}
+							
 							
 							// If the player is not an IA
 							if(!(a.getBaseTarget().getPlayer() instanceof IA)) 

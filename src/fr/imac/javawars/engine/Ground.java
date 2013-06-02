@@ -72,9 +72,9 @@ public class Ground {
     	
     	initGroundPath();
     	generateBasesPlayer();
-    	generateBasesNeutral(2);//(10);
+    	generateBasesNeutral(10);
     	generateWall();
-    	//extendPathBases();
+    	extendPathBases();
     	onePixelPerBase();
     	
     	saveAsXML(bitMap, "map/randomMap_1");
