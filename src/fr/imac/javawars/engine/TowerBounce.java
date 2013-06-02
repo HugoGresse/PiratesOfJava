@@ -27,7 +27,7 @@ public class TowerBounce extends Tower{
 	
 	public TowerBounce(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed, projectilespeed
-		super(player, position, 20,   4,    80,          8,       400,          2);
+		super(player, position, 20,   4,    70,          8,       400,          2);
 		this.bounce = 4;
 		
 	}
@@ -38,6 +38,10 @@ public class TowerBounce extends Tower{
 
 	public void setBounce(int bounce) {
 		this.bounce = bounce;
+	}
+	
+	public void removeOneBounce() {
+		this.bounce --;
 	}
 	
 	

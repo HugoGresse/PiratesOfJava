@@ -2,9 +2,6 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 
-import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.player.Human;
-import fr.imac.javawars.player.Ihm;
 import fr.imac.javawars.player.Player;
 
 public class Agent extends AbstractUnite {
@@ -177,6 +174,42 @@ public class Agent extends AbstractUnite {
 		}
 	}*/
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((baseStart == null) ? 0 : baseStart.hashCode());
+		result = prime * result
+				+ ((baseTarget == null) ? 0 : baseTarget.hashCode());
+		result = prime * result + speed;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Agent))
+			return false;
+		Agent other = (Agent) obj;
+		if (baseStart == null) {
+			if (other.baseStart != null)
+				return false;
+		} else if (!baseStart.equals(other.baseStart))
+			return false;
+		if (baseTarget == null) {
+			if (other.baseTarget != null)
+				return false;
+		} else if (!baseTarget.equals(other.baseTarget))
+			return false;
+		if (speed != other.speed)
+			return false;
+		return true;
+	}
+
 	//getters/setters
 	public int getSpeed() {
 		return speed;

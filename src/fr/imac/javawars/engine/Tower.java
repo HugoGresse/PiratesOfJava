@@ -1,7 +1,8 @@
 package fr.imac.javawars.engine;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.player.Player;
 
@@ -43,9 +44,12 @@ public abstract class Tower extends AbstractTowerBase {
 	 */
 	private double lastTimeSent;
 	
-	private ArrayList<Projectile> projectiles;
+	/**
+	 * The hash map of projectiles
+	 */
+	private ConcurrentHashMap<Integer, Projectile> projectiles;
+	private int numberOfProjectiles;
 	
-
 
 	//constructor
 	public Tower(Player player,  Point position, int life, int price, double actionField , int strength, int attackSpeed, double projectileSpeed) {
@@ -56,21 +60,23 @@ public abstract class Tower extends AbstractTowerBase {
 		this.upgradeRange = 0;
 		this.attackSpeed = attackSpeed;
 		this.projectileSpeed = projectileSpeed;
-		this.projectiles = new ArrayList<Projectile>();
+		this.projectiles = new ConcurrentHashMap<Integer, Projectile>();
 		
 		this.lastTimeSent = System.currentTimeMillis();
+		this.numberOfProjectiles = 0;
 	}
 	
-
-
-	//methods
-	public double sellTower(){
-		double price = this.getPrice();
-		
-		projectiles.clear();
-		return price;
+	@Override
+	public boolean equals(Object o){
+		if(getClass()== o.getClass()){
+			if(getPosition().getX() == ((Tower)o).getPosition().getX() && getPosition().getY() == ((Tower)o).getPosition().getY() ){
+				return true;
+			}
+			else return false;
+		}
+		else return false;
 	}
-	
+
 	public void increaseStrength(int val){
 		System.out.println("implement this method increaseStrengh TOwer");
 	}
@@ -83,17 +89,6 @@ public abstract class Tower extends AbstractTowerBase {
 		return upgradeRange;
 	}
 
-	public void setUpgradeStrength(int upgradeStrengh) {
-		this.upgradeStrength = upgradeStrengh;
-	}
-
-	public void setUpgradeRange(int upgradeRange) {
-		this.upgradeRange = upgradeRange;
-	}
-
-	//getters/setters
-	
-	
 	public double getAttackSpeed() {
 		return attackSpeed;
 	}
@@ -102,20 +97,40 @@ public abstract class Tower extends AbstractTowerBase {
 		return projectileSpeed;
 	}
 	
+	public double getPrice() {
+		return price;
+	}
+	
+	public int getStrength() {
+		return strength;
+	}
+	
+	public ConcurrentHashMap<Integer, Projectile> getProjectiles() {
+		return projectiles;
+	}
+	
+	public double getLastTimeSent() {
+		return lastTimeSent;
+	}
+
+	public void setLastTimeSent(double lastTimeSent) {
+		this.lastTimeSent = lastTimeSent;
+	}
+
+	public void setUpgradeStrength(int upgradeStrengh) {
+		this.upgradeStrength = upgradeStrengh;
+	}
+
+	public void setUpgradeRange(int upgradeRange) {
+		this.upgradeRange = upgradeRange;
+	}
+	
 	public void setAttackSpeed(int attackSpeed) {
 		this.attackSpeed = attackSpeed;
 	}
 	
-	public double getPrice() {
-		return price;
-	}
-
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public int getStrength() {
-		return strength;
 	}
 
 	public void changeStrength(int strength) {
@@ -128,14 +143,21 @@ public abstract class Tower extends AbstractTowerBase {
 		this.actionField+=num;
 		this.upgradeRange++;
 	}
-	
-	public ArrayList<Projectile> getProjectiles() {
-		return projectiles;
-	}
 
 	public void addProjectiles(Projectile p) {
-		this.projectiles.add(p);
+		numberOfProjectiles++;
+		this.projectiles.put(numberOfProjectiles, p);
 	}
+	
+
+	//methods
+	public double sellTower(){
+		double price = this.getPrice();
+		
+		projectiles.clear();
+		return price;
+	}
+	
 	
 	/**
 	 * Order tower to send projectiles on the specified Point
@@ -150,21 +172,11 @@ public abstract class Tower extends AbstractTowerBase {
 		if(System.currentTimeMillis() - lastTimeSent < attackSpeed)
 			return;
 		
-		System.out.println("attack ");
 		lastTimeSent = System.currentTimeMillis();
 		
 		this.addProjectiles(new Projectile(this, (Point)this.getPosition().clone(), target));
 	}
 	
-	@Override
-	public boolean equals(Object o){
-		if(getClass()== o.getClass()){
-			if(getPosition().getX() == ((Tower)o).getPosition().getX() && getPosition().getY() == ((Tower)o).getPosition().getY() ){
-				return true;
-			}
-			else return false;
-		}
-		else return false;
-	}
+
 	
 }

@@ -13,6 +13,9 @@ public class Projectile {
 	private Point position;
 	private Agent target;
 	
+	//int for any effect
+	private int optionInt;
+	
 	//Variable used to calculate positon
 	private double a;
 	private double b;
@@ -36,7 +39,7 @@ public class Projectile {
 		
 		//Calculate the variables used (y=ax+b)
 		calcDestination();
-		
+		optionInt = 1;
 		numPro++;
 	}
 	
@@ -52,8 +55,12 @@ public class Projectile {
 		return target;
 	}
 
+	public int getOptionInt() {
+		return optionInt;
+	}
 
 	
+
 	public void setPosition(int x, int y) {
 		this.position.setLocation(x, y);
 	}
@@ -64,6 +71,14 @@ public class Projectile {
 	public void setAgent(Agent target) {
 		this.target = target;
 	}
+	
+	public void setOptionInt(int optionInt) {
+		this.optionInt = optionInt;
+	}
+	public void addOptionInt() {
+		this.optionInt++;
+	}
+	
 	
 	/**
 	 * Calculate the straight of the projectile.
