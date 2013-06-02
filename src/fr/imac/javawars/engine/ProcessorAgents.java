@@ -112,7 +112,7 @@ public class ProcessorAgents {
 							if(!(a.getBaseTarget().getPlayer() instanceof IA)) 
 								continue;
 							
-							// If the player is an IA, process to defence his base
+							// If the player is an IA, process to defense his base
 							IA tempIA = (IA)a.getBaseTarget().getPlayer();
 								tempIA.sendIaAgent(a.getBaseTarget(),a.getBaseStart());
 						

@@ -86,8 +86,6 @@ public class IA extends Player implements Runnable{
 			updateTower(rnd);
 		else
 			System.out.println("no action");
-			
-		
 
 		//System.out.println(this);
 		beginTime = currentTime;
@@ -97,6 +95,8 @@ public class IA extends Player implements Runnable{
 		
 		// Find number of current AI and Bases
 		Base base = getBaseIA();
+		if (base == null)
+			return;
 		int playerNumber = base.getPlayer().getPlayerNumber();
 		
 		// Select ArrayList associate the player
@@ -120,10 +120,6 @@ public class IA extends Player implements Runnable{
 		
 		int typeTower = rnd.nextInt(8);
 		createTower(typeTower, currentListTower.get(locationTower));
-		
-		
-	
-		
 	
 	}
 	
@@ -160,7 +156,6 @@ public class IA extends Player implements Runnable{
 		default:
 			break;
 		}
-		
 		JavaWars.getDispatcher().addAction(myAction);
 	}
 	
@@ -168,37 +163,52 @@ public class IA extends Player implements Runnable{
 	private void sendIaAgent(Random rnd){
 		
 		Base base = getBaseIA();
+		if (base == null)
+			return;
 		int playerNumber = base.getPlayer().getPlayerNumber();
 		
 		
 		Base baseTarget = getRndBase(playerNumber, rnd);
 		
 		// For send several agent
-		//int numAgentSend = rnd.nextInt(25)+1;
-		//for(int i = 0; i< numAgentSend; ++i) {
+		int numAgentSend = rnd.nextInt(base.getCapacity()/2)+1;
+		for(int i = 0; i< numAgentSend; ++i) {
 			ActionAgentSend myAction = new ActionAgentSend( base.getPlayer(), base, baseTarget);
 			JavaWars.getDispatcher().addAction(myAction);
-		//}
+		}
 		
 	}
 	
+	
+	/**
+	 * Send Agent to defense him
+	 * @param start
+	 * @param target
+	 */
 	public void sendIaAgent(Base start, Base target){
-		
+		Random rnd = new Random();
+		if(rnd.nextInt(10)>2)
+			return;
 		ActionAgentSend myAction = new ActionAgentSend( start.getPlayer(), start, target);
 		JavaWars.getDispatcher().addAction(myAction);
+		
 	}
 	
+	// Update a tower of the current AI player
 	private void updateTower(Random rnd){
+		// Find current Base of the AI player
 		Base base = getBaseIA();
+		if (base == null)
+			return;
 		int playerNumber = base.getPlayer().getPlayerNumber();
 		
 		LinkedList<Tower> towersCurrentPlayer = towersCurrentPlayer(playerNumber);
 		
-		
+		// If AI player hasn't got tower --> quit the method
 		if (towersCurrentPlayer.size()==0)
 			return;
 		
-		
+		// Else, select with random a tower and type of update
 		Tower towerToUp = towersCurrentPlayer.get(rnd.nextInt(towersCurrentPlayer.size()));
 		int typeUp = rnd.nextInt(2)+1;
 		if (typeUp == 1) {
@@ -211,12 +221,10 @@ public class IA extends Player implements Runnable{
 		}
 
 		ActionTowerUpgrade myAction = new ActionTowerUpgrade(base.getPlayer(), towerToUp,  typeUp);
-		JavaWars.getDispatcher().addAction(myAction);
-		
-		//System.out.println("Range / Strengh "+towerToUp.getUpgradeRange() + " " + towerToUp.getUpgradeStrengh());
-    	
+		JavaWars.getDispatcher().addAction(myAction);    	
 	}
 	
+	// Create a list of Tower belong to current AI player
 	private LinkedList<Tower> towersCurrentPlayer(int playerNumber){
 		LinkedList<Tower> towersCurrentPlayer = new LinkedList<Tower>();
 		
@@ -230,11 +238,19 @@ public class IA extends Player implements Runnable{
 		
 	}
 	
+	/**
+	 * Find a random Base
+	 * @param playerNumber : number of the current AI player
+	 * @param rnd
+	 * @return Base
+	 */
 	private Base getRndBase(int playerNumber, Random rnd){
 		CopyOnWriteArrayList<Base> bases = JavaWars.getEngine().getBases();
+		
+		// Random "location" in the list to select just 1 base
 		int locationBase=rnd.nextInt(bases.size());
 		
-		
+		// Check if the base select is not the base of the current AI
 		if (bases.get(locationBase).getPlayer() != null && bases.get(locationBase).getPlayer().getPlayerNumber() == playerNumber)
 			return bases.get(locationBase+1);
 		
@@ -243,9 +259,12 @@ public class IA extends Player implements Runnable{
 		
 	}
 	
+	/**
+	 * Find the base of the current IA
+	 * @return Base
+	 */
 	private Base getBaseIA(){
 		Iterator<Base> itBase = JavaWars.getDispatcher().getBases().iterator();
-		int playerNumber = 0;
 		while (itBase.hasNext()) {
 			Base base = itBase.next();
 			if (base.getPlayer() != null && base.getPlayer().getPlayerNumber() == this.getPlayerNumber()){
