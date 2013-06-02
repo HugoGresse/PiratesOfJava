@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 
 
@@ -89,10 +90,21 @@ public class ProcessorAgents {
 						//else, it's an enemy base
 						else {
 							a.getBaseTarget().loseLife(1);
+							
+
 							//if the life of the target becomes zero, base becomes neutral
 							if(a.getBaseTarget().getLife() == 0) {
 								a.getBaseTarget().setPlayer(null);
 							}
+							
+							// If the player is not an IA
+							if(!(a.getBaseTarget().getPlayer() instanceof IA)) 
+								continue;
+							
+							// If the player is an IA, process to defence his base
+							IA tempIA = (IA)a.getBaseTarget().getPlayer();
+								tempIA.sendIaAgent(a.getBaseTarget(),a.getBaseStart());
+						
 						}
 					}
 					//if the base belongs to the player

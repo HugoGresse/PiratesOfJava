@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionAgentSend;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 import fr.imac.javawars.engine.Agent;
@@ -78,7 +79,7 @@ public class IA extends Player implements Runnable{
 		int type = rnd.nextInt(10)+1;
 		//int type = 4;
 		if(type>0 && type <4)
-			sendAgent(rnd);
+			sendIaAgent(rnd);
 		else if (type>3 && type<6)
 			createTowers(rnd);
 		else if (type>5 && type<8)
@@ -164,7 +165,7 @@ public class IA extends Player implements Runnable{
 	}
 	
 	
-	private void sendAgent(Random rnd){
+	private void sendIaAgent(Random rnd){
 		
 		Base base = getBaseIA();
 		int playerNumber = base.getPlayer().getPlayerNumber();
@@ -175,10 +176,16 @@ public class IA extends Player implements Runnable{
 		// For send several agent
 		//int numAgentSend = rnd.nextInt(25)+1;
 		//for(int i = 0; i< numAgentSend; ++i) {
-			base.getPlayer().addAgent(new Agent(100, (Point)base.getPosition().clone(), base.getPlayer(), 1, base, baseTarget));
-			base.loseLife(1);
+			ActionAgentSend myAction = new ActionAgentSend( base.getPlayer(), base, baseTarget);
+			JavaWars.getDispatcher().addAction(myAction);
 		//}
 		
+	}
+	
+	public void sendIaAgent(Base start, Base target){
+		
+		ActionAgentSend myAction = new ActionAgentSend( start.getPlayer(), start, target);
+		JavaWars.getDispatcher().addAction(myAction);
 	}
 	
 	private void updateTower(Random rnd){
