@@ -28,6 +28,7 @@ import fr.imac.javawars.player.Player;
 public class Engine  implements Runnable{
 	
 	protected volatile boolean running = false;
+	private volatile boolean threadSuspended = false;
 	protected Thread engineThread;
 	
 	protected Dispatcher dispatcher;
@@ -107,16 +108,16 @@ public class Engine  implements Runnable{
 		this.ground = ground;
 	}
 	
-	public void stopThread(){
-		running = false;
-	}
-	
 	public void setError(String error){
 		this.error = error;
 	}
 	
 	public String getError(){
 		return error;
+	}
+	
+	public void stopThread(){
+		running = false;
 	}
 	
 	/**
@@ -192,14 +193,22 @@ public class Engine  implements Runnable{
 				sleepTime = (int) (fpsTarget - endTime);
 				
 				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
+				
+				//if game is in pause
+				if (threadSuspended) {
+                    synchronized(this) {
+                        while (threadSuspended)
+                            wait();
+                    }
+                }
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
+		
 	
 	/**
 	 *	Initialize the game, the ground, towers and bases
@@ -261,9 +270,6 @@ public class Engine  implements Runnable{
 			  if (entry.getValue() instanceof IA ) 
 				  threadsPlayers.add(new Thread(  (IA)entry.getValue() ));
 		}
-		
-		
-		
 	}
 	
 	/**
@@ -284,6 +290,39 @@ public class Engine  implements Runnable{
 		for(Thread t : threadsPlayers)
 			t.start();
 	}
+	
+	/**
+	 * Pausing the game
+	 */
+	public synchronized void pausingGame(){
+		threadSuspended = true;
+		
+		Iterator<Map.Entry<Integer, Player>> it = playersData.entrySet().iterator();
+		while(it.hasNext()){
+			Player p = it.next().getValue();
+			if(p.getClass() != Human.class)
+				((IA)p).setThreadSuspended(true);
+		}
+		
+		notify();
+	}
+	
+	/**
+	 * Resuming the game
+	 */
+	public synchronized void resumingGame(){
+		threadSuspended = false;
+		
+		Iterator<Map.Entry<Integer, Player>> it = playersData.entrySet().iterator();
+		while(it.hasNext()){
+			Player p = it.next().getValue();
+			if(p.getClass() != Human.class)
+				((IA)p).setThreadSuspended(false);
+		}
+		
+		notify();
+	}
+	
 	/**
 	 * stop IA&Engine threads
 	 */

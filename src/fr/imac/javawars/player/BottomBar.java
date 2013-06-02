@@ -86,8 +86,12 @@ public class BottomBar extends JPanel{
 	        	//appearance of the button
 	        	if(pause.getText()=="||"){
 	        		pause.setText(">");
+	        		JavaWars.getEngine().pausingGame();
 	        	}
-	        	else pause.setText("||");
+	        	else{
+	        		pause.setText("||");
+	        		JavaWars.getEngine().resumingGame();
+	        	}
 	        }
 	    });
 		
