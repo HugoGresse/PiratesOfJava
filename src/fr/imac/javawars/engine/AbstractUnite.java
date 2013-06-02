@@ -61,4 +61,47 @@ public abstract class AbstractUnite implements Unite {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + life;
+		result = prime * result + ((player == null) ? 0 : player.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
+		result = prime * result + ((texture == null) ? 0 : texture.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AbstractUnite))
+			return false;
+		AbstractUnite other = (AbstractUnite) obj;
+		if (life != other.life)
+			return false;
+		if (player == null) {
+			if (other.player != null)
+				return false;
+		} else if (!player.equals(other.player))
+			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
+		if (texture == null) {
+			if (other.texture != null)
+				return false;
+		} else if (!texture.equals(other.texture))
+			return false;
+		return true;
+	}
+	
+	
 }
