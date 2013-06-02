@@ -24,15 +24,5 @@ public abstract class ActionAgent extends Action{
 
 	public ActionAgent(Player player) {
 		super(player);
-		//this.agent = agent;
-		//player.addAgent(agent);
 	}
-	
-	/*public Agent getAgent() {
-		return this.agent;
-	}
-	
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}*/
 }
