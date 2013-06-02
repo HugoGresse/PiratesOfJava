@@ -82,6 +82,12 @@ public class ListenersLayer extends JPanel{
 					//if the base selected belongs to the player
 					if(b.getPlayer() == human){
 						this.currentHumanBaseSelected = b;
+						BottomBar bottom= human.getIhm().getBottomBar();
+						bottom.setCurrentBase(b);
+						
+						bottom.getBaseRegenSpeed().setText(String.valueOf(b.getSpeedRegeneration()));
+						bottom.getTowerInfos().setVisible(false);
+						bottom.getBaseInfos().setVisible(true);
 					}
 					else{
 						//if the base selected belongs to an enemy
@@ -137,6 +143,7 @@ public class ListenersLayer extends JPanel{
 				//filling with tower values and make the JPanel visible
 				bottom.getTowerStrength().setText(String.valueOf(t.getStrength()));
 				bottom.getTowerActionField().setText(String.valueOf(t.getActionField()));
+				bottom.getBaseInfos().setVisible(false);
 				bottom.getTowerInfos().setVisible(true);
 				
 			}
