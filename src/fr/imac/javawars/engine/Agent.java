@@ -2,6 +2,7 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 
+import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.player.Player;
 
 public class Agent extends AbstractUnite {
@@ -143,5 +144,16 @@ public class Agent extends AbstractUnite {
 		this.baseTarget = baseTarget;
 	}
 	
-	
+	/**
+	 * Remove the strenght from agent after applied Power
+	 * @param strenght the strenght you want the agent to lose
+	 */
+	@Override
+	public void loseLife(int strenght) {
+		if(this.getBaseStart().getPower() == Power.RESISTANCE){
+			super.loseLife(strenght/2);
+		}else{
+			super.loseLife(strenght);
+		}
+	}
 }
