@@ -115,7 +115,7 @@ public class ProcessorTower {
 				continue;
 			
 			//PROJECTILE ARRIVED !
-			if(projectile.getAgent().getBaseStart().getPower() == Power.RESISTANCE){
+			if(projectile.getAgent().getPower() == Power.RESISTANCE){
 				projectile.getAgent().loseLife(tower.getStrength()/2);
 			}else{
 				projectile.getAgent().loseLife(tower.getStrength());

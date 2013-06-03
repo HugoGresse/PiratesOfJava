@@ -2,23 +2,34 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 
+import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.player.Player;
 
 public class Agent extends AbstractUnite {
 	private int speed;
 	private Base baseStart;
 	private Base baseTarget;
+	private Power power;
 
 	//constructor
-	public Agent(int life, Point position, Player player, int speed, Base start, Base target) {
+	public Agent(int life, Point position, Player player, int speed, Base start, Base target, Power power) {
 		super(life, position, player);
 		this.speed = speed;
 		this.baseStart = start;
 		this.baseTarget = target;
+		this.power = power;
+		switch(power){
+			case SPEED_UP : this.speed = 2;
+				break;
+			case LIFE_UP : this.life = 150;
+				break;
+			default:
+				break;
+		}
 	}
 	
 	public Agent(Point position, Player player){
-		this(100, position, player, 1, null, null);
+		this(100, position, player, 1, null, null, Power.NORMAL);
 	}
 	
 	/**
@@ -143,5 +154,7 @@ public class Agent extends AbstractUnite {
 		this.baseTarget = baseTarget;
 	}
 	
-	
+	public Power getPower(){
+		return this.power;
+	}
 }
