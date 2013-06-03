@@ -7,9 +7,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.dispatcher.Action;
 import fr.imac.javawars.dispatcher.ActionAgentSend;
+import fr.imac.javawars.dispatcher.ActionBaseUpgrade;
 import fr.imac.javawars.dispatcher.ActionTowerCreate;
 import fr.imac.javawars.dispatcher.ActionTowerDelete;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
+import fr.imac.javawars.engine.Base.Power;
 
 /**
  * The class which are in charge of processing Actions
@@ -52,6 +54,10 @@ public class ProcessorAction {
 				//this.sendAgent((ActionAgentSend)e);
 				actions.poll();
 			}
+			else if(e instanceof ActionBaseUpgrade){
+				this.tryToUpgradeBase((ActionBaseUpgrade)e);
+				actions.poll();
+			}
 			
 			change = true;
 			//System.out.println("processAction : "+i);
@@ -68,6 +74,21 @@ public class ProcessorAction {
 	private void createAgent(ActionAgentSend e){
 		//creation of the agent, it's in the agentsProcessor that his displacement is managed
 		// WARNING : not passed baseStart.getPosition() directly in agent's creation because we don't want to modify coordinates of the base
+		int life = 0;
+		switch (e.getBaseStart().getPower()){
+			case NORMAL : 
+				life = 100;
+				break;
+			case LIFE_UP : 
+				life = 150;
+				break;
+			case RESISTANCE :
+				break;
+			case SPEED_UP :
+				break;
+			default:
+				break;			
+		}
 		e.getPlayer().addAgent(new Agent(100, new Point(e.getBaseStart().getPosition()), e.getPlayer(), 1, e.getBaseStart(), e.getBaseTarget()));
 		//the base which sends an agent loses a point of life (an agent)
 		e.getBaseStart().loseLife(1);
@@ -167,6 +188,32 @@ public class ProcessorAction {
 		
 		action.getPlayer().changeMoney( - action.getPrice());
 			
+	}
+	
+	private void tryToUpgradeBase(ActionBaseUpgrade action){
+		//check if player has enough money : 
+		if( action.getPrice() >  action.getPlayer().getMoney() ) {
+			if(action.getPlayer().getPlayerNumber() == 1)
+				JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la base");
+			return;
+		}
+		
+		switch (action.getPower()){
+			case NORMAL : action.getBase().setPower(Power.NORMAL);
+				break;
+			case MULT : action.getBase().setPower(Power.MULT);
+				break;
+			case SPEED_UP : action.getBase().setPower(Power.SPEED_UP);
+				break;
+			case LIFE_UP : action.getBase().setPower(Power.LIFE_UP);
+				break;
+			case RESISTANCE : action.getBase().setPower(Power.RESISTANCE);
+				break;
+			default:
+				break;			
+		}
+		
+		action.getPlayer().changeMoney( - action.getPrice());
 	}
 	
 }

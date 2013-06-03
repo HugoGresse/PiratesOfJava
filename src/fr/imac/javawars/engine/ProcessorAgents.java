@@ -1,9 +1,11 @@
 package fr.imac.javawars.engine;
 
+import java.awt.Point;
 import java.util.Iterator;
 import java.util.Map;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 
@@ -54,10 +56,18 @@ public class ProcessorAgents {
 				
 				//check life of the agent
 				if(! a.isInLife()) {
+					//if the agent comes from a base which owns the multiplication power, we create 3 new agents with less life for one who died
+					if(a.getBaseStart().getPower() == Power.MULT){
+						for(int i = -1; i <2; i++){
+							//create an agent with 5 point of life 
+							p.addAgent(new Agent(5, new Point((int)a.getPosition().getX()+ 5*i, (int)a.getPosition().getY() + 5*i), a.getPlayer(), 1, a.getBaseStart(), a.getBaseTarget()));
+						}
+					}
 					itAgent.remove();
 					a = null;
 					continue;
 				}
+				
 				//if there is a precedent agent which goes to the same base target, we move the agent only if there is enough space between the agents
 				if(precedentAgent != null && precedentAgent.getBaseTarget().equals(a.getBaseTarget())){
 					int positionPrecedentAgentX = (int) precedentAgent.getPosition().getX();
@@ -92,10 +102,6 @@ public class ProcessorAgents {
 								//the base belongs now to the player of the starting base
 								a.getBaseTarget().setPlayer(a.getBaseStart().getPlayer());
 								JavaWars.getEngine().checkEndGame();
-								
-//								a.getBaseTarget().setSpeedRegeneration((int)0.04 * a.getBaseTarget().getRadius());
-//								a.getBaseTarget().autoAddLife();
-//								a.getBaseTarget().addLife(1);
 							}
 						}
 						//else, it's an enemy base
@@ -127,6 +133,11 @@ public class ProcessorAgents {
 						JavaWars.getEngine().checkEndGame();
 					}
 				}//end if agent has moved
+				//if the agent comes from a base which has the speed_up bonus, we make the agent move faster by calling the function a seconde time
+				if(a.getBaseStart().getPower() == Power.SPEED_UP){
+					a.updatePosition();
+				}
+				
 				precedentAgent = a;
 			}// end while iterator on agents  
 			change = true;
