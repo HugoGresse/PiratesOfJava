@@ -17,9 +17,11 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.dispatcher.ActionBaseUpgrade;
 import fr.imac.javawars.dispatcher.ActionTowerDelete;
 import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
 import fr.imac.javawars.engine.Base;
+import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.engine.Tower;
 
 /**
@@ -69,6 +71,7 @@ public class BottomBar extends JPanel{
 		this.add(BorderLayout.WEST,wrapperInfos);
 		this.add(BorderLayout.EAST,wrapperButtons);
 		this.currentTower = null;
+		this.currentBase = null;
 		dialogue.setMargin(new Insets(10,10,10,10));
 		dialogue.setLineWrap(true);
 		dialogue.setWrapStyleWord(true);
@@ -156,25 +159,33 @@ public class BottomBar extends JPanel{
 		
 		speedBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	//code goes here
+	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.SPEED_UP);
+	        	System.out.println("base upgraded, agents from this base are faster");
+	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
 		
 		strengthBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	//code goes here
+	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.RESISTANCE);
+	        	System.out.println("base upgraded, agents of this base are more resistant to projectiles");
+	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
 		
 		regenBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	//code goes here
+	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.LIFE_UP);
+	        	System.out.println("base upgraded, agents of this base have more life");
+	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
 		
 		multBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	//code goes here
+	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.MULT);
+	        	System.out.println("base upgraded, multiplication of agents whent they die");
+	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
 	}
@@ -311,15 +322,19 @@ public class BottomBar extends JPanel{
 		return upActionField;
 	}
 
-	public Tower getCurrentTower(){
-		return currentTower;
-	}
-	
 	public void setCurrentTower(Tower t){
 		this.currentTower = t;
 	}
 	
+	public Tower getCurrentTower(){
+		return currentTower;
+	}
+	
 	public void setCurrentBase(Base b){
 		this.currentBase = b;
+	}
+	
+	public Base getCurrentBase(){
+		return this.currentBase;
 	}
 }

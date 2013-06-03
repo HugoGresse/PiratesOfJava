@@ -25,5 +25,8 @@ public abstract class ActionBase extends Action{
 		super(player);
 		this.base = base;
 	}
-
+	
+	public Base getBase(){
+		return this.base;
+	}
 }
