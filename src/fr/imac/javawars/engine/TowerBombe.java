@@ -29,7 +29,7 @@ public class TowerBombe extends Tower{
 	
 	public TowerBombe(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed,  projectilespeed
-		super(player, position, 20,   4,    80,          15,       14,          2 );
+		super(player, position, 20,   4,    80,          15,       500,          2 );
 		this.aoe = 20;
 		
 	}
@@ -52,6 +52,20 @@ public class TowerBombe extends Tower{
 	 */
 	@Override
 	public boolean processProjectileArrived(Tower tower, Projectile projectile){
+		
+		Point pointTargeted = projectile.getAgent().getPosition();
+		
+		Iterator<Agent> itAgent =  tower.getPlayer().getAgents().iterator();
+		
+		//iterate on all agent to do the damage in AOE
+		while(itAgent.hasNext()){
+			Agent agent = itAgent.next();
+			//If we are in the bombe zone 
+			if(agent.getPosition().distance(pointTargeted) <= ((TowerBombe)tower).getAoe())
+				agent.loseLife(tower.getStrength());
+			
+			
+		}//end while agents
 		
 		return true;
 	}

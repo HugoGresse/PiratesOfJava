@@ -35,8 +35,10 @@ public class Base extends AbstractTowerBase {
 	 * the special power of the base
 	 */
 	private Power power;
+	
 	public enum Power{
 		NORMAL,
+		MULT,
 		SPEED_UP,
 		LIFE_UP,
 		RESISTANCE;

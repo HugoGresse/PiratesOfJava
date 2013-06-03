@@ -2,6 +2,8 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 
+import fr.imac.javawars.engine.Base.Power;
+
 /**
  * A projectile is the weapons launch by a tower
  * 
@@ -12,6 +14,7 @@ public class Projectile {
 	private double speed;
 	private Point position;
 	private Agent target;
+	private int strength;
 	
 	//int for any effect
 	private int optionInt;
@@ -36,6 +39,7 @@ public class Projectile {
 		this.position = origin;
 		this.target = target;
 		this.speed = t.getProjectileSpeed();
+		this.strength = t.getStrength();
 		
 		//Calculate the variables used (y=ax+b)
 		calcDestination();
@@ -81,6 +85,26 @@ public class Projectile {
 		this.optionInt++;
 	}
 	
+	
+	public int getStrength() {
+		return strength;
+	}
+
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+	
+	/**
+	 * Remove the projectile strengh from agent after applied Power
+	 * @param projectile
+	 */
+	public void impactAgentLife() {
+		if(this.getAgent().getBaseStart().getPower() == Power.RESISTANCE){
+			this.getAgent().loseLife(this.getStrength());
+		}else{
+			this.getAgent().loseLife(this.getStrength());
+		}
+	}
 	
 	/**
 	 * Calculate the straight of the projectile.

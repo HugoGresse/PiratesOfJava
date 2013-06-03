@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -136,6 +137,7 @@ public class AgentsLayer extends JPanel {
 			int x = (int) agent.getPosition().getX();
 			int y = (int) agent.getPosition().getY();
 			
+			((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ((float)agent.getLife()/100)));
 			g.drawImage(icon, x - 9/2 , y - 11/2 , 9, 11,null);
 		}
 

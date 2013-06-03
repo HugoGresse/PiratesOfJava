@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
+import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.player.Player;
 
 
@@ -67,12 +68,12 @@ public class ProcessorTower {
 		
         while (itPlayer.hasNext()) {
                 entry = itPlayer.next();
-                //Si le joueur est le même que celui de la tour
+                //if the player is the same as the tower
                 //TODO : change sign
                 if(entry.getKey() != t.getPlayer().getPlayerNumber())
                 	continue;
                 
-                //On parcour les agents
+                //run trough agents
 				itAg = entry.getValue().getAgents().iterator();
 				
 				while(itAg.hasNext()){
@@ -114,14 +115,12 @@ public class ProcessorTower {
 				continue;
 			
 			//PROJECTILE ARRIVED !
-			projectile.getAgent().addLife(- tower.getStrength());
+			projectile.impactAgentLife();
 			
 			//process end effect on projectil, if true, delet it
 			if(processProjectile(tower, projectile))
 				itProj.remove();	
 			
-			System.out.println("ee");
-				
 		}
 		
 	}
