@@ -120,8 +120,6 @@ public class ProcessorTower {
 			if(processProjectile(tower, projectile))
 				itProj.remove();	
 			
-			System.out.println("ee");
-				
 		}
 		
 	}
