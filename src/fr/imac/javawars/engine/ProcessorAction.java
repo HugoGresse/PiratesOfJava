@@ -74,26 +74,10 @@ public class ProcessorAction {
 	private void createAgent(ActionAgentSend e){
 		//creation of the agent, it's in the agentsProcessor that his displacement is managed
 		// WARNING : not passed baseStart.getPosition() directly in agent's creation because we don't want to modify coordinates of the base
-		int life = 0;
-		switch (e.getBaseStart().getPower()){
-			case NORMAL : 
-				life = 100;
-				break;
-			case LIFE_UP : 
-				life = 150;
-				break;
-			case RESISTANCE :
-				break;
-			case SPEED_UP :
-				break;
-			default:
-				break;			
-		}
-		e.getPlayer().addAgent(new Agent(100, new Point(e.getBaseStart().getPosition()), e.getPlayer(), 1, e.getBaseStart(), e.getBaseTarget()));
+		e.getPlayer().addAgent(new Agent(100, new Point(e.getBaseStart().getPosition()), e.getPlayer(), 1, e.getBaseStart(), e.getBaseTarget(), e.getBaseStart().getPower()));
 		//the base which sends an agent loses a point of life (an agent)
 		e.getBaseStart().loseLife(1);
 	}
-
 	
 	/**
 	 * Check if a player can crate a tower related to :
