@@ -54,12 +54,12 @@ public class ProcessorAgents {
 				
 				//check life of the agent
 				if(! a.isInLife()) {
-					System.out.println("remove this agent");
 					itAgent.remove();
+					a = null;
 					continue;
 				}
-				
-				if(precedentAgent != null){//if there is a precedent agent, we move the agent only if there is enough space between the agents
+				//if there is a precedent agent which goes to the same base target, we move the agent only if there is enough space between the agents
+				if(precedentAgent != null && precedentAgent.getBaseTarget().equals(a.getBaseTarget())){
 					int positionPrecedentAgentX = (int) precedentAgent.getPosition().getX();
 					int positionAgentX = (int) a.getPosition().getX();
 					int positionPrecedentAgentY = (int) precedentAgent.getPosition().getY();
@@ -105,8 +105,11 @@ public class ProcessorAgents {
 							
 
 							//if the life of the target becomes zero, base becomes neutral
-							if(a.getBaseTarget().getLife() == 0)
+							if(a.getBaseTarget().getLife() <= 0){
 								a.getBaseTarget().setPlayer(null);
+								a.getBaseTarget().setLife(0);
+							}
+							
 							
 							// If the player is not an IA
 							if(!(a.getBaseTarget().getPlayer() instanceof IA)) 

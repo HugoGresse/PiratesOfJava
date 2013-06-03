@@ -1,15 +1,17 @@
 package fr.imac.javawars.player;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -105,7 +107,7 @@ public class TowersLayer extends JPanel {
 		//getting towers from engine
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
 		Iterator<Tower> it = towers.iterator();
-		Iterator<Projectile> itProjec;
+		Iterator<Map.Entry<Integer, Projectile>> itProjec;
 		
 		//Display Tower and projectiles if any
 		while(it.hasNext()){
@@ -127,9 +129,9 @@ public class TowersLayer extends JPanel {
 			
 			// draw projectiles if any
 			
-			itProjec = t.getProjectiles().iterator();
+			itProjec = t.getProjectiles().entrySet().iterator();
 			while(itProjec.hasNext()){
-				Projectile p = itProjec.next();
+				Projectile p = itProjec.next().getValue();
 				g.drawImage(projectileDefaultImg, (int)(p.getPosition().getX()-7.5),(int)(p.getPosition().getY()-7.5), 15,15, null);
 			}//end projectile
 			

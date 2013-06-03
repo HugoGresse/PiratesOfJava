@@ -15,26 +15,21 @@ import fr.imac.javawars.player.Player;
 public class JavaWars {
 	
 	private static Dispatcher dispatcher; 
-	private static Engine engine; 
+	private static Engine engine;
+	private static Human ihm;
 	
 	public static void main(String[] args){
-		//creation of engine et dispatcher
+		//creation of engine and dispatcher
 		engine = new Engine();
 		dispatcher = new Dispatcher();
 		
-		//creation of players and initialization in the engine
+		//creation of human player
 		Player joueur1 = new Human(1, "Hugo");
-		Player joueur2 = new IA(2, "IA 1");
-		Player joueur3 = new IA(3, "AI 2");
-		Player joueur4 = new IA(4, "AI 3");
-		
-		//send the players to engine
-		engine.initializationOfTheGame(joueur1, joueur2, joueur3, joueur4);
+		ihm = (Human)joueur1;
 		
 		//create ihm
-		((Human)joueur1).initIhm("Pirates of Java");
+		ihm.initIhm("Pirates of Java");
 	}
-	
 	
 	public static Dispatcher getDispatcher(){
 		return dispatcher;
@@ -42,6 +37,10 @@ public class JavaWars {
 	
 	public static Engine getEngine(){
 		return engine;
+	}
+	
+	public static Human getHuman(){
+		return ihm;
 	}
 	
 }

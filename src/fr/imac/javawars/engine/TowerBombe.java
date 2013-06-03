@@ -1,6 +1,8 @@
 package fr.imac.javawars.engine;
 
 import java.awt.Point;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.player.Player;
 
@@ -28,7 +30,7 @@ public class TowerBombe extends Tower{
 	public TowerBombe(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed,  projectilespeed
 		super(player, position, 20,   4,    80,          15,       14,          2 );
-		this.aoe = 5;
+		this.aoe = 20;
 		
 	}
 
@@ -40,5 +42,17 @@ public class TowerBombe extends Tower{
 		this.aoe = aoe;
 	}
 
-	
+	/**
+	 *  Process the projectile and the effect to it (bounce) for the given projectile
+	 * @param tower
+	 * 				the tower who owns the projectiles
+	 * @param projectile
+	 * 				the specified projectile (for create the dummie effect)
+	 * @return true if the agent should be remove
+	 */
+	@Override
+	public boolean processProjectileArrived(Tower tower, Projectile projectile){
+		
+		return true;
+	}
 }	

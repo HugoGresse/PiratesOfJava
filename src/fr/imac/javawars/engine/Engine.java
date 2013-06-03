@@ -1,5 +1,6 @@
 package fr.imac.javawars.engine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -68,71 +69,6 @@ public class Engine  implements Runnable{
 		
 		//init engine thread, which is started in the initialisation of the game
 		engineThread = new Thread(this);
-	}
-	
-	/**
-	 * Run method of the thread
-	 */
-	@Override
-	public void run() {
-		
-		//check if something change
-		boolean playerChange;
-		boolean towerChange;
-		boolean agentChange;
-		boolean baseChange;
-		
-		//TIME and FPS STUF
-		int sleepTime;
-		long beginTime;
-		long endTime;
-		
-		while(running){
-			try {
-				beginTime = System.currentTimeMillis();
-				
-				//every 29ms minimum, we get actions from dispatcher and try to execute it
-				
-				playerChange = towerChange = agentChange = true;
-
-				playerChange =  actionProcessor.process(dispatcher.getAction());
-				
-				towerChange = towerProcessor.process(towers);
-				
-				agentChange = agentsProcessor.process(playersData);
-				
-				baseChange = baseProcessor.process(bases, System.currentTimeMillis());
-								
-				if(towerChange || playerChange || baseChange) {
-					dispatcher.repaintBases();
-					dispatcher.repaintTowers();
-				}
-				if(agentChange) dispatcher.repaintAgents();
-				
-				//if any data change
-				if(playerChange || agentChange || towerChange || baseChange)
-					dispatcher.updatePlayers();
-				
-				endTime = System.currentTimeMillis() - beginTime;
-				//display fps if too bad
-				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ (endTime*30)/1000);
-				sleepTime = (int) (fpsTarget - endTime);
-				
-				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
-				
-				//if game is in pause
-				if (threadSuspended) {
-                    synchronized(this) {
-                        while (threadSuspended)
-                            wait();
-                    }
-                }
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	/**
@@ -212,18 +148,86 @@ public class Engine  implements Runnable{
 			}
 		}
 	}
+	
+	
+	/**
+	 * Run method of the thread
+	 */
+	@Override
+	public void run() {
+		
+		//check if something change
+		boolean playerChange;
+		boolean towerChange;
+		boolean agentChange;
+		boolean baseChange;
+		
+		//TIME and FPS STUF
+		int sleepTime;
+		long beginTime;
+		long endTime;
+		final long FPS_TARGET = 1000/30;
+		
+		while(running){
+			try {
+				beginTime = System.currentTimeMillis();
+				
+				//every 29ms minimum, we get actions from dispatcher and try to execute it
+				
+				playerChange = towerChange = agentChange = true;
+
+				playerChange =  actionProcessor.process(dispatcher.getAction());
+				
+				towerChange = towerProcessor.process(towers);
+				
+				agentChange = agentsProcessor.process(playersData);
+				
+				baseChange = baseProcessor.process(bases, System.currentTimeMillis());
+								
+				if(towerChange || playerChange || baseChange) {
+					dispatcher.repaintBases();
+					dispatcher.repaintTowers();
+				}
+				if(agentChange) dispatcher.repaintAgents();
+				
+				//if any data change
+				if(playerChange || agentChange || towerChange || baseChange)
+					dispatcher.updatePlayers();
+				
+				endTime = System.currentTimeMillis() - beginTime;
+				//display fps if too bad
+				if(endTime > FPS_TARGET) System.out.println("fps (ms) : "+ endTime);
+				sleepTime = (int) (FPS_TARGET - endTime);
+				
+				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
+				
+				//if game is in pause
+				if (threadSuspended) {
+                    synchronized(this) {
+                        while (threadSuspended)
+                            wait();
+                    }
+                }
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 		
 	
 	/**
 	 *	Initialize the game, the ground, towers and bases
 	 */
-	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4){
-		
+	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4,boolean random, File file){
 		initializationOfPlayers(p1,p2,p3,p4);
-		
 
-		//initialisation of the ground
-		this.ground = new Ground("map/mapCool_2.xml");
+		//initialization of the ground
+		if(random)
+			this.ground = new Ground();
+		else
+			this.ground = new Ground(file);
 		
 		// compute the map of distance for every map
 		Iterator<Base> itBases = this.bases.iterator();
