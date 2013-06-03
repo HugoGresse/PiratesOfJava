@@ -47,6 +47,14 @@ public class TowersLayer extends JPanel {
 	private Image poisonImg;
 	
 	private Image projectileDefaultImg;
+	private Image freezeProjectile;
+	private Image laserProjectile;
+	private Image missileProjectile;
+	private Image machineGunProjectile;
+	private Image bombProjectile;
+	private Image bounceProjectile;
+	private Image sniperProjectile;
+	private Image poisonProjectile;
 	
 	/**
 	 * Constructor
@@ -65,7 +73,18 @@ public class TowersLayer extends JPanel {
 			this.bounceImg = ImageIO.read(new File("res/img/bounce.png"));
 			this.sniperImg = ImageIO.read(new File("res/img/sniper.png"));
 			this.poisonImg = ImageIO.read(new File("res/img/poison.png"));
+			
 			this.projectileDefaultImg = ImageIO.read(new File("res/img/projectiles/proj-def.png"));
+			this.freezeProjectile = ImageIO.read(new File("res/img/projectiles/proj-freeze.png"));
+			this.laserProjectile = ImageIO.read(new File("res/img/projectiles/proj-laser.png"));
+			this.missileProjectile = ImageIO.read(new File("res/img/projectiles/proj-missile.png"));
+			this.machineGunProjectile = ImageIO.read(new File("res/img/projectiles/proj-machineGun.png"));
+			this.bombProjectile = ImageIO.read(new File("res/img/projectiles/proj-bomb.png"));
+			this.bounceProjectile = ImageIO.read(new File("res/img/projectiles/proj-bounce.png"));
+			this.sniperProjectile = ImageIO.read(new File("res/img/projectiles/proj-sniper.png"));
+			this.poisonProjectile = ImageIO.read(new File("res/img/projectiles/proj-poison.png"));
+
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,16 +133,17 @@ public class TowersLayer extends JPanel {
 			Tower t = it.next();
 			
 			Image icon = null;
+			Image iconProjectile = null;
 			
 			//changing image for each type
-			if(t.getClass() == TowerFreeze.class){ icon = freezeImg; }
-			else if(t.getClass() == TowerLaser.class){ icon = laserImg;}
-			else if(t.getClass() == TowerMissile.class){ icon = missileImg;}
-			else if(t.getClass() == TowerMachinegun.class){ icon = machineGunImg;}
-			else if(t.getClass() == TowerBombe.class){ icon = bombImg;}
-			else if(t.getClass() == TowerBounce.class){ icon = bounceImg;}
-			else if(t.getClass() == TowerSniper.class){ icon = sniperImg;}
-			else if(t.getClass() == TowerPoison.class){ icon = poisonImg;}
+			if(t.getClass() == TowerFreeze.class){ icon = freezeImg; iconProjectile = freezeProjectile; }
+			else if(t.getClass() == TowerLaser.class){ icon = laserImg; iconProjectile = laserProjectile; }
+			else if(t.getClass() == TowerMissile.class){ icon = missileImg; iconProjectile = missileProjectile; }
+			else if(t.getClass() == TowerMachinegun.class){ icon = machineGunImg; iconProjectile = machineGunProjectile; }
+			else if(t.getClass() == TowerBombe.class){ icon = bombImg; iconProjectile = bombProjectile; }
+			else if(t.getClass() == TowerBounce.class){ icon = bounceImg; iconProjectile = bounceProjectile; }
+			else if(t.getClass() == TowerSniper.class){ icon = sniperImg; iconProjectile = sniperProjectile; }
+			else if(t.getClass() == TowerPoison.class){ icon = poisonImg; iconProjectile = poisonProjectile; }
 			
 			g.drawImage(icon, (int)(t.getPosition().getX()-12.5),(int)(t.getPosition().getY()-12.5), 25,25, null);
 			
@@ -132,7 +152,7 @@ public class TowersLayer extends JPanel {
 			itProjec = t.getProjectiles().entrySet().iterator();
 			while(itProjec.hasNext()){
 				Projectile p = itProjec.next().getValue();
-				g.drawImage(projectileDefaultImg, (int)(p.getPosition().getX()-7.5),(int)(p.getPosition().getY()-7.5), 15,15, null);
+				g.drawImage(iconProjectile, (int)(p.getPosition().getX()-7.5),(int)(p.getPosition().getY()-7.5), 15,15, null);
 			}//end projectile
 			
 			

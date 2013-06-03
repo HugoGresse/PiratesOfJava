@@ -141,12 +141,12 @@ public class Menu extends JPanel {
 	 */
 	public void displayRandomChoice(){
 		//random choice
-		JButton boutonRandom = new JButton("Jouer");
+		JButton boutonRandom = new JButton("");
 		randomChoice.setLayout(null);
 		boutonRandom.setBounds(100,60,150,50);
 		boutonRandom.setBorderPainted(false);
 		boutonRandom.setBackground(new Color(148,20,20));
-		boutonRandom.setForeground(Color.white);
+		boutonRandom.setForeground(Color.black);
 		randomChoice.add(boutonRandom);
 
 		//addingListener to begin game
@@ -167,18 +167,18 @@ public class Menu extends JPanel {
 		//file choice
 		fileChoice.setLayout(null);
 		
-		JButton open = new JButton("Choisir un fichier");
+		JButton open = new JButton("");
 		open.setBorderPainted(false);
 		open.setBackground(Color.white);
-		open.setBounds(150,40,150,30);
+		open.setBounds(150,40,150,100);
 		final JFileChooser fc = new JFileChooser();
 		fileChoice.add(open);
 		
-		JButton boutonFile = new JButton("Jouer");
+		JButton boutonFile = new JButton("");
 		boutonFile.setBorderPainted(false);
 		boutonFile.setBackground(new Color(148,20,20));
-		boutonFile.setForeground(Color.white);
-		boutonFile.setBounds(150,80,150,50);
+		boutonFile.setForeground(Color.black);
+		boutonFile.setBounds(160,90,150,50);
 		fileChoice.add(boutonFile);
 		
 		open.addActionListener(new ActionListener() {
@@ -222,7 +222,7 @@ public class Menu extends JPanel {
 		randomChoice.setVisible(true);
 		fileChoice.setVisible(true);
 		try {
-			this.backgroundMenu =  ImageIO.read(new File("res/img/chooseTypeGame.jpg"));
+			this.backgroundMenu =  ImageIO.read(new File("res/img/chooseTypeGame.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
