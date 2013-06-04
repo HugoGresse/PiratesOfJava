@@ -3,6 +3,7 @@ package fr.imac.javawars.engine;
 import java.awt.Point;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base.Power;
@@ -138,12 +139,42 @@ public class ProcessorAgents {
 					a.updatePosition();
 				}
 				
+				checkFreezeAndPoisonAttack(a);
 				precedentAgent = a;
 			}// end while iterator on agents  
 			change = true;
 		} //end while iterator on players
 		return change;
 	}//end function process
+	
+	/**
+	 * check for attacks on agents
+	 * @param a :  agent to test
+	 */
+	public void checkFreezeAndPoisonAttack(Agent a){
+		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
+		Iterator<Tower> it = towers.iterator();
+		
+		while(it.hasNext()){
+			Tower t = it.next();
+			
+			//if agent is in the area of the tower
+			if(t.getPosition().distance(a.getPosition()) > t.getActionField())
+				continue;
+				
+			//freeze tower action
+			if(t.getClass() == TowerFreeze.class){
+				//TODO : reduce vitesse
+			}
+			
+			//poison tower action
+			else if(t.getClass() == TowerPoison.class){
+				System.out.println("poison attack");
+				a.loseLife(1);
+			}
+		}
+		
+	}
 	
 	
 }//end of the class
