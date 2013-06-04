@@ -55,7 +55,7 @@ public class BasesManager {
 		this.influenceJ4 = new ArrayList<Point>();
 	}
 	
-	private void initialiseInfluenceAreaMap(int[][] bitMap) {
+	public void initialiseInfluenceAreaMap(int[][] bitMap) {
 		if(bitMap.length <= 0){
 			System.out.println("problem with the bitmap in initializeInfluenceAreaOfBases");
 			return;

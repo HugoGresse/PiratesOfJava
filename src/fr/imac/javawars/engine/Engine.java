@@ -239,7 +239,7 @@ public class Engine  implements Runnable{
 		
 		//compute the influence area of bases
 		this.basesManager = new BasesManager(this.ground.getBitMap());
-		JavaWars.getEngine().getBasesManager().createInfluenceList();
+		this.basesManager.createInfluenceList();
 		
 		//initialization of and towers
 		towers = new CopyOnWriteArrayList<Tower>();

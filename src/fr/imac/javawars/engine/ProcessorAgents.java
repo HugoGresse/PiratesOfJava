@@ -106,6 +106,10 @@ public class ProcessorAgents {
 									//the base belongs now to the player of the starting base
 									a.getBaseTarget().setPlayer(a.getBaseStart().getPlayer());
 									JavaWars.getEngine().checkEndGame();
+									//need to compute the influence map again because the player has taken a base
+									JavaWars.getEngine().getBasesManager().initialiseInfluenceAreaMap(JavaWars.getEngine().getGround().getBitMap());
+									JavaWars.getEngine().getBasesManager().determineInfluenceAreaOfBases(JavaWars.getEngine().getGround().getBitMap());
+									JavaWars.getEngine().getBasesManager().createInfluenceList();
 								}
 							}
 							//else, it's an enemy base
@@ -118,6 +122,10 @@ public class ProcessorAgents {
 								if(a.getBaseTarget().getLife() <= 0){
 									a.getBaseTarget().setPlayer(null);
 									a.getBaseTarget().setLife(0);
+									//need to compute the influence map again because the player has taken a base
+									JavaWars.getEngine().getBasesManager().initialiseInfluenceAreaMap(JavaWars.getEngine().getGround().getBitMap());
+									JavaWars.getEngine().getBasesManager().determineInfluenceAreaOfBases(JavaWars.getEngine().getGround().getBitMap());
+									JavaWars.getEngine().getBasesManager().createInfluenceList();
 								}
 								
 								
