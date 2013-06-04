@@ -115,18 +115,12 @@ public class ProcessorTower {
 				continue;
 			
 			//PROJECTILE ARRIVED !
-			if(projectile.getAgent().getBaseStart().getPower() == Power.RESISTANCE){
-				projectile.getAgent().loseLife(tower.getStrength()/2);
-			}else{
-				projectile.getAgent().loseLife(tower.getStrength());
-			}
+			projectile.impactAgentLife();
 			
 			//process end effect on projectil, if true, delet it
 			if(processProjectile(tower, projectile))
 				itProj.remove();	
 			
-			System.out.println("ee");
-				
 		}
 		
 	}
