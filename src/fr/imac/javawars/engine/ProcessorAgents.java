@@ -170,9 +170,13 @@ public class ProcessorAgents {
 		while(it.hasNext()){
 			Tower t = it.next();
 			
-			//if agent is in the area of the tower and agent is an ennemy
-			if((t.getPosition().distance(a.getPosition()) > t.getActionField()) && (t.getPlayer().getPlayerNumber() != a.getPlayer().getPlayerNumber()))
+			//if agent is in the area of the tower 
+			if((t.getPosition().distance(a.getPosition()) > t.getActionField()))
 				continue;
+			
+			//if agent and tower have the same player, return
+		    if(t.getPlayer().getPlayerNumber() == a.getPlayer().getPlayerNumber())
+		    	return;
 				
 			//freeze tower action
 			if(t.getClass() == TowerFreeze.class){
@@ -181,7 +185,6 @@ public class ProcessorAgents {
 			
 			//poison tower action
 			else if(t.getClass() == TowerPoison.class){
-				
 				a.loseLife((float)0.25);
 			}
 		}

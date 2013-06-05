@@ -121,7 +121,7 @@ public class BasesLayer extends JPanel {
 		//number of alien
 		if(player == null)g.setColor(Color.gray);
 		else g.setColor(Color.white);
-		g.drawString(String.valueOf(b.getLife()), (int)(b.getPosition().getX()-6), (int)(b.getPosition().getY()+4));
+		g.drawString(String.valueOf((int)b.getLife()), (int)(b.getPosition().getX()-6), (int)(b.getPosition().getY()+4));
 	}
 	
 	/**
