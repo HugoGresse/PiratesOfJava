@@ -103,27 +103,27 @@ public class Menu extends JPanel {
             	
             	if ((e.getButton() == 1) && rect1.contains(e.getX(), e.getY()) ) {
             		fireGame=true;
-            		map = "map/mapCool.png";
+            		map = "map/mapBg1.png";
             	}
             	else if((e.getButton() == 1) && rect2.contains(e.getX(), e.getY()) ) {
             		fireGame=true;
-            		map = "map/mapCool.png";
+            		map = "map/mapBg2.png";
             	}
             	else if((e.getButton() == 1) && rect3.contains(e.getX(), e.getY()) ) {
             		fireGame=true;
-            		map = "map/mapCool.png";
+            		map = "map/mapBg3.png";
             	}
             	else if((e.getButton() == 1) && rect4.contains(e.getX(), e.getY()) ) {
             		fireGame=true;
-            		map = "map/mapCool.png";
+            		map = "map/mapBg4.png";
             	}
             	else if((e.getButton() == 1) && rect5.contains(e.getX(), e.getY()) ) {
             		fireGame=true;
-            		map = "map/mapCool.png";
+            		map = "map/mapBg5.png";
             	}
             	else if((e.getButton() == 1) && rect6.contains(e.getX(), e.getY()) ) {
             		fireGame=true;
-            		map = "map/mapCool.png";
+            		map = "map/mapBg6.png";
             	}
             	
             	if(fireGame){
