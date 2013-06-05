@@ -12,7 +12,7 @@ public class Agent extends AbstractUnite {
 	private Power power;
 
 	//constructor
-	public Agent(int life, Point position, Player player, int speed, Base start, Base target, Power power) {
+	public Agent(float life, Point position, Player player, int speed, Base start, Base target, Power power) {
 		super(life, position, player);
 		this.speed = speed;
 		this.baseStart = start;
@@ -159,13 +159,14 @@ public class Agent extends AbstractUnite {
 	 * @param strenght the strenght you want the agent to lose
 	 */
 	@Override
-	public void loseLife(int strenght) {
+	public void loseLife(float strenght) {
 		if(this.getBaseStart().getPower() == Power.RESISTANCE){
 			super.loseLife(strenght/2);
 		}else{
 			super.loseLife(strenght);
 		}
 	}
+	
 	public Power getPower(){
 		return this.power;
 	}

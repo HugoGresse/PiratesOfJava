@@ -170,8 +170,8 @@ public class ProcessorAgents {
 		while(it.hasNext()){
 			Tower t = it.next();
 			
-			//if agent is in the area of the tower
-			if(t.getPosition().distance(a.getPosition()) > t.getActionField())
+			//if agent is in the area of the tower and agent is an ennemy
+			if((t.getPosition().distance(a.getPosition()) > t.getActionField()) && (t.getPlayer().getPlayerNumber() != a.getPlayer().getPlayerNumber()))
 				continue;
 				
 			//freeze tower action
@@ -181,8 +181,8 @@ public class ProcessorAgents {
 			
 			//poison tower action
 			else if(t.getClass() == TowerPoison.class){
-				System.out.println("poison attack");
-				a.loseLife(1);
+				
+				a.loseLife((float)0.25);
 			}
 		}
 		
