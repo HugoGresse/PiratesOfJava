@@ -5,13 +5,12 @@ import java.awt.Point;
 import fr.imac.javawars.player.Player;
 
 public abstract class AbstractUnite implements Unite {
-	int life;
+	float life;
 	Point position;
-	String texture;
 	Player player;
 	
 	//constructor
-	public AbstractUnite(int life, Point position, Player player){
+	public AbstractUnite(float life, Point position, Player player){
 		super();
 		this.life = life;
 		this.position = position;
@@ -19,20 +18,20 @@ public abstract class AbstractUnite implements Unite {
 	}
 	
 	//methods
-	public void loseLife(int lifeLose) {
+	public void loseLife(float lifeLose) {
 		this.life -= lifeLose;
 	}
 
-	public void addLife(int lifeAdd) {
+	public void addLife(float lifeAdd) {
 		this.life += lifeAdd;
 	}
 
 	// Getters/setters
-	public int getLife() {
+	public float getLife() {
 		return life;
 	}
 
-	public void setLife(int life) {
+	public void setLife(float life) {
 		this.life = life;
 	}
 	
@@ -66,11 +65,10 @@ public abstract class AbstractUnite implements Unite {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + life;
+		result = prime * result + (int)life;
 		result = prime * result + ((player == null) ? 0 : player.hashCode());
 		result = prime * result
 				+ ((position == null) ? 0 : position.hashCode());
-		result = prime * result + ((texture == null) ? 0 : texture.hashCode());
 		return result;
 	}
 
@@ -94,11 +92,6 @@ public abstract class AbstractUnite implements Unite {
 			if (other.position != null)
 				return false;
 		} else if (!position.equals(other.position))
-			return false;
-		if (texture == null) {
-			if (other.texture != null)
-				return false;
-		} else if (!texture.equals(other.texture))
 			return false;
 		return true;
 	}
