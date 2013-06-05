@@ -160,7 +160,6 @@ public class BottomBar extends JPanel{
 		speedBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.SPEED_UP);
-	        	System.out.println("base upgraded, agents from this base are faster");
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
@@ -168,7 +167,6 @@ public class BottomBar extends JPanel{
 		strengthBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.RESISTANCE);
-	        	System.out.println("base upgraded, agents of this base are more resistant to projectiles");
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
@@ -176,7 +174,6 @@ public class BottomBar extends JPanel{
 		regenBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.LIFE_UP);
-	        	System.out.println("base upgraded, agents of this base have more life");
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
@@ -184,7 +181,6 @@ public class BottomBar extends JPanel{
 		multBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.MULT);
-	        	System.out.println("base upgraded, multiplication of agents whent they die");
 	    		JavaWars.getDispatcher().addAction(myAction);
 	        }
 	    });
