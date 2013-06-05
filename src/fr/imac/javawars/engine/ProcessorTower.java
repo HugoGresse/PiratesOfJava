@@ -66,11 +66,14 @@ public class ProcessorTower {
 	private void checkAgentInRangeAndAttack(Tower t){
 		itPlayer = JavaWars.getEngine().getPlayers().entrySet().iterator();
 		
+
+		if(t instanceof TowerPoison || t instanceof TowerFreeze)
+			return;
+		
         while (itPlayer.hasNext()) {
                 entry = itPlayer.next();
                 //if the player is the same as the tower
-                //TODO : change sign
-                if(entry.getKey() != t.getPlayer().getPlayerNumber())
+                if(entry.getKey() == t.getPlayer().getPlayerNumber())
                 	continue;
                 
                 //run trough agents
@@ -84,6 +87,7 @@ public class ProcessorTower {
 					
 					//if(t.getAttackSpeed())
 					//	continue;
+					
 					
 					//we attack the agent !
 					t.attackAgent(agent);
