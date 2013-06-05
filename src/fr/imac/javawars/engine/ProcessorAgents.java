@@ -86,7 +86,11 @@ public class ProcessorAgents {
 				//if the agent is more fast (speed power), we call the function several times
 				for(int i =0; i < a.getSpeed(); ++i){
 					// we pass in the function updatePosition, warning to break at the end of the if to leave the for loop when the agent is arrived
+					
+					if( !a.isFreezeMove()) {
 					if(a.updatePosition()){ //a.updatePosition() makes the agent moved and returns true if the agent is arrived at destination
+						
+						if(a.isFreeze())a.setFreezeMove( true);
 						// We enter in this loop just when the agent is arrived to destination
 						
 						//once the agent is arrived to destination, we delete it
@@ -149,6 +153,12 @@ public class ProcessorAgents {
 						//warning, this break is essential to avoid to access the iterator which has been removed just before
 						break;
 					}//end if agent has moved
+					//if the agent didn't moove beacause he's freeze
+					} else {
+						System.out.println("change move freeze");
+						if(a.isFreeze())a.setFreezeMove(true);
+					}
+						
 				}
 				checkFreezeAndPoisonAttack(a);
 				precedentAgent = a;
@@ -171,16 +181,20 @@ public class ProcessorAgents {
 			Tower t = it.next();
 			
 			//if agent is in the area of the tower 
-			if((t.getPosition().distance(a.getPosition()) > t.getActionField()))
+			if((t.getPosition().distance(a.getPosition()) > t.getActionField())){
+				a.setFreeze(false);
 				continue;
+			}
+				
 			
 			//if agent and tower have the same player, return
 		    if(t.getPlayer().getPlayerNumber() == a.getPlayer().getPlayerNumber())
-		    	return;
+		    	continue;
 				
 			//freeze tower action
 			if(t.getClass() == TowerFreeze.class){
-				//TODO : reduce vitesse
+				System.out.println(a.isFreeze());
+				a.setFreeze(true);
 			}
 			
 			//poison tower action
