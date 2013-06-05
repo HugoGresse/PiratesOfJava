@@ -26,7 +26,6 @@ public class TowerBombe extends Tower{
 	 * @param player
 	 * 				player who own the tower
 	 */
-	
 	public TowerBombe(Point position, Player player) {
 		///// player, pos,      life, prix, actionField, strengh, attackspeed,  projectilespeed
 		super(player, position, 20,   4,    80,          15,       500,          2 );
