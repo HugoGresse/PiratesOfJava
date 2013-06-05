@@ -93,7 +93,7 @@ public class Ground {
 		// IF it is an image (gif or png)
 		if (ext[1].toString().equals("gif") || ext[1].toString().equals("png") ){
 			generateGroundByImg(file);
-			saveAsXML(bitMap, ext[0].toString());
+			//saveAsXML(bitMap, ext[0].toString());
 			// Generation Map with XML
 		} 
 		
