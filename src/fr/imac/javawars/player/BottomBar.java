@@ -90,7 +90,7 @@ public class BottomBar extends JPanel{
 	}
 	
 	/**
-	 * Filling JPanel wrapperButtons
+	 * Filling JPanel wrapperButtons (pause and accelerate)
 	 */
 	public void manageWrapperButtons(){
 		//put pause and speed buttons
