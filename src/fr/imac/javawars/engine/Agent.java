@@ -10,6 +10,8 @@ public class Agent extends AbstractUnite {
 	private Base baseStart;
 	private Base baseTarget;
 	private Power power;
+	private boolean isFreeze = false;
+	private boolean isFreezeMove = false;
 
 	//constructor
 	public Agent(float life, Point position, Player player, int speed, Base start, Base target, Power power) {
@@ -170,4 +172,22 @@ public class Agent extends AbstractUnite {
 	public Power getPower(){
 		return this.power;
 	}
+
+	public boolean isFreeze() {
+		return isFreeze;
+	}
+
+	public void setFreeze(boolean isFreeze) {
+		this.isFreeze = isFreeze;
+	}
+
+	public boolean isFreezeMove() {
+		return isFreezeMove;
+	}
+
+	public void setFreezeMove(boolean isFreezeMove) {
+		this.isFreezeMove = isFreezeMove;
+	}
+	
+	
 }
