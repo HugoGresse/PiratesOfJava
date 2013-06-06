@@ -111,9 +111,7 @@ public class IA extends Player implements Runnable{
 			createTowers(rnd);
 		else if (type>5 && type<8)
 			updateTower(rnd);
-		else
-			System.out.println("no action");
-
+		
 		beginTime = currentTime;
 	}
 	

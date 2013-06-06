@@ -87,6 +87,10 @@ public abstract class Player {
 		this.numberOfAgents = num;
 	}
 	
+	public void addMoney(int money){
+		this.money+=money;
+	}
+	
 	public abstract void update();
 	
 }

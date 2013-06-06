@@ -19,7 +19,8 @@ public abstract class AbstractUnite implements Unite {
 	
 	//methods
 	public void loseLife(float lifeLose) {
-		this.life -= lifeLose;
+		if (this.life>0)
+			this.life -= lifeLose;
 	}
 
 	public void addLife(float lifeAdd) {

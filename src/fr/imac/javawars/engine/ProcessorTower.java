@@ -120,10 +120,17 @@ public class ProcessorTower {
 			
 			//PROJECTILE ARRIVED !
 			projectile.impactAgentLife();
+
+			if (!projectile.getAgent().isInLife() )
+				tower.getPlayer().addMoney(1);
 			
-			//process end effect on projectil, if true, delet it
-			if(processProjectile(tower, projectile))
+			//process end effect on projectil, if true, delete it
+			if(processProjectile(tower, projectile)){
+				projectile = null;
 				itProj.remove();	
+			}
+			
+			
 			
 		}
 		

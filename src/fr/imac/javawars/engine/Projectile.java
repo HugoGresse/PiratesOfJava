@@ -104,6 +104,7 @@ public class Projectile {
 		}else{
 			this.getAgent().loseLife(this.getStrength());
 		}
+
 	}
 	
 	/**
