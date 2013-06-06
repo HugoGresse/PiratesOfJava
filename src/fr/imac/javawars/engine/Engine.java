@@ -15,14 +15,14 @@ import fr.imac.javawars.player.Player;
 /**
 	 * Variables
 	 * - Map
-	 * - Distances de dŽplacement
+	 * - Displacement distances
 	 * - Liste des tours
 	 * - Liste des bases
 	 * - Liste des joueurs
 	 * 
-	 * Class dans "Engine"
-	 * - Tours/Bases/Agents
-	 * - Information du joueur
+	 * Class in "Engine"
+	 * - Towers/Bases/Agents
+	 * - Player Information
 	 * 
 	 */
 
@@ -166,7 +166,6 @@ public class Engine  implements Runnable{
 		int sleepTime;
 		long beginTime;
 		long endTime;
-		final long FPS_TARGET = 1000/30;
 		
 		while(running){
 			try {
@@ -196,8 +195,8 @@ public class Engine  implements Runnable{
 				
 				endTime = System.currentTimeMillis() - beginTime;
 				//display fps if too bad
-				if(endTime > FPS_TARGET) System.out.println("fps (ms) : "+ endTime);
-				sleepTime = (int) (FPS_TARGET - endTime);
+				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ endTime);
+				sleepTime = (int) (fpsTarget - endTime);
 				
 				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
 				
@@ -219,8 +218,17 @@ public class Engine  implements Runnable{
 	
 	/**
 	 *	Initialize the game, the ground, towers and bases
+	 *
+	 *@param p1, p2, p3, p4
+	 *		players present on the map, one human, three IA
+	 *	
+	 *@param random
+	 *		true if the map is generated randomly
+	 *
+	 *@param file
+	 *		file representing the map
 	 */
-	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4,boolean random, File file){
+	public void initializationOfTheGame(Player p1, Player p2, Player p3, Player p4, boolean random, File file){
 		initializationOfPlayers(p1,p2,p3,p4);
 
 		//initialization of the ground
@@ -254,17 +262,21 @@ public class Engine  implements Runnable{
 	
 	/**
 	 * Initialize the player to save it and to start thread
-	 * Should be call in JavaWars after the dispatcher init
+	 * Should be call in JavaWars after the dispatcher initialisation
+	 * 
 	 * @param p1
+	 * 		first player
 	 * @param p2
+	 * 		second player 
 	 * @param p3
+	 * 		third player
 	 * @param p4
+	 * 		fourth player
 	 */
 	public void initializationOfPlayers(Player p1, Player p2, Player p3, Player p4){
 		playersData = new Hashtable<Integer, Player>();
 		
 		// add the players in a map 
-		// TODO replace map by an arraylist
 		playersData.put(p1.getPlayerNumber(), p1);
 		playersData.put(p2.getPlayerNumber(), p2);
 		playersData.put(p3.getPlayerNumber(), p3);
@@ -350,7 +362,7 @@ public class Engine  implements Runnable{
 	}
 	
 	/**
-	 *	End of game
+	 *	Manage the end of the game
 	 */
 	public void checkEndGame(){
 		boolean stillAgents = false;

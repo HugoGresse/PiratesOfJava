@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import fr.imac.javawars.JavaWars;
@@ -144,9 +146,8 @@ public class Menu extends JPanel {
 		JButton boutonRandom = new JButton("");
 		randomChoice.setLayout(null);
 		boutonRandom.setBounds(100,60,150,50);
+		boutonRandom.setContentAreaFilled(false);
 		boutonRandom.setBorderPainted(false);
-		boutonRandom.setBackground(new Color(148,20,20));
-		boutonRandom.setForeground(Color.black);
 		randomChoice.add(boutonRandom);
 
 		//addingListener to begin game
@@ -167,18 +168,27 @@ public class Menu extends JPanel {
 		//file choice
 		fileChoice.setLayout(null);
 		
+		final JTextArea errors = new JTextArea();
+		errors.setBounds(300,100,150,50);
+		errors.setOpaque(true);
+		errors.setMargin(new Insets(10,10,10,10));
+		errors.setLineWrap(true);
+		errors.setWrapStyleWord(true);
+		errors.setBackground(Color.white);
+		errors.setVisible(false);
+		fileChoice.add(errors);
+		
 		JButton open = new JButton("");
+		open.setContentAreaFilled(false);
 		open.setBorderPainted(false);
-		open.setBackground(Color.white);
-		open.setBounds(150,40,150,100);
+		open.setBounds(115,48,250,44);
 		final JFileChooser fc = new JFileChooser();
 		fileChoice.add(open);
 		
 		JButton boutonFile = new JButton("");
+		boutonFile.setContentAreaFilled(false);
 		boutonFile.setBorderPainted(false);
-		boutonFile.setBackground(new Color(148,20,20));
-		boutonFile.setForeground(Color.black);
-		boutonFile.setBounds(160,90,150,50);
+		boutonFile.setBounds(160,100,150,50);
 		fileChoice.add(boutonFile);
 		
 		open.addActionListener(new ActionListener() {
@@ -191,10 +201,27 @@ public class Menu extends JPanel {
 		//when the play bouton is clicked
 		boutonFile.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	JavaWars.getEngine().initializationOfTheGame(JavaWars.getHuman(),new IA(2, "IA 1") , new IA(3, "IA 2") ,new IA(4, "IA 3") ,false,map);
-	        	JavaWars.getHuman().getIhm().CreatePanel();
-	        	JavaWars.getEngine().startThread();
-        		JavaWars.getEngine().startThreadIA();
+	        	//if player has chosen a map
+	        	if(map!=null){
+	        		String nameMap = map.getName();
+	        		String[] ext = nameMap.split("\\.");
+	        		
+	        		//if the file has the correct file type
+	        		if(ext[1].toString().equals("gif") || ext[1].toString().equals("png") || ext[1].toString().equals("xml")){
+	        			JavaWars.getEngine().initializationOfTheGame(JavaWars.getHuman(),new IA(2, "IA 1") , new IA(3, "IA 2") ,new IA(4, "IA 3") ,false,map);
+			        	JavaWars.getHuman().getIhm().CreatePanel();
+			        	JavaWars.getEngine().startThread();
+		        		JavaWars.getEngine().startThreadIA();
+	        		}
+	        		else{
+	        			errors.setVisible(true);
+	        			errors.setText("Le fichier n'a pas la bonne extension");
+	        		}
+	        	}
+	        	else{
+	        		errors.setVisible(true);
+	        		errors.setText("Vous devez choisir un fichier");
+	        	}
 	        }
 	    });
 	}

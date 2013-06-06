@@ -159,8 +159,7 @@ public class ProcessorAgents {
 						//warning, this break is essential to avoid to access the iterator which has been removed just before
 						break;
 					}//end if agent has moved
-					
-						
+
 				}
 				checkFreezeAndPoisonAttack(a);
 				precedentAgent = a;
@@ -191,10 +190,6 @@ public class ProcessorAgents {
 				continue;
 			}
 				
-			
-			
-				
-			
 			//if agent and tower have the same player, quit this iteration
 		    if(t.getPlayer().getPlayerNumber() == a.getPlayer().getPlayerNumber())
 		    	continue;

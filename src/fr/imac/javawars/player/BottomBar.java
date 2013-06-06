@@ -90,7 +90,7 @@ public class BottomBar extends JPanel{
 	}
 	
 	/**
-	 * Filling JPanel wrapperButtons
+	 * Filling JPanel wrapperButtons (pause and accelerate)
 	 */
 	public void manageWrapperButtons(){
 		//put pause and speed buttons
@@ -130,7 +130,7 @@ public class BottomBar extends JPanel{
 	}
 	
 	/**
-	 * Filling JPanel baseInfos
+	 * Filling JPanel baseInfos(adding Listeners, buttons etc)
 	 */
 	public void manageBaseInfos(){
 		baseRegenSpeed.setBorder(new TitledBorder("Vitesse régénération "));
@@ -153,45 +153,67 @@ public class BottomBar extends JPanel{
 		//add listeners on buttons
 		upRegenSpeed.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	//code goes here
+	        	if(currentBase.getUpgrades()<5){
+		    		ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.NORMAL);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("Vous ne pouvez plus augmenter la vitesse de régénération de la base");
+	        	}
 	        }
 	    });
 		
 		speedBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.SPEED_UP);
-	        	System.out.println("base upgraded, agents from this base are faster");
-	    		JavaWars.getDispatcher().addAction(myAction);
+	        	if(currentBase.getPower() == Power.NORMAL){
+		        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.SPEED_UP);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("La base possède déjà un pouvoir");
+	        	}
 	        }
 	    });
 		
 		strengthBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.RESISTANCE);
-	        	System.out.println("base upgraded, agents of this base are more resistant to projectiles");
-	    		JavaWars.getDispatcher().addAction(myAction);
+	        	if(currentBase.getPower() == Power.NORMAL){
+		        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.RESISTANCE);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("La base possède déjà un pouvoir");
+	        	}
 	        }
 	    });
 		
 		regenBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.LIFE_UP);
-	        	System.out.println("base upgraded, agents of this base have more life");
-	    		JavaWars.getDispatcher().addAction(myAction);
+	        	if(currentBase.getPower() == Power.NORMAL){
+		        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.LIFE_UP);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("La base possède déjà un pouvoir");
+	        	}
 	        }
 	    });
 		
 		multBase.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.MULT);
-	        	System.out.println("base upgraded, multiplication of agents whent they die");
-	    		JavaWars.getDispatcher().addAction(myAction);
+	        	if(currentBase.getPower() == Power.NORMAL){
+		        	ActionBaseUpgrade myAction = new ActionBaseUpgrade(JavaWars.getHuman(), currentBase, Power.MULT);
+		    		JavaWars.getDispatcher().addAction(myAction);
+	        	}
+	        	else{
+	        		dialogue.setText("La base possède déjà un pouvoir");
+	        	}
 	        }
 	    });
 	}
 	
 	/**
-	 * Filling JPanel towerInfos
+	 * Filling JPanel towerInfos (adding Listeners, buttons etc)
 	 */
 	public void manageTowerInfos(){
 		//upgrades buttons/labels

@@ -183,17 +183,23 @@ public class ProcessorAction {
 		}
 		
 		switch (action.getPower()){
-			case NORMAL : action.getBase().setPower(Power.NORMAL);
+			//speed regeneration upgrade
+			case NORMAL : action.getBase().setSpeedRegeneration((int)action.getBase().getSpeedRegeneration() - 100);
+			  			  action.getBase().setUpgrades(action.getBase().getUpgrades() + 1);
 				break;
 			case MULT : action.getBase().setPower(Power.MULT);
+        		System.out.println("base upgraded, agents from this base will multiply when they die");
 				break;
 			case SPEED_UP : action.getBase().setPower(Power.SPEED_UP);
+        		System.out.println("base upgraded, agents from this base are faster");
 				break;
 			case LIFE_UP : action.getBase().setPower(Power.LIFE_UP);
+        		System.out.println("base upgraded, agents from this base have more life");
 				break;
 			case RESISTANCE : action.getBase().setPower(Power.RESISTANCE);
+        		System.out.println("base upgraded, agents from this base are more resistant");
 				break;
-			default:
+			default:  
 				break;			
 		}
 		

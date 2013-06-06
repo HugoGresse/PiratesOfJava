@@ -7,12 +7,15 @@ import fr.imac.javawars.player.Player;
 public class ActionBaseUpgrade extends ActionBase{
 	private Power power;
 	private int price;
+	
 
 	public ActionBaseUpgrade(Player player, Base base, Power power) {
 		super(player, base);
 		this.power = power;
+
 		switch (power){
-			case NORMAL : this.price = 0;
+			// speed regeneration upgrade
+			case NORMAL : this.price = 4;
 				break;
 			case MULT : this.price = 10;
 				break;
@@ -22,7 +25,8 @@ public class ActionBaseUpgrade extends ActionBase{
 				break;
 			case RESISTANCE : this.price = 5;
 				break;
-			default:
+			
+			default: 
 				break;			
 		}
 	}

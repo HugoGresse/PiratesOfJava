@@ -658,7 +658,6 @@ public class Ground {
 		this.centerBases = centerBases;
 	}
 
-	//test arthur
 	public int getNumberOfPlayers() {
 		return this.numberOfPlayers;
 	}
@@ -670,22 +669,5 @@ public class Ground {
 	public static int getWinWidth() {
 		return WIN_WIDTH;
 	}
-	
-	 /**
-		 * @param args
-		 */
-		/*public static void main(String[] args) {
 			
-			// Test Ramdon Map
-				Map myMap = new Map();
-			// Test Map with file
-				// Map myMap = new Map("map/mapTest_3.gif");
-			
-				myMap.printMap();
-			
-		}*/
-	 
-	 
-		
-
 }

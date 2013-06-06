@@ -12,30 +12,27 @@ import fr.imac.javawars.player.Player;
  */
 
 public class Base extends AbstractTowerBase {
-	/**
-	 * Capacity of the Base, not used
-	 */
-	private int capacity;
-	
+
 	/**
 	 * Speed regen is the time in ms when we add life to the base
 	 */
 	private double speedRegeneration;
 	
 	/**
-	 * The last time in ms when we add life to the tower
+	 * The last time in ms when we add life to the base
 	 */
 	private double lastTimeAddLife = 0;
 	
 	/**
-	 * The towers associated to the base
+	 * List of the towers associated to the base
 	 */
 	private LinkedList<Tower> towers;
-	/**
-	 * the special power of the base
-	 */
-	private Power power;
 	
+	/** number of times the base has been upgraded (speedRegeneration, not power) **/
+	private int upgrades = 0;
+	
+	/** the special power of the base */
+	private Power power;
 	public enum Power{
 		NORMAL,
 		MULT,
@@ -44,25 +41,40 @@ public class Base extends AbstractTowerBase {
 		RESISTANCE;
 	}
 
-	/* table containing distances of the base
- 	imagine a map of boxes but here stocked in a tab 1d
- 	every element represents the distance of the box to the base */
+	/**
+	 * a map of boxes but here stocked in a tab 1d
+	 * every element represents the distance of the box to the base 
+	 */
 	private int[] distanceMap;
 	
 	/**
-	 * Rayon de la base
+	 * Radius of the base
 	 */
 	private int radius;
 	
 
 	
-	// CONSTRUCTORS
-
-	public Base(int life, Point position,Player player, double actionField, int capacity, double speedRegeneration, int radius) {
+	/**
+	 * Constructor of Base
+	 * 
+	 * @param life
+	 * 		number of agents present at the beginning
+	 * @param position
+	 * 		position of the center of the base on the map
+	 * @param player
+	 * 		player who owns the base
+	 * @param actionField
+	 * 		area owns by the base where the player can build towers
+	 * @param capacity
+	 * 		
+	 * @param speedRegeneration
+	 * 		speed with which a base wins an agent
+	 * @param radius
+	 * 		the radius of the base which is represented by a circle
+	 */
+	public Base(int life, Point position,Player player, double actionField, double speedRegeneration, int radius) {
 		super(life, position, player, actionField);
-		this.capacity = capacity;
 		this.speedRegeneration = speedRegeneration;
-		//this.towers = new LinkedList<Tower>();
 		this.power = Power.NORMAL;
 		this.radius = radius;
 		
@@ -72,25 +84,24 @@ public class Base extends AbstractTowerBase {
 	
 	//this constructor is used to generate Bases Neutral from the map
 	public Base(int life, Point position, double speedRegeneration,  int radius){
-		// by default capacity of 50 agents ?
-		this(life, position, null, 0.0, 50, speedRegeneration, radius);
+		this(life, position, null, 0.0, speedRegeneration, radius);
 	}
 	
 	//this constructor is used to generate Bases Player from the map
 	public Base(Point point, Player player, double speedRegeneration, int radius){
-		this(50, point, player, 0.0, 50, speedRegeneration, radius);
+		this(50, point, player, 0.0, speedRegeneration, radius);
 	}
 
 	public Base(Point position, Player player, int radius){
-		this(50, position, player, 0.0, 50, 1, radius);
+		this(50, position, player, 0.0, 1, radius);
 	}
 	
 	public Base(Point position){
-		this(50, position, null, 0.0, 50, 1, 10);
+		this(50, position, null, 0.0, 1, 10);
 	}
 	
 	public Base(){
-		this(0, null, null, 0, 0, 0, 0);
+		this(0, null, null, 0, 0, 0);
 	}
 	
 	
@@ -105,8 +116,8 @@ public class Base extends AbstractTowerBase {
 	 * 
 	 * @see Base#distanceMap
 	 */
-	/*WARNING : bitMap[indexOfTheLine][indexOfTheColumn] = distanceMap[indexOfTheColumn + indexOfTheLine * width]*/
-	/*WARNING : at the moment a base placed in (1,2) means she is in the first column and second line*/
+	/*INDICATION : bitMap[indexOfTheLine][indexOfTheColumn] = distanceMap[indexOfTheColumn + indexOfTheLine * width]*/
+	//A base placed in (1,2) means she is in the first column and second line
 	// in bitMap[i][j], i represents the number of lines, j the number of columns
 	public void initializeDistanceMap(int[][] bitMap){
 		if(bitMap.length <= 0){
@@ -255,36 +266,8 @@ public class Base extends AbstractTowerBase {
 		
 		return true;
 	}
-	
-	public void increaseCapacity(){
-		// A REMPLIR
-	}
-	
-	public void sendAgents(){
-		// A REMPLIR
-	}
-	
-	public void receiveAgents(){
-		// A REMPLIR
-	}
-	
-	/*public void addTower(Tower t){
-		towers.add(t);
-	}
-	
-	public void deleteTower(Tower t){
-		// A REMPLIR
-	}*/
-	
-	//GETTERS-SETTERS
-	public int getCapacity() {
-		return capacity;
-	}
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-
+	//getters and setters
 	public double getSpeedRegeneration() {
 		return speedRegeneration;
 	}
@@ -292,14 +275,6 @@ public class Base extends AbstractTowerBase {
 	public void setSpeedRegeneration(int speedRegeneration) {
 		this.speedRegeneration = speedRegeneration;
 	}
-
-	/*public LinkedList<Tower> getTowers() {
-		return towers;
-	}
-
-	public void setTowers(LinkedList<Tower> towers) {
-		this.towers = towers;
-	}*/
 
 	public Power getPower() {
 		return power;
@@ -313,6 +288,13 @@ public class Base extends AbstractTowerBase {
 		return this.radius;
 	}
 	
+	public int getUpgrades(){
+		return upgrades;
+	}
+	
+	public void setUpgrades(int num){
+		this.upgrades = num;
+	}
 
 	public int[] getDistanceMap() {
 		return distanceMap;
@@ -322,7 +304,6 @@ public class Base extends AbstractTowerBase {
 		this.distanceMap = distanceMap;
 	}
 
-	
 	public LinkedList<Tower> getTowers() {
 		return towers;
 	}
@@ -331,7 +312,6 @@ public class Base extends AbstractTowerBase {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + capacity;
 		result = prime * result + Arrays.hashCode(distanceMap);
 		long temp;
 		temp = Double.doubleToLongBits(lastTimeAddLife);
@@ -353,8 +333,6 @@ public class Base extends AbstractTowerBase {
 		if (!(obj instanceof Base))
 			return false;
 		Base other = (Base) obj;
-		if (capacity != other.capacity)
-			return false;
 		if (!Arrays.equals(distanceMap, other.distanceMap))
 			return false;
 		if (Double.doubleToLongBits(lastTimeAddLife) != Double
@@ -386,7 +364,7 @@ public class Base extends AbstractTowerBase {
 	 * 		the name we want to give to our file
 	 */
 	//used for debug
-	private void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
+	public void writeInXMLInfluenceMap(int[][] bitMap, int[] distanceMap, String nameFile){
 		int[][] bitMapInfluenceArea = bitMap;
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){
