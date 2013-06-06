@@ -121,8 +121,10 @@ public class ProcessorTower {
 			//PROJECTILE ARRIVED !
 			projectile.impactAgentLife();
 
-			if (!projectile.getAgent().isInLife() )
+			if (!projectile.getAgent().isInLife() && !projectile.getAgent().isDead()) {
 				tower.getPlayer().addMoney(1);
+				projectile.getAgent().setDead(true);
+			}
 			
 			//process end effect on projectil, if true, delete it
 			if(processProjectile(tower, projectile)){
