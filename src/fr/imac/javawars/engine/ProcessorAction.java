@@ -183,7 +183,9 @@ public class ProcessorAction {
 		}
 		
 		switch (action.getPower()){
-			case NORMAL : action.getBase().setPower(Power.NORMAL);
+			//speed regeneration upgrade
+			case NORMAL : action.getBase().setSpeedRegeneration((int)action.getBase().getSpeedRegeneration() - 100);
+			  			  action.getBase().setUpgrades(action.getBase().getUpgrades() + 1);
 				break;
 			case MULT : action.getBase().setPower(Power.MULT);
 				break;
@@ -193,7 +195,7 @@ public class ProcessorAction {
 				break;
 			case RESISTANCE : action.getBase().setPower(Power.RESISTANCE);
 				break;
-			default:
+			default:  
 				break;			
 		}
 		

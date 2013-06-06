@@ -31,11 +31,12 @@ public class Base extends AbstractTowerBase {
 	 * The towers associated to the base
 	 */
 	private LinkedList<Tower> towers;
-	/**
-	 * the special power of the base
-	 */
-	private Power power;
 	
+	/** number of times the base has been upgraded (speedRegeneration, not power) **/
+	private int upgrades = 0;
+	
+	/** the special power of the base */
+	private Power power;
 	public enum Power{
 		NORMAL,
 		MULT,
@@ -256,25 +257,6 @@ public class Base extends AbstractTowerBase {
 		return true;
 	}
 	
-	public void increaseCapacity(){
-		// A REMPLIR
-	}
-	
-	public void sendAgents(){
-		// A REMPLIR
-	}
-	
-	public void receiveAgents(){
-		// A REMPLIR
-	}
-	
-	/*public void addTower(Tower t){
-		towers.add(t);
-	}
-	
-	public void deleteTower(Tower t){
-		// A REMPLIR
-	}*/
 	
 	//GETTERS-SETTERS
 	public int getCapacity() {
@@ -293,14 +275,6 @@ public class Base extends AbstractTowerBase {
 		this.speedRegeneration = speedRegeneration;
 	}
 
-	/*public LinkedList<Tower> getTowers() {
-		return towers;
-	}
-
-	public void setTowers(LinkedList<Tower> towers) {
-		this.towers = towers;
-	}*/
-
 	public Power getPower() {
 		return power;
 	}
@@ -313,7 +287,14 @@ public class Base extends AbstractTowerBase {
 		return this.radius;
 	}
 	
-
+	public int getUpgrades(){
+		return upgrades;
+	}
+	
+	public void setUpgrades(int num){
+		this.upgrades = num;
+	}
+	
 	public int[] getDistanceMap() {
 		return distanceMap;
 	}
