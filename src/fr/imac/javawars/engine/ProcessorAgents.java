@@ -159,7 +159,6 @@ public class ProcessorAgents {
 						System.out.println("change move freeze");
 						if(a.isFreeze())a.setFreezeMove(false);
 					}
-						
 				}
 				checkFreezeAndPoisonAttack(a);
 				precedentAgent = a;
@@ -190,10 +189,6 @@ public class ProcessorAgents {
 				continue;
 			}
 				
-			
-			
-				
-			
 			//if agent and tower have the same player, quit this iteration
 		    if(t.getPlayer().getPlayerNumber() == a.getPlayer().getPlayerNumber())
 		    	continue;

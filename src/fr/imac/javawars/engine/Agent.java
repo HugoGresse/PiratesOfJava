@@ -5,15 +5,53 @@ import java.awt.Point;
 import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.player.Player;
 
+/**
+ * class representing an agent, a soldier
+ * He owns a speed, a base of start and of arrival and a power
+ * 
+ * @author TOURNERET
+ *
+ */
+
 public class Agent extends AbstractUnite {
+	/**
+	 * speed of the agent, 2 for normal speed
+	 */
 	private int speed;
-	private Base baseStart;
-	private Base baseTarget;
-	private Power power;
+	/**
+	 * base left by the agent
+	 */
+	private final Base baseStart;
+	/**
+	 * base target of the agent
+	 */
+	private final Base baseTarget;
+	/**
+	 * bonus of the agent 
+	 * @see Base#Power
+	 */
+	private final Power power;
 	private boolean isFreeze = false;
 	private boolean isFreezeMove = false;
 
-	//constructor
+	/**
+	 * Constructor Agent
+	 * 
+	 * @param life
+	 * 		points of life of the agent
+	 * @param position
+	 * 		position of the agent
+	 * @param player
+	 * 		player who owns the agent
+	 * @param speed
+	 * 		speed of displacement of the agent
+	 * @param start
+	 * 		base of start of the agent
+	 * @param target
+	 * 		base target of the agent
+	 * @param power
+	 * 		power owns by the agent
+	 */
 	public Agent(float life, Point position, Player player, int speed, Base start, Base target, Power power) {
 		super(life, position, player);
 		this.speed = speed;
@@ -30,6 +68,14 @@ public class Agent extends AbstractUnite {
 		}
 	}
 	
+	/**
+	 * Constructor Agent
+	 * 
+	 * @param position
+	 * 		position of the agent
+	 * @param player
+	 * 		player who owns the agent
+	 */
 	public Agent(Point position, Player player){
 		this(100, position, player, 1, null, null, Power.NORMAL);
 	}
@@ -87,14 +133,6 @@ public class Agent extends AbstractUnite {
 		}
 	}
 	
-	/*public void moveToAnotherBase(Base baseStart, Base baseTarget, int nbAgentsMoving){
-		baseStart.nbAgents -= 1;
-		changePosition();
-		if(agent.position == baseTarget.position){
-			baseTarget.nbAgents +=1
-		}
-	}*/
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -131,7 +169,7 @@ public class Agent extends AbstractUnite {
 		return true;
 	}
 
-	//getters/setters
+	//getters and setters
 	public int getSpeed() {
 		return speed;
 	}
@@ -144,28 +182,20 @@ public class Agent extends AbstractUnite {
 		return baseStart;
 	}
 
-	public void setBaseStart(Base baseStart) {
-		this.baseStart = baseStart;
-	}
-
 	public Base getBaseTarget() {
 		return baseTarget;
 	}
 
-	public void setBaseTarget(Base baseTarget) {
-		this.baseTarget = baseTarget;
-	}
-	
 	/**
-	 * Remove the strenght from agent after applied Power
-	 * @param strenght the strenght you want the agent to lose
+	 * Remove the strength from agent after applied Power
+	 * @param strenght the strength you want the agent to lose
 	 */
 	@Override
-	public void loseLife(float strenght) {
-		if(this.getBaseStart().getPower() == Power.RESISTANCE){
-			super.loseLife(strenght/2);
+	public void loseLife(float strength) {
+		if(this.getPower() == Power.RESISTANCE){
+			super.loseLife(strength/2);
 		}else{
-			super.loseLife(strenght);
+			super.loseLife(strength);
 		}
 	}
 	

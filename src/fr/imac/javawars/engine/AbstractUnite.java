@@ -4,12 +4,35 @@ import java.awt.Point;
 
 import fr.imac.javawars.player.Player;
 
+/**
+ * Abstract class representing the caracteristics of a unit
+ * A unit has life, a position and a player who owns it
+ *
+ */
 public abstract class AbstractUnite implements Unite {
+	/**
+	 * life of the unit
+	 */
 	float life;
+	/**
+	 * position on the map of the unit
+	 */
 	Point position;
+	/**
+	 * player who owns the unit
+	 */
 	Player player;
 	
-	//constructor
+	/**
+	 * Constructor
+	 * 
+	 * @param life
+	 * 		life of the unit
+	 * @param position
+	 * 		position of the unit
+	 * @param player
+	 * 		player who owns the unit
+	 */
 	public AbstractUnite(float life, Point position, Player player){
 		super();
 		this.life = life;
@@ -18,10 +41,22 @@ public abstract class AbstractUnite implements Unite {
 	}
 	
 	//methods
+	/**
+	 * Removed life
+	 * 
+	 * @param lifeLose
+	 * 		life removed
+	 */
 	public void loseLife(float lifeLose) {
 		this.life -= lifeLose;
 	}
 
+	/**
+	 * Add life
+	 * 
+	 * @param lifeAdd
+	 * 		life added
+	 */
 	public void addLife(float lifeAdd) {
 		this.life += lifeAdd;
 	}
@@ -36,7 +71,7 @@ public abstract class AbstractUnite implements Unite {
 	}
 	
 	/**
-	 * Check if the life of unite
+	 * Check if the unit is alive
 	 */
 	public boolean isInLife(){
 		if(this.life <= 0)

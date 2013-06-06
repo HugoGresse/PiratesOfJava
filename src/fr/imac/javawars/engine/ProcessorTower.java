@@ -93,18 +93,18 @@ public class ProcessorTower {
 					t.attackAgent(agent);
 					
 					
-				} // end whilte agents  
+				} // end while agents  
         }
 	}
 	
 	/**
-	 * Process projectiles (moove it, delet it, etc)
+	 * Process projectiles (move it, delete it, etc)
 	 * @param tower
 	 * 				the tower who should have projectiles
 	 */
 	private void processProjectile(Tower tower){
 		// ======= PROJECTILE
-		//if the tower have projectiles : mooves them
+		//if the tower have projectiles : moves them
 		Iterator<Map.Entry<Integer, Projectile>> itProj = tower.getProjectiles().entrySet().iterator();
 		Projectile projectile;
 		
@@ -121,7 +121,7 @@ public class ProcessorTower {
 			//PROJECTILE ARRIVED !
 			projectile.impactAgentLife();
 			
-			//process end effect on projectil, if true, delet it
+			//process end effect on projectil, if true, delete it
 			if(processProjectile(tower, projectile))
 				itProj.remove();	
 			

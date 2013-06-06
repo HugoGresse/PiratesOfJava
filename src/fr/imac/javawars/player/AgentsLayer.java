@@ -74,7 +74,7 @@ public class AgentsLayer extends JPanel {
 	
 	
 	/**
-	 * Draw the new stuff on a buffered image insteed of the default graphics
+	 * Draw the new stuff on a buffered image instead of the default graphics
 	 */
 	public void drawBufferedImage(){
 		
@@ -143,6 +143,16 @@ public class AgentsLayer extends JPanel {
 
 	}
 	
+	/**
+	 * Add the action which asks to create and send an agent to the dispatcher
+	 * 
+	 * @param player
+	 * 		the player which makes the action
+	 * @param start
+	 * 		the base of start of the agent
+	 * @param target
+	 * 		the base of arrival of the agent
+	 */
 	public void createAndSendAgent(Player player, Base start, Base target){	
 		ActionAgentSend myAction = new ActionAgentSend(player, start, target);
 		JavaWars.getDispatcher().addAction(myAction);
