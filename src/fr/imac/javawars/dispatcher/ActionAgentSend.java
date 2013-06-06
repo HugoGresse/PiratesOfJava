@@ -22,7 +22,9 @@ public class ActionAgentSend extends ActionAgent{
 	 * Create an action creating an agent and sending him to a base
 	 * @param player
 	 * 				The player who owns the agent
-	 * @param baseTarget
+	 * @param start
+	 * 				the start base, required to access to the distance map of the base
+	 * @param target
 	 * 				the target base, required to access to the distance map of the base
 	 */
 	public ActionAgentSend(Player player, Base start, Base target) {

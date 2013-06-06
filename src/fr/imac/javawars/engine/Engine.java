@@ -136,7 +136,8 @@ public class Engine  implements Runnable{
 	
 	/**
 	 * remove a tower
-	 * @param tower to remove
+	 * @param t
+	 * 			Tower to remove
 	 */
 	public void removeTower(Tower t){
 		Iterator<Tower> it = towers.iterator();

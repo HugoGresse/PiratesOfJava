@@ -57,11 +57,12 @@ public class ListenersLayer extends JPanel{
 		});
 	}
 	
+
 	/**
 	 * Manage bases listener
 	 * @param e
 	 * 				mouseEvent, useful for the coord
-	 * @param towers
+	 * @param bases
 	 * 				list of the engine bases
 	 * @param human
 	 * 				player who has the IHM

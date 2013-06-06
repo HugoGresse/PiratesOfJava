@@ -26,12 +26,14 @@ public class Projectile {
 	
 	private static int numPro = 0;
 	
+
 	/**
 	 * Create a projectile.
-	 * 
+	 * @param t
+	 * 				The tower who send the projectile
 	 * @param origin
 	 * 				THe first position of the projectile, should be the tower
-	 * @param targetTest
+	 * @param target
 	 * 				THe point the projectile should go
 	 */
 	public Projectile(Tower t, Point origin, Agent target){
@@ -96,7 +98,7 @@ public class Projectile {
 	
 	/**
 	 * Remove the projectile strength from agent after applied Power
-	 * @param projectile
+	 * 
 	 */
 	public void impactAgentLife() {
 			this.getAgent().loseLife(this.getStrength());

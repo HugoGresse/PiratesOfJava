@@ -267,7 +267,7 @@ public class IA extends Player implements Runnable{
 	/**
 	 * Create a list of Tower belong to current AI player
 	 * @param playerNumber
-	 * @return
+	 * @return LinkedList<Tower>
 	 */
 	private LinkedList<Tower> towersCurrentPlayer(int playerNumber){
 		LinkedList<Tower> towersCurrentPlayer = new LinkedList<Tower>();

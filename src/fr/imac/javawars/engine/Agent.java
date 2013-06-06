@@ -189,7 +189,8 @@ public class Agent extends AbstractUnite {
 
 	/**
 	 * Remove the strength from agent after applied Power
-	 * @param strenght the strength you want the agent to lose
+	 * @param strenght
+	 * 			the strength you want the agent to lose
 	 */
 	@Override
 	public void loseLife(float strength) {
