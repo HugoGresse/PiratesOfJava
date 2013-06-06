@@ -5,7 +5,7 @@ import java.awt.Point;
 import fr.imac.javawars.engine.Base.Power;
 
 /**
- * A projectile is the weapons launch by a tower
+ * A projectile is the weapon launch by a tower
  * 
  * @author Hugo
  *
@@ -19,7 +19,7 @@ public class Projectile {
 	//int for any effect
 	private int optionInt;
 	
-	//Variable used to calculate positon
+	//Variables used to calculate the position
 	private double a;
 	private double b;
 	private int direction;
@@ -95,15 +95,11 @@ public class Projectile {
 	}
 	
 	/**
-	 * Remove the projectile strengh from agent after applied Power
+	 * Remove the projectile strength from agent after applied Power
 	 * @param projectile
 	 */
 	public void impactAgentLife() {
-		if(this.getAgent().getBaseStart().getPower() == Power.RESISTANCE){
 			this.getAgent().loseLife(this.getStrength());
-		}else{
-			this.getAgent().loseLife(this.getStrength());
-		}
 	}
 	
 	/**

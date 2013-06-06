@@ -55,6 +55,12 @@ public class BasesManager {
 		this.influenceJ4 = new ArrayList<Point>();
 	}
 	
+	/**
+	 * Initialize the area of influence of the map
+	 * 
+	 * @param bitMap
+	 * 		tab 2d representing the map
+	 */
 	public void initialiseInfluenceAreaMap(int[][] bitMap) {
 		if(bitMap.length <= 0){
 			System.out.println("problem with the bitmap in initializeInfluenceAreaOfBases");
@@ -197,7 +203,7 @@ public class BasesManager {
 	}
 
 	/**
-	 * Returns the map of area influence of bases
+	 * Returns the map of area influence of bases under a tab 1d
 	 * 
 	 * @return 
 	 * 		the map of area influence of bases
@@ -206,6 +212,11 @@ public class BasesManager {
 		return influenceAreaMap;
 	}
 	
+	/**
+	 * Returns the map of area influence of bases under a tab 2d form
+	 * @return
+	 * 		the map of area influence of bases
+	 */
 	public int[][] getInfluenceAreaBitMap() {
 		int[][] bitMapInfluenceArea = new int[Ground.getWinHeight()][Ground.getWinWidth()];
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
@@ -216,6 +227,16 @@ public class BasesManager {
 		return bitMapInfluenceArea;
 	}
 	
+	/**
+	 * Returns the value contains in the bitMap 2d in box (x,y)
+	 * 
+	 * @param x
+	 * 		abscissa
+	 * @param y
+	 * 		ordered
+	 * @return
+	 * 		the value of the box(x,y)
+	 */
 	public int getPositionInfluenceArea(int x, int y){
 		int bitMap[][] = this.getInfluenceAreaBitMap();
 		return bitMap[x][y];
@@ -232,7 +253,7 @@ public class BasesManager {
 	 * 		the name we want to give to our file
 	 */
 	//used for debug
-	private void writeInXMLInfluenceMap(int[][] bitMap, int[] influenceAreaMap, String nameFile){
+	public void writeInXMLInfluenceMap(int[][] bitMap, int[] influenceAreaMap, String nameFile){
 		int[][] bitMapInfluenceArea = bitMap;
 		for(int i = 0; i < bitMapInfluenceArea.length; ++i){
 			for(int j = 0; j < bitMapInfluenceArea[0].length; ++j){

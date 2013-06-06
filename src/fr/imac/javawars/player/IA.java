@@ -206,7 +206,7 @@ public class IA extends Player implements Runnable{
 		Base baseTarget = getRndBase(playerNumber, rnd);
 		
 		// For send several agent
-		int numAgentSend = rnd.nextInt(base.getCapacity()/2)+1;
+		int numAgentSend = rnd.nextInt((int) (base.getLife()/2))+1;
 		for(int i = 0; i< numAgentSend; ++i) {
 			ActionAgentSend myAction = new ActionAgentSend( base.getPlayer(), base, baseTarget);
 			JavaWars.getDispatcher().addAction(myAction);
