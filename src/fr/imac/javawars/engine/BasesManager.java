@@ -195,7 +195,7 @@ public class BasesManager {
 			}
 			testNotToManyLoop++;
 			if(testNotToManyLoop >= 2073600)
-				System.out.println("boucle infinie dans determineInfluenceBase");
+				System.out.println("infinite loop in determineInfluenceBase");
 		}
 		//System.out.println("determine influence of bases finished !");
 		//debug, create a xml map in the same format that the original to see if the algorithm works

@@ -171,13 +171,13 @@ public class Ground {
 			}
 			catch (IOException exception)
 			{
-			    System.out.println ("Erreur lors de la lecture : " + exception.getMessage());
+			    System.out.println ("Error during reading : " + exception.getMessage());
 			}
 			
 		}
 		catch (FileNotFoundException exception)
 		{
-		    System.out.println ("Le fichier n'a pas été trouvé");
+		    System.out.println ("File not find");
 		}
 				 
 		
@@ -295,7 +295,7 @@ public class Ground {
 		}
 		
 		JavaWars.getEngine().setBases(listBases);
-		saveAsXML(bitMap, "mapCool");
+		//saveAsXML(bitMap, "mapCool");
 	}
 	
 	/** Save bitMap in XML file

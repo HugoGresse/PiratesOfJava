@@ -51,7 +51,7 @@ public class ProcessorAgents {
 				a = itAgent.next();
 				
 				if(a == null){
-					System.out.println("agent null");
+					//System.out.println("agent null");
 					return false;
 				}
 				
@@ -91,11 +91,11 @@ public class ProcessorAgents {
 					
 					//if the agent didn't moove beacause he's freeze
 					if( a.isFreezeMove()) {
-						System.out.println("freeze");
+						//System.out.println("freeze");
 						if(a.isFreeze())a.setFreezeMove(false);
 						continue;
 					} else  if(a.updatePosition()){ //a.updatePosition() makes the agent moved and returns true if the agent is arrived at destination
-						System.out.println(a.isFreeze());
+						//System.out.println(a.isFreeze());
 						if(a.isFreeze())a.setFreezeMove(true);
 						// We enter in this loop just when the agent is arrived to destination
 						
@@ -198,7 +198,7 @@ public class ProcessorAgents {
 			if(t.getClass() == TowerFreeze.class && !a.isFreeze() && !a.isFreezeMove()){
 				a.setFreeze(true);
 				a.setFreezeMove(true);
-				System.out.println("here");
+				//System.out.println("here");
 			}
 			
 			//poison tower action
@@ -206,7 +206,6 @@ public class ProcessorAgents {
 				a.loseLife((float)0.50);
 			}
 			
-
 			lastTower = t;
 		}
 		

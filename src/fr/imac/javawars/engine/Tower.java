@@ -75,10 +75,6 @@ public abstract class Tower extends AbstractTowerBase {
 		}
 		else return false;
 	}
-
-	public void increaseStrength(int val){
-		System.out.println("implement this method increaseStrengh TOwer");
-	}
 		
 	public int getUpgradeStrength() {
 		return upgradeStrength;
