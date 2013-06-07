@@ -46,7 +46,6 @@ public class TowersLayer extends JPanel {
 	private Image sniperImg;
 	private Image poisonImg;
 	
-	private Image projectileDefaultImg;
 	private Image freezeProjectile;
 	private Image laserProjectile;
 	private Image missileProjectile;
@@ -74,7 +73,6 @@ public class TowersLayer extends JPanel {
 			this.sniperImg = ImageIO.read(new File("res/img/sniper.png"));
 			this.poisonImg = ImageIO.read(new File("res/img/poison.png"));
 			
-			this.projectileDefaultImg = ImageIO.read(new File("res/img/projectiles/proj-def.png"));
 			this.freezeProjectile = ImageIO.read(new File("res/img/projectiles/proj-freeze.png"));
 			this.laserProjectile = ImageIO.read(new File("res/img/projectiles/proj-laser.png"));
 			this.missileProjectile = ImageIO.read(new File("res/img/projectiles/proj-missile.png"));
@@ -86,7 +84,6 @@ public class TowersLayer extends JPanel {
 
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

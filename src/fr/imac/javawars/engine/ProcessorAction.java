@@ -30,8 +30,6 @@ public class ProcessorAction {
 	 * 					the only one action queue
 	 */
 	public boolean process(ConcurrentLinkedQueue<Action> actions){
-		// remove i before production
-		int i = 1;
 		Iterator<Action> itr = actions.iterator();
 		boolean change = false;
 		while(itr.hasNext()){
@@ -60,8 +58,6 @@ public class ProcessorAction {
 			}
 			
 			change = true;
-			//System.out.println("processAction : "+i);
-			i++;
 		}
 		return change;
 	}
@@ -98,7 +94,6 @@ public class ProcessorAction {
 		if( action.getTower().getPrice() >  action.getPlayer().getMoney() ) {
 			if(action.getPlayer().getPlayerNumber() == 1)
 				JavaWars.getEngine().setError("Pas assez d'argent pour créer la tour");
-			// TODO check object null to destroy it
 			return;
 		}
 		
@@ -163,7 +158,6 @@ public class ProcessorAction {
 		if( action.getPrice() >  action.getPlayer().getMoney() ) {
 			if(action.getPlayer().getPlayerNumber() == 1)
 				JavaWars.getEngine().setError("Pas assez d'argent pour améliorer la tour");
-			// TODO check object null to destroy it
 			return;
 		}
 		

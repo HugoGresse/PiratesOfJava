@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import fr.imac.javawars.JavaWars;
 import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.engine.Tower;
-import fr.imac.javawars.player.BottomBar;
 import fr.imac.javawars.player.Human;
 import fr.imac.javawars.player.Player;
 /**

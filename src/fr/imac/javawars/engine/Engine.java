@@ -195,8 +195,10 @@ public class Engine  implements Runnable{
 					dispatcher.updatePlayers();
 				
 				endTime = System.currentTimeMillis() - beginTime;
+				
 				//display fps if too bad
-				if(endTime > fpsTarget) System.out.println("fps (ms) : "+ endTime);
+				if(endTime > fpsTarget) System.out.println("sec/img (ms): "+ endTime);
+				
 				sleepTime = (int) (fpsTarget - endTime);
 				
 				Thread.sleep(sleepTime<0 ? 0 : sleepTime);
@@ -210,7 +212,6 @@ public class Engine  implements Runnable{
                 }
 				
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

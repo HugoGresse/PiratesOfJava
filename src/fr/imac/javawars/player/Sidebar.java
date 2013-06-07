@@ -110,7 +110,6 @@ public class Sidebar extends JPanel implements ActionListener {
             public void stateChanged(ChangeEvent event) {
                 int value = ((JSlider)event.getSource()).getValue();
                 labelSlider.setText(String.valueOf(value));
-                // TODO : send new number to dispatcher
             }
         });
 		JButton confirmAgentSend = new JButton("OK");

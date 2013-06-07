@@ -3,7 +3,6 @@ package fr.imac.javawars;
 import fr.imac.javawars.dispatcher.Dispatcher;
 import fr.imac.javawars.engine.Engine;
 import fr.imac.javawars.player.Human;
-import fr.imac.javawars.player.IA;
 import fr.imac.javawars.player.Player;
 
 /**

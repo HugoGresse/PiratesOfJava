@@ -19,7 +19,7 @@ public class Human extends Player{
 	 * initialize ihm
 	 */
 	public void initIhm(String name){
-		ihm = new Ihm(name, this);
+		ihm = new Ihm(name);
 	}
 	
 	/**

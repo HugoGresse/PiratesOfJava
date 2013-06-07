@@ -2,11 +2,9 @@ package fr.imac.javawars.engine;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.engine.Base.Power;
 import fr.imac.javawars.player.Player;
 
 
@@ -35,9 +33,7 @@ public class ProcessorTower {
 	 * @return
 	 * 			return true if something changes for any tower (and projectiles)
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean process(CopyOnWriteArrayList<Tower> towers){
-		int i = 1;
 		Iterator<Tower> itr = towers.iterator();
 		boolean change = false;
 		//for all towers
@@ -53,9 +49,6 @@ public class ProcessorTower {
 			processProjectile(tower);
 
 			change = true;
-			
-			//System.out.println("processTower : "+i);
-			i++;
 		}
 		return change;
 	}

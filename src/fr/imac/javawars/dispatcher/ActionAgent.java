@@ -1,6 +1,5 @@
 package fr.imac.javawars.dispatcher;
 
-import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.player.Player;
 
 

@@ -11,21 +11,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import fr.imac.javawars.JavaWars;
-import fr.imac.javawars.dispatcher.ActionTowerUpgrade;
-import fr.imac.javawars.engine.Tower;
 
 /**
  * Class Menu : display menu
@@ -52,7 +47,6 @@ public class Menu extends JPanel {
 		try {
 			backgroundMenu = ImageIO.read(new File("res/img/menu.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		boutonPlay = new Rectangle2D.Double(650,0,250,115);
@@ -278,7 +272,6 @@ public class Menu extends JPanel {
 			else
 				this.backgroundMenu =  ImageIO.read(new File("res/img/loose.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

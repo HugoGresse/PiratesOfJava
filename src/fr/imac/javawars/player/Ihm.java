@@ -2,12 +2,12 @@ package fr.imac.javawars.player;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.Toolkit;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class Ihm  extends JFrame {
-	private Player p;
 	private Menu menu = new Menu();
 	private JPanel conteneur = new JPanel();
 	
@@ -23,17 +23,11 @@ public class Ihm  extends JFrame {
 	 * Create an human interface to communicate with the machine
 	 * @param name
 	 * 				the name of the window
-	 * @param pp
-	 * 				the player attach to the ihm
 	 */
-	public Ihm(String name, Player pp) {
-		this.p = pp;
-		
+	public Ihm(String name) {
 		this.setTitle(name);
 	    this.setSize(900, 600);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    // TODO : change default listener and close thread before quit
-	    // http://stackoverflow.com/questions/6084039/create-custom-operation-for-setdefaultcloseoperation
 	    this.setLocationRelativeTo(null);
 	    this.setResizable(false);           
 	    

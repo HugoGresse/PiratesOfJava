@@ -2,8 +2,6 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 
-import fr.imac.javawars.engine.Base.Power;
-
 /**
  * A projectile is the weapon launch by a tower
  * 
@@ -24,7 +22,6 @@ public class Projectile {
 	private double b;
 	private int direction;
 	
-	private static int numPro = 0;
 	
 
 	/**
@@ -46,7 +43,6 @@ public class Projectile {
 		//Calculate the variables used (y=ax+b)
 		calcDestination();
 		optionInt = 1;
-		numPro++;
 	}
 	
 	/**

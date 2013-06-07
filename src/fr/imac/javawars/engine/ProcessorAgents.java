@@ -177,7 +177,6 @@ public class ProcessorAgents {
 	public void checkFreezeAndPoisonAttack(Agent a){
 		CopyOnWriteArrayList<Tower> towers = JavaWars.getDispatcher().getTowers();
 		Iterator<Tower> it = towers.iterator();
-		Tower lastTower = null;
 		
 		while(it.hasNext()){
 			Tower t = it.next();
@@ -205,8 +204,6 @@ public class ProcessorAgents {
 			else if(t.getClass() == TowerPoison.class){
 				a.loseLife((float)0.40);
 			}
-			
-			lastTower = t;
 		}
 		
 	}

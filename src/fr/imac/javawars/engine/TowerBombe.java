@@ -2,7 +2,6 @@ package fr.imac.javawars.engine;
 
 import java.awt.Point;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.imac.javawars.player.Player;
 

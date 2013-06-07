@@ -1,8 +1,5 @@
 package fr.imac.javawars.dispatcher;
 
-import java.awt.Point;
-
-import fr.imac.javawars.engine.Agent;
 import fr.imac.javawars.engine.Base;
 import fr.imac.javawars.player.Player;
 
