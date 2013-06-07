@@ -18,8 +18,6 @@ public abstract class ActionAgent extends Action{
 	 * Create an action related to an agent
 	 * @param player
 	 * 				The player who owns the tower and 
-	 * @param agent
-	 * 				A given agent to act on
 	 */
 
 	public ActionAgent(Player player) {

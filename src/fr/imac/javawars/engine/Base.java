@@ -65,7 +65,6 @@ public class Base extends AbstractTowerBase {
 	 * 		player who owns the base
 	 * @param actionField
 	 * 		area owns by the base where the player can build towers
-	 * @param capacity
 	 * 		
 	 * @param speedRegeneration
 	 * 		speed with which a base wins an agent
@@ -109,10 +108,7 @@ public class Base extends AbstractTowerBase {
 	/**
 	 * Initialise the map distance of the base
 	 * 
-	 * @param height
-	 * 		height of the map of the game
-	 * @param width
-	 * 		width of the map of the game
+	 * @param bitMap
 	 * 
 	 * @see Base#distanceMap
 	 */
@@ -169,10 +165,7 @@ public class Base extends AbstractTowerBase {
 	/**
 	 * Compute the distance map to the base
 	 * 
-	 * @param height
-	 * 		height of the map of the game
-	 * @param width
-	 * 		width of the map of the game
+	 * @param bitMap
 	 * 
 	 * @see Base#distanceMap
 	 */

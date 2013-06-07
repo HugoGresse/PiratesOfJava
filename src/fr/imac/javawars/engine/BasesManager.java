@@ -41,7 +41,7 @@ public class BasesManager {
 	 * BasesManager is constructed from the bases present on the map
 	 * </p>
 	 * 
-	 * @param bases
+	 * @param bitMap
 	 * 		list of the bases present on the map
 	 * 
 	 * @see BasesManager#bases

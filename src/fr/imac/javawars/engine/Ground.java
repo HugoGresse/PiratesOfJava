@@ -339,7 +339,7 @@ public class Ground {
 	 * @param playerColor
 	 * @param listBases
 	 * @param p
-	 * @return
+	 * @return int
 	 * 
 	 */
 	 private int fillBitMapByImg(Color c,  LinkedList<Color> playerColor, CopyOnWriteArrayList<Base> listBases, Point p){
@@ -496,7 +496,6 @@ public class Ground {
 	 
 	 /** Create wall in the bitMap
 	  * 
-	  * @param bitMap
 	  */
 	 
 	 public void generateWall(){

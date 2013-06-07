@@ -17,7 +17,7 @@ public class ActionTowerCreate extends ActionTower{
 	 * Create an action for : User want to create a Tower at specified Point
 	 * @param player
 	 * 				The player who want to create a tower
-	 * @param tower
+	 * @param t
 	 * 				the tower he want to create
 	 */
 	public ActionTowerCreate(Player player, Tower t) {
