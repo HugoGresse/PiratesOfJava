@@ -203,7 +203,7 @@ public class ProcessorAgents {
 			
 			//poison tower action
 			else if(t.getClass() == TowerPoison.class){
-				a.loseLife((float)0.50);
+				a.loseLife((float)0.40);
 			}
 			
 

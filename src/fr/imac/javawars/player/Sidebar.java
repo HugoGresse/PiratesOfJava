@@ -103,7 +103,7 @@ public class Sidebar extends JPanel implements ActionListener {
 	 */
 	public void addSlider(JPanel wrapperSlider){
 		slider.setPreferredSize(new Dimension(165,100));
-		wrapperSlider.setBorder(new TitledBorder("Pourcentage d'agents envoyés"));
+		wrapperSlider.setBorder(new TitledBorder("Pourcentage d'agents envoyŽs"));
 		labelSlider.setText("50");
 		//Display slider's value
 		slider.addChangeListener(new ChangeListener() {
