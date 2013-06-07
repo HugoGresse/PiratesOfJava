@@ -221,7 +221,7 @@ public class Engine  implements Runnable{
 	/**
 	 *	Initialize the game, the ground, towers and bases
 	 *
-	 *@param p1, p2, p3, p4
+	 *@param p1 , p2 , p3 , p4
 	 *		players present on the map, one human, three IA
 	 *	
 	 *@param random

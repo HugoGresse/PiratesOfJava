@@ -26,8 +26,6 @@ import fr.imac.javawars.JavaWars;
 public class BasesManager {
 	/**
 	 * Table associating a box of the map to a base thanks to a integer
-	 * 
-	 * @see BasesManager#determineInfluenceAreaOfBases()
 	 */
 	private int[] influenceAreaMap;
 	
@@ -44,7 +42,6 @@ public class BasesManager {
 	 * @param bitMap
 	 * 		list of the bases present on the map
 	 * 
-	 * @see BasesManager#bases
 	 */
 	public BasesManager(int[][] bitMap) {
 		this.initialiseInfluenceAreaMap(bitMap);

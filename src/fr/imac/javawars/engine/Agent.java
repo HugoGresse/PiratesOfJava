@@ -28,7 +28,6 @@ public class Agent extends AbstractUnite {
 	private final Base baseTarget;
 	/**
 	 * bonus of the agent 
-	 * @see Base#Power
 	 */
 	private final Power power;
 	private boolean isFreeze = false;
@@ -189,7 +188,7 @@ public class Agent extends AbstractUnite {
 
 	/**
 	 * Remove the strength from agent after applied Power
-	 * @param strenght
+	 * @param strength
 	 * 			the strength you want the agent to lose
 	 */
 	@Override
