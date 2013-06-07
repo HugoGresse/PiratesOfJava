@@ -33,9 +33,19 @@ public class ListenersLayer extends JPanel{
 		this.setBounds(0,0,700,500);
 		this.setOpaque(false);
 		this.currentHumanBaseSelected = null;
+		/*initialisation of the current base of the human player*/
+		CopyOnWriteArrayList<Base> tmpBases = JavaWars.getDispatcher().getBases();
+		Human human =(Human)JavaWars.getEngine().getPlayers().get(1);
+		Iterator<Base> it = tmpBases.iterator();
+		//iterate on bases list
+    	while(it.hasNext()){
+    		Base b = it.next();
+    		if(b.getPlayer() == human){
+    			this.currentHumanBaseSelected = b;
+    		}
+    	}
 		this.currentTargetBaseSelected = null;
 		addListeners();
-		
 	}
 	
 	/**

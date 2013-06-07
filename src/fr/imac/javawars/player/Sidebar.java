@@ -117,7 +117,7 @@ public class Sidebar extends JPanel implements ActionListener {
 		confirmAgentSend.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("test clic");
+				//System.out.println("test clic");
 			}
 		});
 		wrapperSlider.setLayout(new BorderLayout());
